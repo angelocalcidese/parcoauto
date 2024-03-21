@@ -333,7 +333,7 @@
       
       <div class="table-responsive small tabs-veicolo" id="veicoli-page">
         <h2 class="mt-4">Veicoli</h2>
-        <table class="display" id="tabella" style="width:100%">
+        <table class="table table-striped display" id="tabella" style="width:100%">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -355,7 +355,7 @@
       </div>
       <div class="table-responsive small tabs-veicolo hide" id="multicard-page">
       <h2 class="mt-4">Multicard</h2>
-        <table class="display" id="" style="width:100%">
+      <table class="table table-striped display" id="tabella" style="width:100%">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -372,7 +372,7 @@
       </div>
       <div class="table-responsive small tabs-veicolo hide"  id="telepass-page">
       <h2 class="mt-4">Telepass</h2>
-        <table class="display" id="" style="width:100%">
+      <table class="table table-striped display" id="tabella" style="width:100%">
           <thead>
             <tr>
             <th scope="col">#</th>
