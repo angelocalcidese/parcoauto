@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="assets/jquery-ui/jquery-ui.css">
     <link href="assets/style.css" rel="stylesheet">
     <link href="assets/fontawesome/css/all.min.css" rel="stylesheet">
+    <link href="assets/DataTables/datatables.min.css" rel="stylesheet">
+    
     
     <!-- Custom styles for this template -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -316,8 +318,43 @@
     </div>
   </div>
 </div>
-      <h2>Veicoli aziendali</h2>
-      <div class="table-responsive small">
+      
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page"  id="tab-veicoli" onClick="cambioTab('veicoli')" href="#">Veicoli</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="tab-multicard" onClick="cambioTab('multicard')">Multicard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="tab-telepass" onClick="cambioTab('telepass')">Telepass</a>
+        </li>
+      </ul>
+      
+      <div class="table-responsive small tabs-veicolo" id="veicoli-page">
+        <h2 class="mt-4">Veicoli</h2>
+        <table class="table table-striped table-sm" id="tabella" style="width:100%">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Tipologia</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Modello</th>
+              <th scope="col">Targa</th>
+              <th scope="col">Data acquisto</th>
+              <th scope="col">Assegnato a</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody >
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive small tabs-veicolo hide" id="multicard-page">
+      <h2 class="mt-4">Multicard</h2>
         <table class="table table-striped table-sm" id="tabella">
           <thead>
             <tr>
@@ -328,7 +365,29 @@
               <th scope="col">Targa</th>
               <th scope="col">Data acquisto</th>
               <th scope="col">Assegnato a</th>
-              <th scope="col">Gestione</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody >
+          </tbody>
+        </table>
+      </div>
+      <div class="table-responsive small tabs-veicolo hide"  id="telepass-page">
+      <h2 class="mt-4">Telepass</h2>
+        <table class="table table-striped table-sm" id="tabella">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Tipologia</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Modello</th>
+              <th scope="col">Targa</th>
+              <th scope="col">Data acquisto</th>
+              <th scope="col">Assegnato a</th>
+              <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col"></th>
               <th scope="col"></th>
@@ -347,6 +406,7 @@
 <script src="assets/jquery-ui/datepicker-it.js"></script>
 <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="assets/fontawesome/js/all.min.js"></script>
+<script src="assets/DataTables/datatables.min.js"></script>
 <script src="assets/service.js"></script>
 <script>
   $(document).ready(function () {

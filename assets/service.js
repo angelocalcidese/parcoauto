@@ -1,5 +1,12 @@
 var beni = [];
 var users = [];
+
+function tablePagination(){
+    $('#tabella').DataTable({
+        responsive: true
+    });
+}
+
 function goods() { 
     $.ajax({
         url: 'api/getVeicles.php', 
@@ -26,8 +33,16 @@ function goods() {
                     .append(element)
                     .appendTo("#tabella");
             }
+            tablePagination();
         }
     });
+}
+
+function cambioTab(tab){
+    $(".tabs-veicolo").addClass("hide");
+    $("#" + tab + "-page").removeClass("hide");
+    $(".nav-link").removeClass("active");
+    $("#tab-" + tab).addClass("active");
 }
 
 function viewVeicle(id) {
@@ -113,6 +128,11 @@ function goodAssingenedRemove() {
 $(document).ready(function () {
     usersCall();
     goods();
-});
     
+});
+
+/*$(window).on('resize', function () {
+    tablePagination();
+     } );*/
+
            
