@@ -2,7 +2,7 @@ var beni = [];
 var users = [];
 
 function tablePagination(){
-    $('#tabella').DataTable({
+    $('table.display').DataTable({
         responsive: true
     });
 }

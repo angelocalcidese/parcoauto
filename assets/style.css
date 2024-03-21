@@ -77,3 +77,6 @@
 .hide {
     display:none;
 }
+.table-responsive {
+    margin-bottom: 40px;
+}
