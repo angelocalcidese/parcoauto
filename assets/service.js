@@ -43,6 +43,14 @@ function searchVeicle(id) {
     return targa;
 }
 
+function statoActive(val) {
+    var res = "<b style='color:#FF0000'>Disattivata</b>";
+    if (val == 1) { 
+        res = "<b style='color:#27a504'>Attiva</b>";
+    }
+    return res;
+ }
+
 function popMulticard(righe) {
     multicard = righe;
     for (i = 0; i < righe.length; i++) {
@@ -51,6 +59,7 @@ function popMulticard(righe) {
         element += "<td>" + riga.tipologia + "</td>";
         element += "<td>" + riga.codice + "</td>";
         element += "<td>" + searchVeicle(riga.veicolo) + "</td>";
+        element += "<td>" + statoActive(riga.stato) + "</td>";
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></button></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></button></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></button></td>';
@@ -67,6 +76,7 @@ function popTelepass(righe) {
         var element = "<td>" + riga.id + "</td>";
         element += "<td>" + riga.codice + "</td>";
         element += "<td>" + searchVeicle(riga.veicolo) + "</td>";
+        element += "<td>" + statoActive(riga.stato) + "</td>";
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></button></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></button></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></button></td>';

@@ -33,6 +33,7 @@ if ($result1->num_rows > 0) {
         $object1->id = $row["id"]; 
         $object1->codice = $row["codice"];
         $object1->veicolo = $row["veicolo"];
+        $object1->stato = $row["stato"];
         array_push($telepass, $object1);
     }
   } else {
@@ -50,6 +51,7 @@ if ($result2->num_rows > 0) {
         $object2->tipologia = $row["tipologia"]; 
         $object2->codice = $row["codice"]; 
         $object2->veicolo = $row["veicolo"];
+        $object2->stato = $row["stato"];
         array_push($multicard, $object2);
     }
   } else {
