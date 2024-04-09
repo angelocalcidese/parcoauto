@@ -28,9 +28,11 @@ function popVeicles(righe) {
         element += "<td>" + riga.assegnatoa + "</td>";
         element += "<td>" + riga.km + "</td>";
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="storyVeicle(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary"><i class="fa-solid fa-trash"></i></button></td>';
+        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
+        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
+        
+        
         $("<tr/>")
             .append(element)
             .appendTo("#tabella-veicoli");
@@ -80,6 +82,37 @@ function cleanInput() {
 function openNewRow() {
     cleanInput();
     $('#addRow').modal('show');
+}
+
+function storyAssigned(id) {
+    $.ajax({
+        method: "POST",
+        url: "api/readGuida.php",
+        data: JSON.stringify({ veicolo: id }),
+        dataType: 'json',
+        success: function (data) {
+            console.log("GUIDE", data);
+            for (var b = 0; b < data.length; b++){
+                var row = '<tr>';
+                row += '<td>' + data[b].id + '</td>';
+                row += '<td>' + data[b].da +'</td>';
+                row += '<td>' + data[b].a +'</td>';
+                row += '<td>' + data[b].kmda +'</td>';
+                row += '<td>Mario</td>';
+                row += '<td>Rossi</td>';
+                row += '</tr > ';
+                $("#bodyGuida").append(row);
+            }
+            $('#viewListEl').modal('show');
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+            $("#alert-error").removeClass("hide");
+            $("#alert-error").text(error);
+        }
+    });
+
+    
 }
 
 function addRow() {
