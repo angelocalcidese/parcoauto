@@ -1,9 +1,11 @@
 <?php 
-require_once "../cors.php";
-require_once "../config.php";
+require_once "../../portale/cors.php";
+require_once "../../portale/config.php";
+require_once "../../portale/api/getUserCoockie.php";
 
 /** GET VEICOLI */
-$sql = "SELECT * FROM `veicoli`";
+
+$sql = "SELECT * FROM `veicoli` WHERE `company` = ".$user_params ->company;
 $result = $conn->query($sql);
 $veicle = array();
 
@@ -16,14 +18,17 @@ if ($result->num_rows > 0) {
         $object->modello = $row["modello"]; 
         $object->targa = $row["targa"]; 
         $object->assegnatoa = $row["assegnazione"]; 
-        $object->acquisto = $row["acquisto"]; 
+        $object->acquisto = $row["acquisto"];
+        $object->proprieta = $row["proprieta"];
+        $object->km = $row["km"];
+        $object->stato = $row["stato"];
         array_push($veicle, $object);
     }
   } else {
     //echo "0 results";
   }
 /** GET TELEPASS */
-$sql1 = "SELECT * FROM `telepass`";
+$sql1 = "SELECT * FROM `telepass` WHERE `company` = " . $user_params->company;
 $result1 = $conn->query($sql1);
 $telepass = array();
 
@@ -40,7 +45,7 @@ if ($result1->num_rows > 0) {
     //echo "0 results";
   }
 /** GET MULTICARD */
-  $sql2 = "SELECT * FROM `multicard`";
+  $sql2 = "SELECT * FROM `multicard` WHERE `company` = " . $user_params->company;
 $result2 = $conn->query($sql2);
 $multicard = array();
 

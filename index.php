@@ -12,65 +12,71 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Gestione</h1>
-          <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group me-2">
-              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1">
-              <svg class="bi">
-                <use xlink:href="#calendar3" />
-              </svg>
-              This week
-            </button>
-          </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="text-end">
-              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#addUser" data-bs-whatever="@mdo">
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew" id="button-add-veicoli" onclick="openNewRow()">
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo veicolo
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-add-multicard" onclick="openNewRow()">
+                <i class="fa-solid fa-file-circle-plus"></i>
+                Nuova Multicard
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-add-telepass" onclick="openNewRow()">
+                <i class="fa-solid fa-file-circle-plus"></i>
+                Nuovo Telepass
               </button>
             </div>
           </div>
         </div>
-        <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
+        <div class="modal fade" id="addRow" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="addUserLabel">Nuovo Veicolo</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
               <div class="modal-body">
-                <form>
+                <div class="alert alert-primary hide" id="alert-success" role="alert"></div>
+                <div class="alert alert-danger hide" id="alert-error" role="alert"></div>
+                <form id="form-add">
                   <div class="mb-3">
-                    <label for="inputname" class="col-form-label">Tipologia:</label>
-                    <select class="form-select" aria-label="Default select example">
+                    <label for="input-tipologia" class="col-form-label">Tipologia:</label>
+                    <select class="form-select" id="input-tipologia">
                       <option selected>Seleziona</option>
-                      <option value="1">Autovettura</option>
-                      <option value="2">Furgone</option>
-                      <option value="3">Ciclomotore</option>
-                      <option value="5">Altro</option>
+                      <option>Autovettura</option>
+                      <option>Furgone</option>
+                      <option>Ciclomotore</option>
+                      <option>Altro</option>
                     </select>
                   </div>
                   <div class="mb-3">
-                    <label for="inputsurname" class="col-form-label">Marca:</label>
-                    <input type="text" class="form-control" id="inputsurname">
+                    <label for="input-marca" class="col-form-label">Marca:</label>
+                    <input type="text" class="form-control" id="input-marca">
                   </div>
                   <div class="mb-3">
-                    <label for="inputcf" class="col-form-label">Modello:</label>
-                    <input type="text" class="form-control" id="inputcf">
+                    <label for="inputmodello" class="col-form-label">Modello:</label>
+                    <input type="text" class="form-control" id="input-modello">
                   </div>
                   <div class="mb-3">
-                    <label for="inputnascita" class="col-form-label">Targa:</label>
-                    <input type="text" class="form-control" id="inputnascita">
+                    <label for="input-targa" class="col-form-label">Targa:</label>
+                    <input type="text" class="form-control" id="input-targa">
+                  </div>
+                  <div class="mb-3">
+                    <label for="input-proprieta" class="col-form-label">Proprietà:</label>
+                    <input type="text" class="form-control" id="input-proprieta">
+                  </div>
+                  <div class="mb-3">
+                    <label for="input-acquisto" class="col-form-label">Data di acquisto:</label>
+                    <input type="text" class="form-control" id="input-acquisto">
+                  </div>
+                  <div class="mb-3">
+                    <label for="input-km" class="col-form-label">Km attuali:</label>
+                    <input type="text" class="form-control" id="input-km">
                   </div>
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                <button type="button" class="btn btn-primary">Crea</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="closeModal()">Chiudi</button>
+                <button type="button" class="btn btn-primary" id="add-button" onClick="controlForm()">Inserisci</button>
               </div>
             </div>
           </div>
@@ -322,8 +328,9 @@
                 <th scope="col">Marca</th>
                 <th scope="col">Modello</th>
                 <th scope="col">Targa</th>
-                <th scope="col">Data acquisto</th>
+                <th scope="col">Proprietà</th>
                 <th scope="col">Assegnato a</th>
+                <th scope="col">Km</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -377,15 +384,18 @@
   <!-- jQuery library -->
   <script src="assets/jquery/jquery-3.7.1.min.js"></script>
   <script src="assets/jquery-ui/jquery-ui.js"></script>
-  <script src="assets/jquery-ui/datepicker-it.js"></script>
-  <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/fontawesome/js/all.min.js"></script>
-  <script src="assets/DataTables/datatables.min.js"></script>
+
+  <script src="../portale/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../portale/assets/fontawesome/js/all.min.js"></script>
+  <script src="../portale/assets/DataTables/datatables.min.js"></script>
+  <script src="../portale/assets/DataTables/dataTables.dateTime.min.js"></script>
+  <script src="../portale/assets/moment.min.js"></script>
   <script src="assets/service.js"></script>
   <script>
-    $(document).ready(function() {
-      $("#inputnascita").datepicker($.datepicker.regional['it']);
-      $("#inputeng").datepicker($.datepicker.regional['it']);
+    // new DateTime(document.getElementById('input-acquisto'));
+
+    new DateTime(document.getElementById('input-acquisto'), {
+      format: 'DD/MM/YYYY'
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script>
