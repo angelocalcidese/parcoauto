@@ -11,18 +11,22 @@ $veicle = array();
 
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        $object = new stdClass(); 
-        $object->id = $row["id"]; 
-        $object->tipologia = $row["tipologia"]; 
-        $object->marca = $row["marca"]; 
-        $object->modello = $row["modello"]; 
-        $object->targa = $row["targa"]; 
-        $object->assegnatoa = $row["assegnazione"]; 
-        $object->acquisto = $row["acquisto"];
-        $object->proprieta = $row["proprieta"];
-        $object->km = $row["km"];
-        $object->stato = $row["stato"];
-        array_push($veicle, $object);
+      $object = new stdClass(); 
+      $object->id = $row["id"]; 
+      $object->tipologia = $row["tipologia"]; 
+      $object->marca = $row["marca"]; 
+      $object->modello = $row["modello"]; 
+      $object->targa = $row["targa"]; 
+      $object->assegnatoa = $row["assegnazione"]; 
+      $object->acquisto = $row["acquisto"];
+      $object->vendita = $row["vendita"];
+      $object->proprieta = $row["proprieta"];
+      $object->km = $row["km"];
+      $object->kml = $row["kml"];
+      $object->distribuzione = $row["distribuzione"];
+      $object->tagliando = $row["tagliando"];
+      $object->stato = $row["stato"];
+      array_push($veicle, $object);
     }
   } else {
     //echo "0 results";

@@ -4,40 +4,73 @@
             <div class="modal-body">
                 <div class="alert alert-primary hide" id="alert-success" role="alert"></div>
                 <div class="alert alert-danger hide" id="alert-error" role="alert"></div>
+
                 <form id="form-add">
-                    <div class="mb-3">
-                        <label for="input-tipologia" class="col-form-label">Tipologia:</label>
-                        <select class="form-select" id="input-tipologia">
-                            <option selected>Seleziona</option>
-                            <option>Autovettura</option>
-                            <option>Furgone</option>
-                            <option>Ciclomotore</option>
-                            <option>Altro</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="input-marca" class="col-form-label">Marca:</label>
-                        <input type="text" class="form-control" id="input-marca">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputmodello" class="col-form-label">Modello:</label>
-                        <input type="text" class="form-control" id="input-modello">
-                    </div>
-                    <div class="mb-3">
-                        <label for="input-targa" class="col-form-label">Targa:</label>
-                        <input type="text" class="form-control" id="input-targa">
-                    </div>
-                    <div class="mb-3">
-                        <label for="input-proprieta" class="col-form-label">Proprietà:</label>
-                        <input type="text" class="form-control" id="input-proprieta">
-                    </div>
-                    <div class="mb-3">
-                        <label for="input-acquisto" class="col-form-label">Data di acquisto:</label>
-                        <input type="text" class="form-control" id="input-acquisto">
-                    </div>
-                    <div class="mb-3">
-                        <label for="input-km" class="col-form-label">Km attuali:</label>
-                        <input type="text" class="form-control" id="input-km">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="input-tipologia" class="col-form-label">Tipologia:</label>
+                                <select class="form-select input-insert" id="input-tipologia">
+                                    <option selected>Seleziona</option>
+                                    <option>Autovettura</option>
+                                    <option>Furgone</option>
+                                    <option>Ciclomotore</option>
+                                    <option>Altro</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-stato" class="col-form-label">Stato:</label>
+                                <select class="form-select input-insert" id="input-stato">
+                                    <option selected>Attiva</option>
+                                    <option>In Vendita</option>
+                                    <option>Resa</option>
+                                    <option>Venduta</option>
+                                    <option>Rottamata</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-marca" class="col-form-label">Marca:</label>
+                                <input type="text" class="form-control input-insert" id="input-marca">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-modello" class="col-form-label">Modello:</label>
+                                <input type="text" class="form-control input-insert" id="input-modello">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-targa" class="col-form-label">Targa:</label>
+                                <input type="text" class="form-control input-insert" id="input-targa">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-kml" class="col-form-label">Consumo Km/l:</label>
+                                <input type="text" class="form-control input-insert" id="input-kml">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="input-proprieta" class="col-form-label">Proprietà:</label>
+                                <input type="text" class="form-control input-insert" id="input-proprieta">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-acquisto" class="col-form-label">Data di acquisto:</label>
+                                <input type="text" class="form-control input-insert" id="input-acquisto">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-vendita" class="col-form-label">Data di vendita:</label>
+                                <input type="text" class="form-control input-insert" id="input-vendita">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-km" class="col-form-label">Km attuali:</label>
+                                <input type="text" class="form-control input-insert" id="input-km">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-tagliando" class="col-form-label">Tagliando ogni (km):</label>
+                                <input type="text" class="form-control input-insert" id="input-tagliando">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-distribuzione" class="col-form-label">Distribuzione ogni (km):</label>
+                                <input type="text" class="form-control input-insert" id="input-distribuzione">
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -68,53 +101,15 @@
                             <p>Marca: <b><span id="view-marca"></span></b></p>
                             <p>Modello: <b><span id="view-modello"></span></b></p>
                             <p>Targa: <b><span id="view-targa"></span></b></p>
-                            <p>Data di acquisto: <b><span id="view-acquisto"></span></b></p>
+                            <p>Stato: <b><span id="view-stato"></span></b></p>
+                            <p>Data entrata: <b><span id="view-acquisto"></span></b></p>
+                            <p>Data uscita: <b><span id="view-fine"></span></b></p>
                             <p>Assegnato a: <b><span id="view-assegnato"></span></b></p>
                             <p>Scadenza revisione: <b><span id="view-revisione">01/01/2025</span></b></p>
                             <p>Scadenza Assicurazione: <b><span id="view-revisione">01/01/2025</span></b></p>
                             <p>Ufficio appartenenza: <b><span id="view-revisione">Pomezia</span></b></p>
-                            <h4>Elenco Storico Assignatari:</h4>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Assegnato dal</th>
-                                        <th scope="col">restituito</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Cognome</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th>10/01/2023</th>
-                                        <td>20/10/2023</td>
-                                        <td>Mario</td>
-                                        <td>Rossi</td>
-                                    </tr>
-                                    <tr>
-                                        <th>21/10/2023</th>
-                                        <td>-</td>
-                                        <td>Franco</td>
-                                        <td>Bianchi</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <h4>Assegna a:</h4>
-                            <label>Seleziona un Dipendente</label>
-                            <div class="mb-3">
-                                <select class="form-select" id="user-gest">
-                                    <option selected>Seleziona</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Aggiungi documento</label>
-                                <input class="form-control" type="file" id="formFile">
-                            </div>
-                            <div class="mb-3">
-                                <button type="button" class="btn btn-sm btn-outline-secondary">
-                                    <i class="fa-solid fa-user-plus"></i>
-                                    Cambia Assegnatario
-                                </button>
-                            </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -198,7 +193,8 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-
+                        <div class="alert alert-primary hide" id="alert-success-guida" role="alert"></div>
+                        <div class="alert alert-danger hide" id="alert-error-guida" role="alert"></div>
                         <div class="col-md ms-auto " id="monitor-good">
 
                             <table class="table">
@@ -207,15 +203,41 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Assegnato dal</th>
                                         <th scope="col">restituito</th>
-                                        <th scope="col">km</th>
+                                        <th scope="col">da km</th>
+                                        <th scope="col">a km</th>
                                         <th scope="col">Nome</th>
                                         <th scope="col">Cognome</th>
                                     </tr>
                                 </thead>
                                 <tbody id="bodyGuida">
-                                    
+
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p class="h6">Assegna Veicolo</p>
+
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="user-gest" class="col-form-label">Nuovo assegnatario:</label>
+                            <select class="form-select" id="user-gest">
+                                <option value="0" selected>Nessuno</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="input-kmattuali" class="col-form-label">da Km:</label>
+                            <input type="text" class="form-control" id="input-kmattuali" placeholder="km">
+                        </div>
+                        <div class="col">
+                            <label for="input-assgiorno" class="col-form-label">dal giorno :</label>
+                            <input type="text" class="form-control" id="input-assgiorno" placeholder="dal giorno">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col">
+                            <button type="button" class="btn btn-outline-secondary" id="button-add-ass" onclick="insAssegnatario()" disabled>Assegna</button>
                         </div>
                     </div>
                 </div>
