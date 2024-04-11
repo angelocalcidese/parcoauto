@@ -3,6 +3,7 @@
 <?php include("../portale/head.php"); ?>
 
 <body>
+
   <?php include("../portale/header.php"); ?>
 
   <div class="container-fluid">
@@ -33,7 +34,7 @@
           </div>
         </div>
         <?php include("modalsVeicles.php"); ?>
-
+        <?php include("modalsMulticard.php"); ?>
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" id="tab-veicoli" onClick="cambioTab('veicoli')" href="#">Veicoli</a>

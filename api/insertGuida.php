@@ -7,7 +7,7 @@ $data = getRequestDataBody();
 
 
 if(isset($data["idex"])){
-    $sql1 = "UPDATE `guidatori` SET `kma` = '". $data["km"]."' WHERE `guidatori`.`id` = ". $data["idex"];
+    $sql1 = "UPDATE `guidatori` SET `a` = '" . $data["da"] . "',`kma` = '". $data["km"]."' WHERE `guidatori`.`id` = ". $data["idex"];
 
     $result1 = $conn->query($sql1);
 }
@@ -17,7 +17,7 @@ VALUES (NULL, '" . $data["veicolo"] . "', '" . $data["da"] . "', '-', '" . $data
 
 $result = $conn->query($sql);
 
-$sql2 = "UPDATE `veicoli` SET `assegnazione` = '". $data["dipendente"]."' WHERE `veicoli`.`id` = ". $data["veicolo"];
+$sql2 = "UPDATE `veicoli` SET `km` = '".$data["kmda"]."', `assegnazione` = '". $data["dipendente"]."' WHERE `veicoli`.`id` = ". $data["veicolo"];
 
 $result2 = $conn->query($sql2);
 echo $result + $result2;

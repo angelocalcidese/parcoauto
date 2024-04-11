@@ -8,7 +8,8 @@ $data = getRequestDataBody();
 
 $sql = "UPDATE `veicoli` SET `tipologia` = '" . $data["tipologia"] . "', `marca` = '" . $data["marca"] . "', `modello` = '" . $data["modello"] . "', `targa` = '" . $data["targa"] . "', `acquisto` = '" . $data["acquisto"] . "', 
 `assegnazione` = '" . $data["assegnazione"] . "', `stato` = '" . $data["stato"] . "', `proprieta` = '" . $data["proprieta"] . "', `km` = '" . $data["km"] . "', `tagliando` = '" . $data["tagliando"] . "', 
-`distribuzione` = '" . $data["distribuzione"] . "' , `kml` = '" . $data["kml"] . "'WHERE `veicoli`.`id` = " . $data["id"];
+`distribuzione` = '" . $data["distribuzione"] . "' , `kml` = '" . $data["kml"] . "', `kml` = '" . $data["kml"] . "' , `bollo` = '" . $data["bollo"] . "', `assicurazione` = '" . $data["assicurazione"] . "', `revisione` = '" . $data["revisione"] . "'
+, `vendita` = '" . $data["vendita"] . "' WHERE `veicoli`.`id` = " . $data["id"];
 $result = $conn->query($sql);
 
 echo $result;

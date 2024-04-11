@@ -1,4 +1,3 @@
-
 var multicard = [];
 var telepass = [];
 var users = [];
@@ -6,7 +5,8 @@ var rowel = [];
 var idRow = null;
 var userAss = null;
 var kmAssMoment = 0;
-
+var d = new Date();
+var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
 
 function tablePagination(){
    $('table.display').DataTable({
@@ -29,24 +29,26 @@ function popVeicles(righe) {
             type = "fa-truck";
         }
         
+        var assegnatoUser = searchUser(riga.assegnatoa);
+        var assUser = "Non Assegnata";
+        if (assegnatoUser && (riga.assegnatoa != 0)) {
+            assUser = assegnatoUser.nome + " " + assegnatoUser.cognome;
+        }
         var element = '<td><i class="fa-solid ' + type +'" alt="' + riga.id + '" title="' + riga.id + '"></i></td>';
         element += '<td>' + riga.tipologia + '</td>';
         element += "<td>" + riga.marca + "</td>";
         element += "<td>" + riga.modello + "</td>";
         element += "<td>" + riga.targa + "</td>";
         element += "<td>" + riga.proprieta + "</td>";
-        element += "<td>" + riga.assegnatoa + "</td>";
+        element += "<td>" + assUser  + "</td>";
         element += "<td>" + riga.km + "</td>";
         element += "<td>" + riga.stato + "</td>";
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="storyVeicle(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
+        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
-        
-        
-        $("<tr/>")
-            .append(element)
-            .appendTo("#tabella-veicoli");
+          
+        $("<tr/>").append(element).appendTo("#tabella-veicoli");
     }
 }
 
@@ -86,12 +88,15 @@ function openModRow(id) {
     $("#input-targa").val(data.targa);
     $("#input-tipologia").val(data.tipologia);
     $("#input-acquisto").val(data.acquisto);
-    $("#input-vandita").val(data.vendita);
+    $("#input-vendita").val(data.vendita);
     $("#input-proprieta").val(data.proprieta);
     $("#input-km").val(data.km);
     $("#input-kml").val(data.kml);
     $("#input-tagliando").val(data.tagliando);
     $("#input-distribuzione").val(data.distribuzione);
+    $("#input-revisione").val(data.revisione);
+    $("#input-bollo").val(data.bollo);
+    $("#input-assicurazione").val(data.assicurazione);
     $('#addRow').modal('show');
 }
 
@@ -103,18 +108,19 @@ function openNewRow() {
 
 function storyAssigned(id) {
     var data = searchData(id);
-    var d = new Date();
-    var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
 
     $("#input-assgiorno").val(strDate);
     userAss = null;
     idRow = id;
      
-    if (data.stato == "Attiva") {
+    if ((data.stato === "Attiva") || (data.stato === "In Vendita")) {
         $("#button-add-ass").removeAttr("disabled");
+        $("#display-add-ass").removeClass("hide");
     } else {
+        $("#display-add-ass").addClass("hide");
         $("#button-add-ass").attr("disabled");
     }
+    
     $("#bodyGuida").empty();
     $("#input-kmattuali").val(data.km);
     $.ajax({
@@ -126,14 +132,21 @@ function storyAssigned(id) {
             //console.log("GUIDE", data);
             for (var b = 0; b < data.length; b++){
                 var user = searchUser(data[b].dipendente);
+                var nome = "Non";
+                var cognome = "Assegnata";
+                if (user) {
+                    nome = user.nome;
+                    cognome = user.cognome;
+                } 
+
                 var row = '<tr>';
                 row += '<td>' + data[b].id + '</td>';
                 row += '<td>' + data[b].da +'</td>';
                 row += '<td>' + data[b].a +'</td>';
                 row += '<td>' + data[b].kmda + '</td>';
                 row += '<td>' + data[b].kma + '</td>';
-                row += '<td>' + user.nome + '</td>';
-                row += '<td>' + user.cognome + '</td>';
+                row += '<td>' + nome + '</td>';
+                row += '<td>' + cognome + '</td>';
                 row += '</tr > ';
                 $("#bodyGuida").append(row);
                 userAss = data[b].id;
@@ -151,6 +164,45 @@ function storyAssigned(id) {
     
 }
 
+function addIntervento(id) {
+    $("#alert-error-intervento").addClass("hide");
+    var data = searchData(id);
+    idRow = id;
+    $("#bodyIntervento").empty();
+    $("#input-kmintervento").val(data.km);
+    $("#input-intgiorno").val(strDate);
+    $.ajax({
+        method: "POST",
+        url: "api/getIntervento.php",
+        data: JSON.stringify({ veicolo: id }),
+        dataType: 'json',
+        success: function (data) {
+            //console.log("GUIDE", data);
+            for (var b = 0; b < data.length; b++) {
+                var row = '<tr>';
+                row += '<td>' + data[b].id + '</td>';
+                row += '<td>' + data[b].intervento + '</td>';
+                row += '<td>' + data[b].data + '</td>';
+                row += '<td>' + data[b].km + '</td>';
+                row += '<td>&euro; ' + data[b].prezzo + '</td>';
+                row += '<td><i class="fa-solid fa-file"></i></td>';
+                row += '</tr > ';
+                $("#bodyIntervento").append(row);
+                userAss = data[b].id;
+            }
+            $('#viewGestEl').modal('show');
+
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+            $("#alert-error").removeClass("hide");
+            $("#alert-error").text(error);
+        }
+    });
+
+
+}
+
 function addRow() {
     var marca = $("#input-marca").val();
     var modello = $("#input-modello").val();
@@ -163,11 +215,15 @@ function addRow() {
     var kml = $("#input-kml").val();
     var tagliando = $("#input-tagliando").val();
     var distribuzione = $("#input-distribuzione").val();
+    var revisione = $("#input-revisione").val();
+    var bollo = $("#input-bollo").val();
+    var assicurazione = $("#input-assicurazione").val();
+    var vendita = $("#input-vendita").val();
 
     $.ajax({
         method: "POST",
         url: "api/createVeicle.php",
-        data: JSON.stringify({ marca: marca, modello: modello, tipologia: tipologia, targa: targa, acquisto: acquisto, proprieta: proprieta, km: km, tagliando: tagliando, distribuzione: distribuzione, kml: kml, stato: stato }),
+        data: JSON.stringify({ marca: marca, modello: modello, tipologia: tipologia, targa: targa, acquisto: acquisto, proprieta: proprieta, km: km, tagliando: tagliando, distribuzione: distribuzione, kml: kml, stato: stato, revisione: revisione, bollo: bollo, assicurazione: assicurazione, vendita: vendita}),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -190,7 +246,7 @@ function modRow(data) {
     $.ajax({
         method: "POST",
         url: "api/modVeicle.php",
-        data: JSON.stringify({ id: data.id, marca: data.marca, modello: data.modello, tipologia: data.tipologia, targa: data.targa, acquisto: data.acquisto, proprieta: data.proprieta, stato: data.stato, assegnazione: data.assegnatoa, km: data.km, tagliando: data.tagliando, distribuzione: data.distribuzione, kml: data.kml}),
+        data: JSON.stringify({ id: data.id, marca: data.marca, modello: data.modello, tipologia: data.tipologia, targa: data.targa, acquisto: data.acquisto, proprieta: data.proprieta, stato: data.stato, assegnazione: data.assegnatoa, km: data.km, tagliando: data.tagliando, distribuzione: data.distribuzione, kml: data.kml, revisione: data.revisione, bollo: data.bollo, assicurazione: data.assicurazione, vendita: data.vendita }),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -220,6 +276,10 @@ function controlForm() {
     var kml = $("#input-kml").val();
     var tagliando = $("#input-tagliando").val();
     var distribuzione = $("#input-distribuzione").val();
+    var revisione = $("#input-revisione").val();
+    var bollo = $("#input-bollo").val();
+    var assicurazione = $("#input-assicurazione").val();
+    var vendita = $("#input-vendita").val();
    
     var count = 0;
     var html = "<ul>";
@@ -253,6 +313,10 @@ function controlForm() {
             data.tagliando = tagliando;
             data.distribuzione = distribuzione;
             data.stato = stato;
+            data.revisione = revisione;
+            data.bollo = bollo;
+            data.assicurazione = assicurazione;
+            data.vendita = vendita;
             modRow(data);
         } else {
           addRow();
@@ -312,6 +376,8 @@ function viewVeicle(id) {
     $("#view-acquisto").text(veicolo.acquisto);
     $("#view-vendita").text(veicolo.vendita);
     $("#view-stato").text(veicolo.stato);
+    $("#view-revisione").text(veicolo.revisione);
+    $("#view-bollo").text(veicolo.bollo);
     $('#viewVeicle').modal('show');
 }
 
@@ -332,9 +398,7 @@ function usersCall() {
         }
     });
 }
-function storyVeicle(id) { 
-    $('#viewGestEl').modal('show');
-}
+
 
 function viewUser(user) { 
     console.log(rowel[user]);
@@ -390,11 +454,10 @@ function insAssegnatario() {
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
-            $("#alert-success").removeClass("hide");
-            $("#alert-success").text("Veicolo modificato correttamente");
-            $("#form-add").addClass("hide");
-            $("#add-button").addClass("hide");
-            cleanInput();
+            $("#alert-success-guida").removeClass("hide");
+            $("#alert-success-guida").text("Veicolo modificato correttamente");
+            $("#view-assign").addClass("hide"); 
+            $("#butt-assign").text("OK");
         },
         error: function (error) {
             console.log("funzione chiamata quando la chiamata fallisce", error);
@@ -402,6 +465,47 @@ function insAssegnatario() {
             $("#alert-error").text(error);
         }
     });
+
+}
+function insIntervento() {
+    var prezzo = $("#input-costointervento").val();
+    var km = $("#input-kmintervento").val();
+    var intervento = $("#input-intervento").val();
+    var data = $("#input-intgiorno").val();
+    var count = 0;
+    var html = "<ul>";
+    if (intervento == "Seleziona") { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
+    if (km == "") { html += "<li>Inserire i km</li>"; count++; }
+    if (data == "") { html += "<li>Inserire la data </li>"; count++; }
+    if (prezzo == "") { html += "<li>Inserire il costo dell'intervento</li>"; count++; }
+
+    html += "</ul>";
+    if (count > 0) {
+        $("#alert-error-intervento").removeClass("hide");
+        $("#alert-error-intervento").html(html);
+    } else {
+        $("#alert-error-intervento").addClass("hide");
+        $.ajax({
+        method: "POST",
+        url: "api/insertIntervento.php",
+        data: JSON.stringify({ veicolo: idRow, data: data, intervento: intervento, km: km, prezzo: prezzo }),
+        contentType: "application/json",
+        success: function (data) {
+            console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
+            $("#alert-success-intervento").removeClass("hide");
+            $("#alert-success-intervento").text("Veicolo modificato correttamente");
+            $("#view-inter").addClass("hide");
+            $("#butt-inter").text("OK");
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+            $("#alert-error").removeClass("hide");
+            $("#alert-error").text(error);
+        }
+        });
+    }
+
+    
 
 }
 
@@ -416,6 +520,18 @@ $(document).ready(function () {
         format: 'DD/MM/YYYY'
     });
     new DateTime(document.getElementById('input-assgiorno'), {
+        format: 'DD/MM/YYYY'
+    });
+    new DateTime(document.getElementById('input-intgiorno'), {
+        format: 'DD/MM/YYYY'
+    });
+    new DateTime(document.getElementById('input-bollo'), {
+        format: 'DD/MM/YYYY'
+    });
+    new DateTime(document.getElementById('input-assicurazione'), {
+        format: 'DD/MM/YYYY'
+    });
+    new DateTime(document.getElementById('input-revisione'), {
         format: 'DD/MM/YYYY'
     });
 });

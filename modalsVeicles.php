@@ -1,5 +1,5 @@
 <div class="modal fade" id="addRow" tabindex="-1" aria-labelledby="addUserLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="alert alert-primary hide" id="alert-success" role="alert"></div>
@@ -40,10 +40,7 @@
                                 <label for="input-targa" class="col-form-label">Targa:</label>
                                 <input type="text" class="form-control input-insert" id="input-targa">
                             </div>
-                            <div class="mb-3">
-                                <label for="input-kml" class="col-form-label">Consumo Km/l:</label>
-                                <input type="text" class="form-control input-insert" id="input-kml">
-                            </div>
+
                         </div>
                         <div class="col">
                             <div class="mb-3">
@@ -63,12 +60,30 @@
                                 <input type="text" class="form-control input-insert" id="input-km">
                             </div>
                             <div class="mb-3">
+                                <label for="input-kml" class="col-form-label">Consumo Km/l:</label>
+                                <input type="text" class="form-control input-insert" id="input-kml">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
                                 <label for="input-tagliando" class="col-form-label">Tagliando ogni (km):</label>
                                 <input type="text" class="form-control input-insert" id="input-tagliando">
                             </div>
                             <div class="mb-3">
                                 <label for="input-distribuzione" class="col-form-label">Distribuzione ogni (km):</label>
                                 <input type="text" class="form-control input-insert" id="input-distribuzione">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-assicurazione" class="col-form-label">Scadenza Assicurazione:</label>
+                                <input type="text" class="form-control input-insert" id="input-assicurazione">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-bollo" class="col-form-label">Scadenza Bollo:</label>
+                                <input type="text" class="form-control input-insert" id="input-bollo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-revisione" class="col-form-label">Scadenza Revisione:</label>
+                                <input type="text" class="form-control input-insert" id="input-revisione">
                             </div>
                         </div>
                     </div>
@@ -130,53 +145,76 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-4">
+                    <div class="alert alert-primary hide" id="alert-success-intervento" role="alert"></div>
+                    <div class="alert alert-danger hide" id="alert-error-intervento" role="alert"></div>
+                    <div id="view-inter">
+                        <div class="row">
+                            <div class="col-md-12 ms-auto " id="monitor-good">
 
+                                <table class="table" id="added-goods-to-employee">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">id</th>
+                                            <th scope="col">Tipo Intervento</th>
+                                            <th scope="col">Data</th>
+                                            <th scope="col">Km</th>
+                                            <th scope="col">Costo</th>
+                                            <th scope="col">Fattura</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyIntervento">
+
+                                    </tbody>
+                                </table>
+
+                            </div>
                         </div>
-                        <div class="col-md-12 ms-auto " id="monitor-good">
+                        <div id="display-add-int">
+                            <div class="row">
+                                <p class="h6">Aggiungi Intervento al Veicolo</p>
+                                <div class="col">
+                                    <label for="input-intervento" class="col-form-label">Tipo di Intervento:</label>
+                                    <select class="form-select" id="input-intervento">
+                                        <option selected>Seleziona</option>
+                                        <option>Tagliando</option>
+                                        <option>Revisione</option>
+                                        <option>Bollo</option>
+                                        <option>Cambio Gomme</option>
+                                        <option>Riparazione</option>
+                                        <option>Rottamata</option>
+                                        <option>Assicurazione</option>
+                                        <option>Venduta</option>
+                                        <option>Furto</option>
+                                        <option>Incidente</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="input-kmintervento" class="col-form-label">Km Veicolo:</label>
+                                    <input type="text" class="form-control" id="input-kmintervento" placeholder="km">
+                                </div>
+                                <div class="col">
+                                    <label for="input-intgiorno" class="col-form-label">In Data :</label>
+                                    <input type="text" class="form-control" id="input-intgiorno" placeholder="giorno intervento">
+                                </div>
+                                <div class="col">
+                                    <label for="input-costointervento" class="col-form-label">Costo Int. &euro; :</label>
+                                    <input type="text" class="form-control" id="input-costointervento" placeholder="costo intervento">
+                                </div>
+                            </div>
+                            <div class="row justify-content-center mt-3">
 
-                            <table class="table" id="added-goods-to-employee">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Tipo Intervento</th>
-                                        <th scope="col">Data</th>
-                                        <th scope="col">Km</th>
-                                        <th scope="col">Costo</th>
-                                        <th scope="col">Fattura</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Tagliando</th>
-                                        <td>15/10/2023</td>
-                                        <td>50.000</td>
-                                        <td>&euro; 260,00</td>
-                                        <td><i class="fa-solid fa-file"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Cambio Gomme</th>
-                                        <td>02/12/2023</td>
-                                        <td>55.000</td>
-                                        <td>&euro; 800,00</td>
-                                        <td><i class="fa-solid fa-file"></i></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Revisione</th>
-                                        <td>10/01/2024</td>
-                                        <td>65.000</td>
-                                        <td>&euro; 75,00</td>
-                                        <td><i class="fa-solid fa-file"></i></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
+                                <div class="col-4" style="text-align:center">
+                                    <button type="button" class="btn btn-outline-secondary" id="button-add-int" onclick="insIntervento()">Aggiungi</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="butt-inter" onclick="closeModal()">Chiudi</button>
             </div>
         </div>
     </div>
@@ -192,58 +230,63 @@
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
-                    <div class="row">
-                        <div class="alert alert-primary hide" id="alert-success-guida" role="alert"></div>
-                        <div class="alert alert-danger hide" id="alert-error-guida" role="alert"></div>
-                        <div class="col-md ms-auto " id="monitor-good">
+                    <div class="alert alert-primary hide" id="alert-success-guida" role="alert"></div>
+                    <div class="alert alert-danger hide" id="alert-error-guida" role="alert"></div>
+                    <div id="view-assign">
 
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Assegnato dal</th>
-                                        <th scope="col">restituito</th>
-                                        <th scope="col">da km</th>
-                                        <th scope="col">a km</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Cognome</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="bodyGuida">
+                        <div class="row">
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <p class="h6">Assegna Veicolo</p>
 
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="user-gest" class="col-form-label">Nuovo assegnatario:</label>
-                            <select class="form-select" id="user-gest">
-                                <option value="0" selected>Nessuno</option>
-                            </select>
+                            <div class="col-md ms-auto " id="monitor-good">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Assegnato dal</th>
+                                            <th scope="col">restituito</th>
+                                            <th scope="col">da km</th>
+                                            <th scope="col">a km</th>
+                                            <th scope="col">Nome</th>
+                                            <th scope="col">Cognome</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyGuida">
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label for="input-kmattuali" class="col-form-label">da Km:</label>
-                            <input type="text" class="form-control" id="input-kmattuali" placeholder="km">
+                        <div id="display-add-ass">
+                            <div class="row">
+                                <p class="h6">Assegna Veicolo</p>
+                                <div class="col">
+                                    <label for="user-gest" class="col-form-label">Nuovo assegnatario:</label>
+                                    <select class="form-select" id="user-gest">
+                                        <option value="0" selected>Nessuno</option>
+                                    </select>
+                                </div>
+                                <div class="col">
+                                    <label for="input-kmattuali" class="col-form-label">da Km:</label>
+                                    <input type="text" class="form-control" id="input-kmattuali" placeholder="km">
+                                </div>
+                                <div class="col">
+                                    <label for="input-assgiorno" class="col-form-label">dal giorno :</label>
+                                    <input type="text" class="form-control" id="input-assgiorno" placeholder="dal giorno">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <button type="button" class="btn btn-outline-secondary" id="button-add-ass" onclick="insAssegnatario()">Assegna</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label for="input-assgiorno" class="col-form-label">dal giorno :</label>
-                            <input type="text" class="form-control" id="input-assgiorno" placeholder="dal giorno">
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col">
-                            <button type="button" class="btn btn-outline-secondary" id="button-add-ass" onclick="insAssegnatario()" disabled>Assegna</button>
-                        </div>
+
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-secondary" id="butt-assign" data-bs-dismiss="modal" onClick="closeModal()">Chiudi</button>
             </div>
         </div>
     </div>

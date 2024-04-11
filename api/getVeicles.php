@@ -26,6 +26,9 @@ if ($result->num_rows > 0) {
       $object->distribuzione = $row["distribuzione"];
       $object->tagliando = $row["tagliando"];
       $object->stato = $row["stato"];
+      $object->revisione = $row["revisione"];
+      $object->bollo = $row["bollo"];
+      $object->assicurazione = $row["assicurazione"];
       array_push($veicle, $object);
     }
   } else {
