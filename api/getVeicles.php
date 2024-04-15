@@ -60,10 +60,17 @@ if ($result2->num_rows > 0) {
     while($row = $result2->fetch_assoc()) {
         $object2 = new stdClass(); 
         $object2->id = $row["id"]; 
-        $object2->tipologia = $row["tipologia"]; 
+        $object2->tipologia = $row["tipologia"];
+        $object2->tipocontratto = $row["tipocontratto"];
         $object2->codice = $row["codice"]; 
         $object2->veicolo = $row["veicolo"];
-        $object2->stato = $row["stato"];
+        $object2->stato = $row["statocarta"];
+        $object2->statocliente = $row["statocliente"];
+        $object2->scadenzacarta = $row["scadenzacarta"];
+        $object2->rinnovabile = $row["rinnovabile"];
+        $object2->prodottiacq = $row["prodottiacq"];
+        $object2->validitaterritoriale = $row["validitaterritoriale"];
+        $object2->pin = $row["pin"];
         array_push($multicard, $object2);
     }
   } else {

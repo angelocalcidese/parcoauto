@@ -57,21 +57,21 @@
                             </div>
                             <div class="mb-3">
                                 <label for="input-km" class="col-form-label">Km attuali:</label>
-                                <input type="text" class="form-control input-insert" id="input-km">
+                                <input type="text" class="form-control input-insert numberInput" id="input-km">
                             </div>
                             <div class="mb-3">
                                 <label for="input-kml" class="col-form-label">Consumo Km/l:</label>
-                                <input type="text" class="form-control input-insert" id="input-kml">
+                                <input type="text" class="form-control input-insert numberInput" id="input-kml">
                             </div>
                         </div>
                         <div class="col">
                             <div class="mb-3">
                                 <label for="input-tagliando" class="col-form-label">Tagliando ogni (km):</label>
-                                <input type="text" class="form-control input-insert" id="input-tagliando">
+                                <input type="text" class="form-control input-insert numberInput" id="input-tagliando">
                             </div>
                             <div class="mb-3">
                                 <label for="input-distribuzione" class="col-form-label">Distribuzione ogni (km):</label>
-                                <input type="text" class="form-control input-insert" id="input-distribuzione">
+                                <input type="text" class="form-control input-insert numberInput" id="input-distribuzione">
                             </div>
                             <div class="mb-3">
                                 <label for="input-assicurazione" class="col-form-label">Scadenza Assicurazione:</label>

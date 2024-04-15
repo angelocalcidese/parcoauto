@@ -17,9 +17,18 @@ function tablePagination(){
     });
 }
 
+function searchAssignedCars(id) {
+    var assegnatoUser = searchUser(id);
+    var assUser = "Non Assegnata";
+    if ((id != '-') && (id != 0)) {
+        assUser = assegnatoUser.nome + " " + assegnatoUser.cognome;
+    }
+    return assUser;
+}
+
 function popVeicles(righe) {
     rowel = righe;
-    
+    addCars(righe);
     for (i = 0; i < righe.length; i++) {
         var riga = righe[i];
         var type = "fa-car";
@@ -29,18 +38,13 @@ function popVeicles(righe) {
             type = "fa-truck";
         }
         
-        var assegnatoUser = searchUser(riga.assegnatoa);
-        var assUser = "Non Assegnata";
-        if (assegnatoUser && (riga.assegnatoa != 0)) {
-            assUser = assegnatoUser.nome + " " + assegnatoUser.cognome;
-        }
         var element = '<td><i class="fa-solid ' + type +'" alt="' + riga.id + '" title="' + riga.id + '"></i></td>';
         element += '<td>' + riga.tipologia + '</td>';
         element += "<td>" + riga.marca + "</td>";
         element += "<td>" + riga.modello + "</td>";
         element += "<td>" + riga.targa + "</td>";
         element += "<td>" + riga.proprieta + "</td>";
-        element += "<td>" + assUser  + "</td>";
+        element += "<td>" + searchAssignedCars(riga.assegnatoa)  + "</td>";
         element += "<td>" + riga.km + "</td>";
         element += "<td>" + riga.stato + "</td>";
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
@@ -49,7 +53,10 @@ function popVeicles(righe) {
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
           
         $("<tr/>").append(element).appendTo("#tabella-veicoli");
+
+
     }
+
 }
 
 function closeModal() {
@@ -363,6 +370,7 @@ function cambioTab(tab) {
     $("#" + tab + "-page").removeClass("hide");
     $(".nav-link").removeClass("active");
     $("#tab-" + tab).addClass("active");
+    localStorage['tab'] = tab;
 }
 
 function viewVeicle(id) {
@@ -510,6 +518,10 @@ function insIntervento() {
 }
 
 $(document).ready(function () {
+    console.log(localStorage['tab']);
+    if (localStorage['tab']) {
+        cambioTab(localStorage['tab'])
+    }
     usersCall();
     allCall();
 

@@ -21,7 +21,7 @@
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo veicolo
               </button>
-              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-add-multicard" onclick="openNewRow()">
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-add-multicard" onclick="openNewRowMulticard()">
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuova Multicard
               </button>
@@ -80,10 +80,13 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Tipologia</th>
                 <th scope="col">Codice</th>
+                <th scope="col">Tipologia</th>
+                <th scope="col">Tipo Contratto</th>
                 <th scope="col">Assegnata</th>
                 <th scope="col">Stato </th>
+                <th scope="col">Scadenza</th>
+                <th scope="col">Rinnovabile</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
