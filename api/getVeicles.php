@@ -29,6 +29,8 @@ if ($result->num_rows > 0) {
       $object->revisione = $row["revisione"];
       $object->bollo = $row["bollo"];
       $object->assicurazione = $row["assicurazione"];
+      $object->multicard = $row["multicard"];
+      $object->telepass = $row["telepass"];
       array_push($veicle, $object);
     }
   } else {
@@ -71,6 +73,8 @@ if ($result2->num_rows > 0) {
         $object2->prodottiacq = $row["prodottiacq"];
         $object2->validitaterritoriale = $row["validitaterritoriale"];
         $object2->pin = $row["pin"];
+        $object2->codcliente = $row["codcliente"];
+        $object2->statocarta = $row["statocarta"];
         array_push($multicard, $object2);
     }
   } else {

@@ -83,7 +83,6 @@
                 <th scope="col">Codice</th>
                 <th scope="col">Tipologia</th>
                 <th scope="col">Tipo Contratto</th>
-                <th scope="col">Assegnata</th>
                 <th scope="col">Stato </th>
                 <th scope="col">Scadenza</th>
                 <th scope="col">Rinnovabile</th>

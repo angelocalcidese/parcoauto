@@ -97,7 +97,7 @@
     </div>
 </div>
 <div class="modal fade" id="viewVeicle" tabindex="-1" aria-labelledby="viewVeicleLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewVeicleLabel">Visualizza dati veicolo</h1>
@@ -106,24 +106,35 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="text-center">
                                 <img data-src="holder.js/200x200" class="rounded" alt="200x200" style="width: 200px; height: 200px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_18e2832c287%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_18e2832c287%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.41666603088379%22%20y%3D%22104.40000009536743%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
                             </div>
                         </div>
-                        <div class="col-md-7 ms-auto">
+                        <div class="col-md-4 ms-auto">
                             <p>Tipologia: <b><span id="view-tipologia"></span></b></p>
+                            <p>Proprietà: <b><span id="view-proprieta"></span></b></p>
                             <p>Marca: <b><span id="view-marca"></span></b></p>
                             <p>Modello: <b><span id="view-modello"></span></b></p>
+                            <p>Acquisto: <b><span id="view-acquisto"></span></b></p>
+                            <p>Vendita: <b><span id="view-vendita"></span></b></p>
+                            <p>Km: <b><span id="view-km"></span></b></p>
                             <p>Targa: <b><span id="view-targa"></span></b></p>
                             <p>Stato: <b><span id="view-stato"></span></b></p>
+                            <p>Telepass: <b><span id="view-telepass"></span></b></p>
+
+                        </div>
+                        <div class="col-md-5 ms-auto">
+                            <p>Km/l: <b><span id="view-kml"></span></b></p>
                             <p>Data entrata: <b><span id="view-acquisto"></span></b></p>
                             <p>Data uscita: <b><span id="view-fine"></span></b></p>
                             <p>Assegnato a: <b><span id="view-assegnato"></span></b></p>
-                            <p>Scadenza revisione: <b><span id="view-revisione">01/01/2025</span></b></p>
-                            <p>Scadenza Assicurazione: <b><span id="view-revisione">01/01/2025</span></b></p>
-                            <p>Ufficio appartenenza: <b><span id="view-revisione">Pomezia</span></b></p>
-
+                            <p>Scadenza Revisione: <b><span id="view-revisione"></span></b></p>
+                            <p>Scadenza Assicurazione: <b><span id="view-revisione"></span></b></p>
+                            <p>Scadenza Bollo: <b><span id="view-bollo"></span></b></p>
+                            <p>Tagliando ogni: <b><span id="view-tagliando"></span></b></p>
+                            <p>Cinghia Distribuzione ogni: <b><span id="view-distribuzione"></span></b></p>
+                            <p>Multicard: <b><span id="view-multicard"></span></b></p>
 
                         </div>
                     </div>

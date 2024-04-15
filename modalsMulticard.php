@@ -5,7 +5,7 @@
                 <div class="alert alert-primary hide" id="alert-success-multicard" role="alert"></div>
                 <div class="alert alert-danger hide" id="alert-error-multicard" role="alert"></div>
 
-                <form id="form-add">
+                <form id="form-add-multicard">
                     <div class="row">
                         <div class="col">
 
@@ -14,7 +14,18 @@
                                 <input type="text" class="form-control input-insert" id="input-codicecard">
                             </div>
                             <div class="mb-3">
-                                <label for="input-tipocard" class="col-form-label">Tipo Contratto:</label>
+                                <label for="input-statocard" class="col-form-label">Stato Card:</label>
+                                <select class="form-select input-insert" id="input-statocard">
+                                    <option selected value="1">Attiva</option>
+                                    <option value="0">Disattiva</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-tipologiaCard" class="col-form-label">Tipologia Carta:</label>
+                                <input type="text" class="form-control input-insert" id="input-tipologiaCard">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-tipocard" class="col-form-label">Gestore Card:</label>
                                 <input type="text" class="form-control input-insert" id="input-tipocard">
                             </div>
                             <div class="mb-3">
@@ -28,6 +39,9 @@
                                     <option value="0">Disattivo</option>
                                 </select>
                             </div>
+
+                        </div>
+                        <div class="col">
                             <div class="mb-3">
                                 <label for="input-validitaterritoriale" class="col-form-label">Validità territoriale card:</label>
                                 <select class="form-select input-insert" id="input-validitaterritoriale">
@@ -46,27 +60,30 @@
                                 <label for="input-pincard" class="col-form-label">Pin:</label>
                                 <input type="text" class="form-control input-insert numberInput" id="input-pincard">
                             </div>
-                        </div>
-                        <div class="col">
-                            <h6 class="mt-2">prodotti Acquistabili</h6>
-                            <ul class="list-group mt-2">
+                            <div class="mb-3">
+                                <label for="input-scadenzaCard" class="col-form-label">Scadenza:</label>
+                                <input type="text" class="form-control input-insert" id="input-scadenzaCard">
+                            </div>
+                            <h6 class="mt-4">prodotti Acquistabili</h6>
+                            <ul class="list-group mt-3">
                                 <li class="list-group-item">
-                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="servizi-1">
+                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="input-carburanti">
                                     Carburanti
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="servizi-2">
+                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="input-lubrificanti">
                                     Lubrificanti
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="servizi-3">
+                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="input-accessoriCard">
                                     Lavaggi e accessori per i tuoi mezzi
                                 </li>
                                 <li class="list-group-item">
-                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="servizi-4">
+                                    <input class="form-check-input check-serviziMulti" type="checkbox" value="" id="input-gplmetano">
                                     GPL e Metano
                                 </li>
                             </ul>
+
                         </div>
                     </div>
                 </form>

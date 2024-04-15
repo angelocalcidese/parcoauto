@@ -1,4 +1,3 @@
-var multicard = [];
 var telepass = [];
 var users = [];
 var rowel = [];
@@ -57,10 +56,6 @@ function popVeicles(righe) {
 
     }
 
-}
-
-function closeModal() {
-    window.location.reload(true);
 }
 
 function searchData(id) {
