@@ -1,6 +1,6 @@
 <?php 
-require_once "../cors.php";
-require_once "../config.php";
+require_once "../../portale/cors.php";
+require_once "../../portale/config.php";
 require_once "../../portale/api/getUserCoockie.php";
 
 $sql = "SELECT * FROM `dipendenti`WHERE `company` = " . $user_params->company;

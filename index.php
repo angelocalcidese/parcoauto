@@ -25,17 +25,24 @@
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuova Multicard
               </button>
-              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-add-telepass" onclick="openNewRow()">
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-add-telepass" onclick="openNewRowTelepass()">
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo Telepass
               </button>
-
+              <button type="button" class="btn btn-sm btn-outline-secondary">
+                <i class="fa-solid fa-reply-all"></i>
+                Invia Richieste Km
+              </button>
             </div>
           </div>
         </div>
         <?php include("modalsVeicles.php"); ?>
         <?php include("modalsMulticard.php"); ?>
+        <?php include("modalsTelepass.php"); ?>
         <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link" id="tab-filtri" onClick="cambioTab('filtri')" href="#">Filtri Ricerca</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" id="tab-veicoli" onClick="cambioTab('veicoli')" href="#">Veicoli</a>
           </li>
@@ -43,7 +50,7 @@
             <a class="nav-link" href="#" id="tab-multicard" onClick="cambioTab('multicard')">Multicard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" id="tab-telepass" onClick="cambioTab('telepass')">Telepass</a>
+            <a class="nav-link" href="#" id="tab-telepass" onClick="cambioTab('telepass')">Contratti Viabilità</a>
           </li>
         </ul>
 
@@ -62,8 +69,8 @@
                 <th scope="col">Targa</th>
                 <th scope="col">Proprietà</th>
                 <th scope="col">Assegnato</th>
-                <th scope="col">Stato</th>
                 <th scope="col">Km</th>
+                <th scope="col">Stato</th>
                 <th scope="col">Vis.</th>
                 <th scope="col">Int.</th>
                 <th scope="col">Ass.</th>
@@ -96,17 +103,17 @@
           </table>
         </div>
         <div class="table-responsive small tabs-veicolo hide" id="telepass-page">
-          <h2 class="mt-4">Telepass</h2>
+          <h2 class="mt-4">Contratti Viabilità</h2>
           <table class="table table-striped display" id="tabella-telepass" style="width:100%">
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Codice</th>
-                <th scope="col">Assegnata</th>
+                <th scope="col">Tipologia</th>
+                <th scope="col">Codice Contratto</th>
                 <th scope="col">Stato </th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">Validità Territoriale</th>
+                <th scope="col">Lista Auto Ass.</th>
+                <th scope="col">Mod.</th>
               </tr>
             </thead>
             <tbody>

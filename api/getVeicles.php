@@ -46,8 +46,9 @@ if ($result1->num_rows > 0) {
         $object1 = new stdClass(); 
         $object1->id = $row["id"]; 
         $object1->codice = $row["codice"];
-        $object1->veicolo = $row["veicolo"];
         $object1->stato = $row["stato"];
+        $object1->tipologia = $row["tipologia"];
+        $object1->validitaterritoriale = $row["validitaterritoriale"];
         array_push($telepass, $object1);
     }
   } else {
@@ -89,6 +90,7 @@ if ($result2->num_rows > 0) {
   //print_r($data);
  //echo json_encode($veicle);
  echo json_encode($obj);
+ //print_r($obj);
 
 $conn->close();
 

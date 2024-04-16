@@ -25,7 +25,8 @@ if($exist){
 , '" . $data["assicurazione"] . "', '" . $data["revisione"] . "', '" . $data["vendita"] . "')";
 
     $result = $conn->query($sql);
-    echo $result;
+    //echo $result;
+    echo $sql;
 } else {
     echo json_encode($respData);
 }

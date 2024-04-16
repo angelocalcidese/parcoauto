@@ -1,6 +1,6 @@
-<?php 
-require_once "../cors.php";
-require_once "../config.php";
+<?php
+require_once "../../portale/cors.php";
+require_once "../../portale/config.php";
 
 $sql = "SELECT * FROM `beni`";
 $result = $conn->query($sql);

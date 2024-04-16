@@ -28,6 +28,7 @@ function searchAssignedCars(id) {
 function popVeicles(righe) {
     rowel = righe;
     addCars(righe);
+    addCarsTelepass(righe);
     for (i = 0; i < righe.length; i++) {
         var riga = righe[i];
         var type = "fa-car";
@@ -36,8 +37,8 @@ function popVeicles(righe) {
         } else if (riga.tipologia == "Furgone") {
             type = "fa-truck";
         }
-        
-        var element = '<td><i class="fa-solid ' + type +'" alt="' + riga.id + '" title="' + riga.id + '"></i></td>';
+
+        var element = '<td ><i id="id-car-' + riga.id +'" class="fa-solid ' + type +'" alt="' + riga.id + '" title="' + riga.id + '"></i></td>';
         element += '<td>' + riga.tipologia + '</td>';
         element += "<td>" + riga.marca + "</td>";
         element += "<td>" + riga.modello + "</td>";
@@ -50,10 +51,8 @@ function popVeicles(righe) {
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
         element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
-          
         $("<tr/>").append(element).appendTo("#tabella-veicoli");
-
-
+        controlAlarm(riga.id); 
     }
 
 }
@@ -369,18 +368,28 @@ function cambioTab(tab) {
 }
 
 function viewVeicle(id) {
-    console.log(rowel[id]);
+    //console.log("ID VIEW: " + id);
+    $(".view-veicle").text("");
     var veicolo = rowel[id];
+    controlAlarm(veicolo.id);
     $("#view-tipologia").text(veicolo.tipologia);
+    $("#view-proprieta").text(veicolo.proprieta);
     $("#view-marca").text(veicolo.marca);
     $("#view-modello").text(veicolo.modello);
     $("#view-targa").text(veicolo.targa);
-    $("#view-assegnato").text(veicolo.assegnatoa);
+    $("#view-assegnato").text(searchAssignedCars(veicolo.assegnatoa));
     $("#view-acquisto").text(veicolo.acquisto);
     $("#view-vendita").text(veicolo.vendita);
+    $("#view-km").text(veicolo.km);
     $("#view-stato").text(veicolo.stato);
     $("#view-revisione").text(veicolo.revisione);
     $("#view-bollo").text(veicolo.bollo);
+    $("#view-assicurazione").text(veicolo.assicurazione);
+    $("#view-tagliando").text(veicolo.tagliando);
+    $("#view-distribuzione").text(veicolo.distribuzione);
+    $("#view-kml").text(veicolo.kml);
+    $("#view-telepass").text(searchTelepass(veicolo.telepass).codice);
+    $("#view-multicard").text(searchMulticard(veicolo.multicard).codice) ;
     $('#viewVeicle').modal('show');
 }
 

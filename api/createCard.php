@@ -19,11 +19,12 @@ $ut_sql = "SELECT * FROM `multicard` WHERE `codice` = '".$data["codice"]. "' AND
 
 if($exist){
     
-    $sql= "INSERT INTO `multicard` (`id`, `company`, `tipologia`, `codcliente`, `tipocontratto`, `statocliente`, `statocarta`, `scadenzacarta`, `rinnovabile`, `prodottiacq`, `validitaterritoriale`, `pin`, `codice`, `veicolo`) VALUES 
-    (NULL, '" . $user_params->company . "', '" . $data["tipologia"] . "', '" . $data["codcliente"] . "', '" . $data["tipocontratto"] . "', '" . $data["statocliente"] . "', '" . $data["statocard"] . "', '" . $data["scadenza"] . "', '" . $data["rinnovabile"] . "', '" . $data["prodottiacq"] . "', '" . $data["validitaterritoriale"] . "', '" . $data["pincard"] . "', '" . $data["codice"] . "', '" . $data["veicolo"] . "');";
+    $sql= "INSERT INTO `multicard` (`id`, `company`, `tipologia`, `codcliente`, `tipocontratto`, `statocliente`, `statocarta`, `scadenzacarta`, `rinnovabile`, `prodottiacq`, `validitaterritoriale`, `pin`, `codice`) VALUES 
+    (NULL, '" . $user_params->company . "', '" . $data["tipologia"] . "', '" . $data["codcliente"] . "', '" . $data["tipocontratto"] . "', '" . $data["statocliente"] . "', '" . $data["statocard"] . "', '" . $data["scadenza"] . "', '" . $data["rinnovabile"] . "', '" . $data["prodottiacq"] . "', '" . $data["validitaterritoriale"] . "', '" . $data["pincard"] . "', '" . $data["codice"] . "');";
 
     $result = $conn->query($sql);
-    echo $result;
+    //echo $result;
+    echo $sql;
 } else {
     echo json_encode($respData);
 }
