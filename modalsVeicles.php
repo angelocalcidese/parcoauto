@@ -155,7 +155,7 @@
                             <p>Assegnato a: <b><span class="view-veicle" id="view-assegnato"></span></b></p>
                             <p>Km/l: <b><span class="view-veicle" id="view-kml"></span></b></p>
                             <p>Scadenza Revisione: <b><span class="view-veicle" id="view-revisione"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-revisione" style="color: #f50505;"></i></b></p>
-                            <p>Scadenza Assicurazione: <b><span class="view-veicle" id="view-assicurazione"> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-assicurazione" style="color: #f50505;"></i></span></b></p>
+                            <p>Scadenza Assicurazione: <b><span class="view-veicle" id="view-assicurazione"></span> <i class="fa-solid fa-triangle-exclamation alarm-not " id="alarm-assicurazione" style="color: #f50505;"></i></b></p>
                             <p>Scadenza Bollo: <b><span class="view-veicle" id="view-bollo"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-bollo" style="color: #f50505;"></i></b></p>
                             <p>Tagliando ogni: <b><span class="view-veicle" id="view-tagliando"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-tagliando" style="color: #f50505;"></i></b></p>
                             <p>Cinghia Distribuzione ogni: <b><span class="view-veicle" id="view-distribuzione"> </span><i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-distribuzione" style="color: #f50505;"></i></b></p>

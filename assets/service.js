@@ -406,7 +406,7 @@ function usersCall() {
            
                 $("#user-gest").append(element);
             }
-            
+            allCall();
         }
     });
 }
@@ -527,7 +527,7 @@ $(document).ready(function () {
         cambioTab(localStorage['tab'])
     }
     usersCall();
-    allCall();
+    
 
     new DateTime(document.getElementById('input-acquisto'), {
         format: 'DD/MM/YYYY'

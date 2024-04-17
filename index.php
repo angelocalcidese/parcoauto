@@ -56,9 +56,6 @@
 
         <div class="table-responsive small tabs-veicolo" id="veicoli-page">
           <h2 class="mt-4">Veicoli</h2>
-          <button type="button" class="btn btn-sm btn-outline-secondary buttNew" id="button-add-veicoli" onclick="openNewRow()">
-            <i class="fa-solid fa-filter"></i> Filtri Ricerca
-          </button>
           <table class="table table-striped display" id="tabella-veicoli" style="width:100%">
             <thead>
               <tr>
