@@ -5,7 +5,7 @@ require_once "../../portale/api/getUserCoockie.php";
 
 /** GET VEICOLI */
 
-$sql = "SELECT * FROM `veicoli` WHERE `company` = ".$user_params ->company;
+$sql = "SELECT * FROM `veicoli` WHERE `company` = ".$user_params ->company. " ORDER BY `stato`";
 $result = $conn->query($sql);
 $veicle = array();
 

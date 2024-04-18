@@ -49,11 +49,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="input-acquisto" class="col-form-label">Data di acquisto:</label>
-                                <input type="text" class="form-control input-insert" id="input-acquisto">
+                                <input type="text" class="form-control input-insert format-data" id="input-acquisto" pattern="^\\s*($1)\\W*($2)?\\W*($3)?([0-9]*).*" maxlength="10">
                             </div>
                             <div class="mb-3">
                                 <label for="input-vendita" class="col-form-label">Data di vendita:</label>
-                                <input type="text" class="form-control input-insert" id="input-vendita">
+                                <input type="text" class="form-control input-insert format-data" id="input-vendita" pattern="^\\s*($1)\\W*($2)?\\W*($3)?([0-9]*).*" maxlength="10">
                             </div>
                             <div class="mb-3">
                                 <label for="input-km" class="col-form-label">Km attuali:</label>
@@ -75,15 +75,15 @@
                             </div>
                             <div class="mb-3">
                                 <label for="input-assicurazione" class="col-form-label">Scadenza Assicurazione:</label>
-                                <input type="text" class="form-control input-insert" id="input-assicurazione">
+                                <input type="text" class="form-control input-insert format-data" id="input-assicurazione">
                             </div>
                             <div class="mb-3">
                                 <label for="input-bollo" class="col-form-label">Scadenza Bollo:</label>
-                                <input type="text" class="form-control input-insert" id="input-bollo">
+                                <input type="text" class="form-control input-insert format-data" id="input-bollo" pattern="^\\s*($1)\\W*($2)?\\W*($3)?([0-9]*).*" maxlength="10">
                             </div>
                             <div class="mb-3">
                                 <label for="input-revisione" class="col-form-label">Scadenza Revisione:</label>
-                                <input type="text" class="form-control input-insert" id="input-revisione">
+                                <input type="text" class="form-control input-insert format-data" id="input-revisione" pattern="^\\s*($1)\\W*($2)?\\W*($3)?([0-9]*).*" maxlength="10">
                             </div>
                         </div>
                     </div>
@@ -230,7 +230,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="input-intgiorno" class="col-form-label">In Data :</label>
-                                    <input type="text" class="form-control" id="input-intgiorno" placeholder="giorno intervento">
+                                    <input type="text" class="form-control format-data" id="input-intgiorno" placeholder="giorno intervento">
                                 </div>
                                 <div class="col">
                                     <label for="input-costointervento" class="col-form-label">Costo Int. &euro; :</label>
@@ -308,7 +308,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="input-assgiorno" class="col-form-label">dal giorno :</label>
-                                    <input type="text" class="form-control" id="input-assgiorno" placeholder="dal giorno">
+                                    <input type="text" class="form-control format-data" id="input-assgiorno" pattern="^\\s*($1)\\W*($2)?\\W*($3)?([0-9]*).*" maxlength="10" placeholder="dal giorno">
                                 </div>
                             </div>
                             <div class="row mt-3">

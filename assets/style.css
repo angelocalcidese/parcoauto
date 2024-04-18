@@ -85,3 +85,8 @@ div.dt-container {
 .table-responsive {
     margin-bottom: 40px;
 }
+.alarm-button {
+    background-color: rgb(231, 134, 134);
+    color: white;
+    border-color: white;
+}

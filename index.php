@@ -60,18 +60,18 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
+                <th scope="col">Stato</th>
                 <th scope="col">Tipologia</th>
                 <th scope="col">Marca</th>
                 <th scope="col">Modello</th>
                 <th scope="col">Targa</th>
-                <th scope="col">Proprietà</th>
                 <th scope="col">Assegnato</th>
-                <th scope="col">Km</th>
-                <th scope="col">Stato</th>
-                <th scope="col">Vis.</th>
-                <th scope="col">Int.</th>
-                <th scope="col">Ass.</th>
-                <th scope="col">Mod.</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Dettaglio Veicolo">Vis.</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Interventi Veicolo">Int.</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Assegnatari Veicolo">Ass.</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Dati del Veicolo">Mod.</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Km">Km Mese</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Invia Email di richiesta km al Assegnatario">Ric. Km</th>
               </tr>
             </thead>
             <tbody>
@@ -90,9 +90,9 @@
                 <th scope="col">Stato </th>
                 <th scope="col">Scadenza</th>
                 <th scope="col">Rinnovabile</th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
+                <th scope="col">PIN</th>
+                <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Targhe Veicoli Assegnati"><i class="fa-solid fa-list"></i></th>
+                <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Dettaglio Multicard"><i class="fa-solid fa-file-pen"></i></th>
               </tr>
             </thead>
             <tbody>
@@ -109,8 +109,8 @@
                 <th scope="col">Codice Contratto</th>
                 <th scope="col">Stato </th>
                 <th scope="col">Validità Territoriale</th>
-                <th scope="col">Lista Auto Ass.</th>
-                <th scope="col">Mod.</th>
+                <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Targhe Veicoli Assegnati"><i class="fa-solid fa-list"></i></th>
+                <th scope="col" style="text-align:center"  data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Contratto Viabilità"><i class="fa-solid fa-file-pen"></i></th>
               </tr>
             </thead>
             <tbody>

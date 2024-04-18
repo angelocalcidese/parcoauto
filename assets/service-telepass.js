@@ -8,8 +8,8 @@ function popTelepass(righe) {
         element += "<td>" + riga.codice + "</td>";
         element += "<td>" + statoActive(riga.stato) + "</td>";
         element += "<td>" + riga.validitaterritoriale + "</td>";
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCarsTelepass(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowTelepass(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
+        element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCarsTelepass(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
+        element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowTelepass(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
         $("<tr/>")
             .append(element)
             .appendTo("#tabella-telepass");

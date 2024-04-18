@@ -11,8 +11,8 @@ function popMulticard(righe) {
         element += "<td>" + riga.scadenzacarta + "</td>";
         element += "<td>" + yesOrNo(riga.rinnovabile) + "</td>";
         element += "<td>" + riga.pin + "</td>";
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCars(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowMulti(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
+        element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCars(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
+        element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowMulti(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
         
         $("<tr/>")
             .append(element)

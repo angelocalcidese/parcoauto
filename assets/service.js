@@ -5,7 +5,11 @@ var idRow = null;
 var userAss = null;
 var kmAssMoment = 0;
 var d = new Date();
-var strDate = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear()
+var mounth = d.getMonth() + 1;
+if (mounth < 10) {
+    mounth = "0" + mounth;
+}
+var strDate = d.getDate() + "/" + mounth + "/" + d.getFullYear()
 
 function tablePagination(){
    $('table.display').DataTable({
@@ -32,25 +36,27 @@ function popVeicles(righe) {
     for (i = 0; i < righe.length; i++) {
         var riga = righe[i];
         var type = "fa-car";
-        if (riga.tipologia == "Ciclomotore") {
+        if ((riga.stato == "Venduta") || (riga.stato == "Resa") || (riga.stato == "Rottamata")) {
+            type = "fa-xmark";
+        } else if (riga.tipologia == "Ciclomotore") {
             type = "fa-motorcycle";
         } else if (riga.tipologia == "Furgone") {
             type = "fa-truck";
-        }
+        } 
 
         var element = '<td ><i id="id-car-' + riga.id +'" class="fa-solid ' + type +'" alt="' + riga.id + '" title="' + riga.id + '"></i></td>';
+        element += "<td>" + riga.stato + "</td>";
         element += '<td>' + riga.tipologia + '</td>';
         element += "<td>" + riga.marca + "</td>";
         element += "<td>" + riga.modello + "</td>";
         element += "<td>" + riga.targa + "</td>";
-        element += "<td>" + riga.proprieta + "</td>";
         element += "<td>" + searchAssignedCars(riga.assegnatoa)  + "</td>";
-        element += "<td>" + riga.km + "</td>";
-        element += "<td>" + riga.stato + "</td>";
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
-        element += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
+        element += '<td style="text-align:center"><button title="Visualizza Dati del veicolo"  type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
+        element += '<td><button title="Visualizza Interventi del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
+        element += '<td><button title="Visualizza Asegnatari del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
+        element += '<td><button title="Modifica Dati del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
+        element += '<td><button title="Visualizza km e spese mensile veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-regular fa-calendar-days"></i></td>';
+        element += '<td><button title="Invia email richiesta km" type="button" class="btn btn-sm btn-outline-secondary alarm-button" id="id-km-' + riga.id +'" onClick="sendEmailKm(' + riga.id + ')"><i class="fa-solid fa-reply"></i></button></td>';
         $("<tr/>").append(element).appendTo("#tabella-veicoli");
         controlAlarm(riga.id); 
     }
