@@ -229,12 +229,16 @@
                                     <input type="text" class="form-control" id="input-kmintervento" placeholder="km">
                                 </div>
                                 <div class="col">
-                                    <label for="input-intgiorno" class="col-form-label">In Data :</label>
+                                    <label for="input-intgiorno" class="col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="Per Assicurazione, Bollo e Revisione verrà calcolata poi la data di scadenza, quindi inserire il giorno di pagamento.">In Data <i class="fa-solid fa-circle-info"></i> :</label>
                                     <input type="text" class="form-control format-data" id="input-intgiorno" placeholder="giorno intervento">
                                 </div>
                                 <div class="col">
                                     <label for="input-costointervento" class="col-form-label">Costo Int. &euro; :</label>
                                     <input type="text" class="form-control" id="input-costointervento" placeholder="costo intervento">
+                                </div>
+                                <div class="col">
+                                    <label for="input-linkintervento" class="col-form-label">Link Fattura:</label>
+                                    <input type="text" class="form-control" id="input-linkintervento" placeholder="Link Fattura">
                                 </div>
                             </div>
                             <div class="row justify-content-center mt-3">

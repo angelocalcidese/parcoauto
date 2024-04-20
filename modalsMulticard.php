@@ -89,7 +89,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onClick="closeModal()">Chiudi</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Chiudi</button>
                 <button type="button" class="btn btn-primary" id="add-button-multicard" onClick="controlFormMulticard()">Inserisci</button>
             </div>
         </div>
@@ -100,7 +100,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addListLabel">Targhe da Associare alla Multicard</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Chiudi</button>
             </div>
         </div>
     </div>

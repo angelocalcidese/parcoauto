@@ -13,7 +13,7 @@ if(isset($data["idex"])){
 }
 
 $sql = "INSERT INTO `guidatori` (`id`, `veicolo`, `da`, `a`, `dipendente`, `kmda`, `kma`) 
-VALUES (NULL, '" . $data["veicolo"] . "', '" . $data["da"] . "', '-', '" . $data["dipendente"] . "', '" . $data["kmda"] . "', '-')";
+VALUES (NULL, '" . $data["veicolo"] . "', '" . $data["da"] . "', NULL, '" . $data["dipendente"] . "', '" . $data["kmda"] . "', NULL)";
 
 $result = $conn->query($sql);
 

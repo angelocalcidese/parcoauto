@@ -192,7 +192,12 @@ function addIntervento(id) {
                 row += '<td>' + data[b].data + '</td>';
                 row += '<td>' + data[b].km + '</td>';
                 row += '<td>&euro; ' + data[b].prezzo + '</td>';
-                row += '<td><i class="fa-solid fa-file"></i></td>';
+                if (data[b].fattura) {
+                    row += '<td><a class="btn btn-sm btn-outline-secondary" target="_blank" href="' + data[b].fattura + '"><i class="fa-solid fa-file"></i></a></td>'; 
+                } else {
+                    row += '<td></td>';
+                }
+                
                 row += '</tr > ';
                 $("#bodyIntervento").append(row);
                 userAss = data[b].id;
@@ -490,6 +495,7 @@ function insIntervento() {
     var km = $("#input-kmintervento").val();
     var intervento = $("#input-intervento").val();
     var data = $("#input-intgiorno").val();
+    var link = $("#input-linkintervento").val();
     var count = 0;
     var html = "<ul>";
     if (intervento == "Seleziona") { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
@@ -506,7 +512,7 @@ function insIntervento() {
         $.ajax({
         method: "POST",
         url: "api/insertIntervento.php",
-        data: JSON.stringify({ veicolo: idRow, data: data, intervento: intervento, km: km, prezzo: prezzo }),
+            data: JSON.stringify({ veicolo: idRow, data: data, intervento: intervento, km: km, prezzo: prezzo, fattura: link }),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
