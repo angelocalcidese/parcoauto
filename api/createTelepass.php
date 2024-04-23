@@ -17,8 +17,8 @@ $ut_sql = "SELECT * FROM `telepass` WHERE `codice` = '".$data["codice"]. "' AND 
     }
 
 if($exist){
-    $sql= "INSERT INTO `telepass` (`id`, `company`, `tipologia`, `codice`, `stato`, `validitaterritoriale`) VALUES 
-    (NULL, '" . $user_params->company . "', '" . $data["tipologia"] . "', '" . $data["codice"] . "', '" . $data["stato"] . "', '" . $data["validitaterritoriale"] . "');";
+    $sql= "INSERT INTO `telepass` (`id`, `company`, `tipologia`, `codice`, `stato`, `validitaterritoriale`, `seriale`, `attivazione`) VALUES 
+    (NULL, '" . $user_params->company . "', '" . $data["tipologia"] . "', '" . $data["codice"] . "', '" . $data["stato"] . "', '" . $data["validitaterritoriale"] . "', '" . $data["seriale"] . "', '" . $data["attivazione"] . "');";
 
     $result = $conn->query($sql);
     echo $result;

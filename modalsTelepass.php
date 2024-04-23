@@ -13,8 +13,16 @@
                                 <input type="text" class="form-control input-insert" id="input-tipologiatelepass">
                             </div>
                             <div class="mb-3">
+                                <label for="input-serialetelepass" class="col-form-label">Serial Number:</label>
+                                <input type="text" class="form-control input-insert" id="input-serialetelepass">
+                            </div>
+                            <div class="mb-3">
                                 <label for="input-codicetelepass" class="col-form-label">Codice Contratto:</label>
                                 <input type="text" class="form-control input-insert" id="input-codicetelepass">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-attivazionetelepass" class="col-form-label">Data Attivazione:</label>
+                                <input type="text" class="form-control input-insert" id="input-attivazionetelepass">
                             </div>
                             <div class="mb-3">
                                 <label for="input-statotelepass" class="col-form-label">Stato Apparecchio:</label>

@@ -48,6 +48,8 @@ if ($result1->num_rows > 0) {
         $object1->codice = $row["codice"];
         $object1->stato = $row["stato"];
         $object1->tipologia = $row["tipologia"];
+        $object1->seriale = $row["seriale"];
+        $object1->attivazione = $row["attivazione"];
         $object1->validitaterritoriale = $row["validitaterritoriale"];
         array_push($telepass, $object1);
     }

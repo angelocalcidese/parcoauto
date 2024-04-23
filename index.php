@@ -106,11 +106,13 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Tipologia</th>
+                <th scope="col">Numero Seriale</th>
                 <th scope="col">Codice Contratto</th>
+                <th scope="col">Attivazione</th>
                 <th scope="col">Stato </th>
                 <th scope="col">Validità Territoriale</th>
                 <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Targhe Veicoli Assegnati"><i class="fa-solid fa-list"></i></th>
-                <th scope="col" style="text-align:center"  data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Contratto Viabilità"><i class="fa-solid fa-file-pen"></i></th>
+                <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Contratto Viabilità"><i class="fa-solid fa-file-pen"></i></th>
               </tr>
             </thead>
             <tbody>

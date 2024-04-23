@@ -5,7 +5,9 @@ function popTelepass(righe) {
         var riga = righe[i];
         var element = '<td><i class="fa-solid fa-road" title="'+ riga.id +'"></i></td>';
         element += "<td>" + riga.tipologia + "</td>";
+        element += "<td>" + riga.seriale + "</td>";
         element += "<td>" + riga.codice + "</td>";
+        element += "<td>" + riga.attivazione + "</td>";
         element += "<td>" + statoActive(riga.stato) + "</td>";
         element += "<td>" + riga.validitaterritoriale + "</td>";
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCarsTelepass(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
@@ -50,6 +52,8 @@ function controlFormTelepass() {
     var tipologia = $("#input-tipologiatelepass").val();
     var stato = $("#input-statotelepass").val();
     var territorio = $("#input-territorialetelepass").val();
+    var seriale = $("#input-serialetelepass").val();
+    var attivazione = $("#input-attivazionetelepass").val();
 
     var count = 0;
     var html = "<ul>";
@@ -57,6 +61,8 @@ function controlFormTelepass() {
     if (tipologia == "") { html += "<li>Inserire la Tipologia del Contratto</li>"; count++; }
     if (stato == "") { html += "<li>Inserire lo stato del contratto</li>"; count++; }
     if (territorio == "") { html += "<li>inserire Territorio di Validità Contratto</li>"; count++; }
+    if (seriale == "") { html += "<li>inserire il numero seriale del Telepass</li>"; count++; }
+    if (attivazione == "") { html += "<li>Inserire la data di attivazione del Telepass</li>"; count++; }
     
     html += "</ul>";
     if (count > 0) {
@@ -70,6 +76,9 @@ function controlFormTelepass() {
             data.tipologia = tipologia;
             data.stato = stato
             data.validitaterritoriale = territorio;
+            data.attivazione = attivazione;
+            data.seriale = seriale;
+
             modRowTelepass(data);
         } else {
             addRowTelepass();
@@ -82,11 +91,13 @@ function addRowTelepass() {
     var tipologia = $("#input-tipologiatelepass").val();
     var stato = $("#input-statotelepass").val();
     var territorio = $("#input-territorialetelepass").val();
+    var seriale = $("#input-serialetelepass").val();
+    var attivazione = $("#input-attivazionetelepass").val();
 
     $.ajax({
         method: "POST",
         url: "api/createTelepass.php",
-        data: JSON.stringify({ codice: codice, tipologia: tipologia, stato: stato, validitaterritoriale: territorio}),
+        data: JSON.stringify({ codice: codice, tipologia: tipologia, stato: stato, validitaterritoriale: territorio, seriale: seriale, attivazione: attivazione}),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -108,7 +119,7 @@ function modRowTelepass(data) {
     $.ajax({
         method: "POST",
         url: "api/modTelepass.php",
-        data: JSON.stringify({ id: data.id, tipologia: data.tipologia, stato: data.stato, codice: data.codice, validitaterritoriale: data.validitaterritoriale}),
+        data: JSON.stringify({ id: data.id, tipologia: data.tipologia, stato: data.stato, codice: data.codice, validitaterritoriale: data.validitaterritoriale, attivazione: data.attivazione, seriale: data.seriale}),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);

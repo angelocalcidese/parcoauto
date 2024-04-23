@@ -331,3 +331,82 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="viewListKm" tabindex="-1" aria-labelledby="viewListKmLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="viewListKmLabel">
+                    <span id="titolo-bene">Storico Km Veicoli</span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="alert alert-primary hide" id="alert-success-km" role="alert"></div>
+                    <div class="alert alert-danger hide" id="alert-error-km" role="alert"></div>
+                    <div id="view-assign">
+
+                        <div class="row">
+                            <div class="col-md ms-auto " id="monitor-good">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Mese</th>
+                                            <th scope="col">Assegnata a</th>
+                                            <th scope="col">Km da</th>
+                                            <th scope="col">Km a</th>
+                                            <th scope="col">Spesa Multicard</th>
+                                            <th scope="col">Spese Extra</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bodyKm">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="butt-assign" data-bs-dismiss="modal" onClick="closeModal()">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalChoicekm" tabindex="-1" aria-labelledby="choiceModalKm" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+                <h5 class="mb-0">Seleziona l'anno di ricerca per lo storico</h5>
+                <select class="form-select mt-4" id="input-annokmstoricos">
+                    <option selected>2024</option>
+                    <option>2023</option>
+                </select>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end" onClick="kmSend()"><strong>Cerca</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalChoice" tabindex="-1" aria-labelledby="choiceModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+                <h5 class="mb-0" id="choice-title"></h5>
+                <p class="mb-0" id="choice-text"></p>
+                <input type="hidden" id="input-id">
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send hide " onClick="yesSend()"><strong>Si</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-no-send" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-close-send hide" onclick="closeModal()">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>

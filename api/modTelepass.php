@@ -6,7 +6,7 @@ require_once "../../portale/api/getUserCoockie.php";
 
 $data = getRequestDataBody();
 
-$sql = "UPDATE `telepass` SET `codice` = '" . $data["codice"] . "',`tipologia` = '" . $data["tipologia"] . "', `stato` = '" . $data["stato"] . "', `validitaterritoriale` = '" . $data["validitaterritoriale"] . "' WHERE `telepass`.`id` =" . $data["id"];
+$sql = "UPDATE `telepass` SET `codice` = '" . $data["codice"] . "',`tipologia` = '" . $data["tipologia"] . "', `stato` = '" . $data["stato"] . "', `validitaterritoriale` = '" . $data["validitaterritoriale"] . "', `seriale` = '" . $data["seriale"] . "' , `attivazione` = '" . $data["attivazione"] . "'WHERE `telepass`.`id` =" . $data["id"];
 $result = $conn->query($sql);
 
 echo $result;

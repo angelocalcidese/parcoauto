@@ -1,6 +1,8 @@
 var telepass = [];
 var users = [];
 var rowel = [];
+var company = [];
+var veicle = [];
 var idRow = null;
 var userAss = null;
 var kmAssMoment = 0;
@@ -43,7 +45,10 @@ function popVeicles(righe) {
         } else if (riga.tipologia == "Furgone") {
             type = "fa-truck";
         } 
-
+        var disabledSend = null;
+        if ((riga.assegnatoa == "-") || ((riga.stato != "Attiva") && (riga.stato != "In Vendita"))) {
+            disabledSend = "disabled";
+        } 
         var element = '<td ><i id="id-car-' + riga.id +'" class="fa-solid ' + type +'" alt="' + riga.id + '" title="' + riga.id + '"></i></td>';
         element += "<td>" + riga.stato + "</td>";
         element += '<td>' + riga.tipologia + '</td>';
@@ -55,14 +60,112 @@ function popVeicles(righe) {
         element += '<td><button title="Visualizza Interventi del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
         element += '<td><button title="Visualizza Asegnatari del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
         element += '<td><button title="Modifica Dati del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
-        element += '<td><button title="Visualizza km e spese mensile veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-regular fa-calendar-days"></i></td>';
-        element += '<td><button title="Invia email richiesta km" type="button" class="btn btn-sm btn-outline-secondary alarm-button" id="id-km-' + riga.id +'" onClick="sendEmailKm(' + riga.id + ')"><i class="fa-solid fa-reply"></i></button></td>';
+        element += '<td><button title="Visualizza km e spese mensile veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openKmStory(' + riga.id + ')"><i class="fa-regular fa-calendar-days"></i></td>';
+        element += '<td><button title="Invia email richiesta km" type="button" class="btn btn-sm btn-outline-secondary alarm-button ' + disabledSend  + '" id="id-km-' + riga.id +'" onClick="sendEmailKm(' + riga.id + ')"><i class="fa-solid fa-reply"></i></button></td>';
         $("<tr/>").append(element).appendTo("#tabella-veicoli");
         controlAlarm(riga.id); 
     }
 
 }
 
+function openKmStory(id) {
+    veicle = searchData(id);
+    $('#modalChoicekm').modal('show');
+}
+
+function searchKm(row, mese) {
+    var resp = null;
+    for (var a = 0; a < row.length; a++){
+        if (row[a].mese == mese) {
+            resp = row[a];
+        }
+    }
+    return resp;
+}
+function kmSend() {
+    var anno = $("#input-annokmstoricos").val();
+    $("#bodyKm").empty();
+    $.ajax({
+        method: "POST",
+        url: 'api/getStoryKm.php',
+        data: JSON.stringify({ id: veicle.id, anno: anno }),
+        dataType: 'json',
+        complete: function (responce) {
+            console.log("KM: ", responce.responseJSON);
+            var dataRow = responce.responseJSON;
+            var mesi = 12;
+            for (a = 1; a <= mesi; a++){
+                var row = "<tr>";
+                var mese = a - 1;
+                var respRow = searchKm(dataRow, a);
+                if (respRow) {
+                    var assegnatoUser = searchUser(respRow.assegnata);
+
+                    row += "<td>" + mesiMap[mese] + "</td>";
+                    row += "<td>" + assegnatoUser.nome + " " + assegnatoUser.cognome +"</td>";
+                    row += "<td>" + respRow.km + "</td>";
+                    row += "<td>" + respRow.kmold + "</td>";
+                    row += "<td>" + respRow.spesacard + "</td>";
+                    row += "<td>" + respRow.spesaextra + "</td>";
+                } else {
+                    row += "<td>" + mesiMap[mese] + "</td><td> - </td><td> - </td><td> - </td><td> - </td><td> - </td>";
+                }
+               
+                row += "</tr > ";
+                $("#bodyKm").append(row);
+                console.log(row);
+            }
+            $('#modalChoicekm').modal('hide');
+            $('#viewListKm').modal('show');
+        }
+    });
+}
+
+function sendEmailKm(id) {
+    veicle = searchData(id);
+    idRow = id;
+    console.log(veicle.assegnatoa);
+    if (veicle.assegnatoa != "-") {
+        $.ajax({
+            method: "POST",
+            url: 'api/getSingleCompany.php',
+            data: JSON.stringify({ id: userlog.company }),
+            dataType: 'json',
+            complete: function (responce) {
+                console.log(responce.responseJSON);
+                company = responce.responseJSON;
+                $('#choice-title').text("Sei sicuro?");
+                $('#choice-text').html("Stai per Inviare La richiesta dei km a <b>" + searchUser(veicle.assegnatoa).nome + " " + searchUser(veicle.assegnatoa).cognome + "</b>");
+                $(".button-send").removeClass("hide");
+                $('#modalChoice').modal('show');
+            }
+        });
+    } 
+
+    
+}
+
+function yesSend() {
+    var userVeicle = searchUser(veicle.assegnatoa);
+    var nominativo = userVeicle.nome + " " + userVeicle.cognome;
+    console.log(company);
+    $.ajax({
+        method: "POST",
+        url: 'api/sendKmMail.php',
+        data: JSON.stringify({ company: company[0].name, nominativo: nominativo, targa: veicle.targa, email: userVeicle.email, id: veicle.assegnatoa, veicolo: idRow }),
+        dataType: 'json',
+        complete: function (responce) {
+            //console.log(responce);
+            $('#choice-title').text("Hai inviato l'email");
+            $('#choice-text').html("L'invio del email è andatoa buon fine");
+            $(".button-send").addClass("hide");
+            $(".button-no-send").addClass("hide");
+            $(".button-close-send").removeClass("hide");
+            //$('#modalChoice').modal('hide');
+        }
+    });
+}
+    
 function searchData(id) {
     var data = "";
     for (var a = 0; a < rowel.length; a++) {
@@ -399,7 +502,7 @@ function viewVeicle(id) {
     $("#view-tagliando").text(veicolo.tagliando);
     $("#view-distribuzione").text(veicolo.distribuzione);
     $("#view-kml").text(veicolo.kml);
-    $("#view-telepass").text(searchTelepass(veicolo.telepass).codice);
+    $("#view-telepass").text(searchTelepass(veicolo.telepass).seriale);
     $("#view-multicard").text(searchMulticard(veicolo.multicard).codice) ;
     $('#viewVeicle').modal('show');
 }
@@ -560,6 +663,9 @@ $(document).ready(function () {
         format: 'DD/MM/YYYY'
     });
     new DateTime(document.getElementById('input-revisione'), {
+        format: 'DD/MM/YYYY'
+    });
+    new DateTime(document.getElementById('input-attivazionetelepass'), {
         format: 'DD/MM/YYYY'
     });
 });
