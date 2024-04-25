@@ -68,6 +68,8 @@ function popVeicles(righe) {
 
 }
 
+
+
 function openKmStory(id) {
     veicle = searchData(id);
     $('#modalChoicekm').modal('show');
@@ -121,6 +123,23 @@ function kmSend() {
     });
 }
 
+function sendEmailKmMassive() {
+    $.ajax({
+        method: "POST",
+        url: 'api/getSingleCompany.php',
+        data: JSON.stringify({ id: userlog.company }),
+        dataType: 'json',
+        complete: function (responce) {
+            console.log(responce.responseJSON);
+            company = responce.responseJSON;
+            $('#choice-title').text("Sei sicuro?");
+            $('#choice-text').html("Stai per Inviare la richiesta dei km a tutti i dipendenti con un veicolo assegnato.</b>");
+            $(".button-send-massive").removeClass("hide");
+            $('#modalChoice').modal('show');
+        }
+    });
+}
+
 function sendEmailKm(id) {
     veicle = searchData(id);
     idRow = id;
@@ -135,7 +154,7 @@ function sendEmailKm(id) {
                 console.log(responce.responseJSON);
                 company = responce.responseJSON;
                 $('#choice-title').text("Sei sicuro?");
-                $('#choice-text').html("Stai per Inviare La richiesta dei km a <b>" + searchUser(veicle.assegnatoa).nome + " " + searchUser(veicle.assegnatoa).cognome + "</b>");
+                $('#choice-text').html("Stai per Inviare la richiesta dei km a <b>" + searchUser(veicle.assegnatoa).nome + " " + searchUser(veicle.assegnatoa).cognome + "</b>");
                 $(".button-send").removeClass("hide");
                 $('#modalChoice').modal('show');
             }
@@ -145,9 +164,12 @@ function sendEmailKm(id) {
     
 }
 
-function yesSend() {
+function yesSend(massive) {
     var userVeicle = searchUser(veicle.assegnatoa);
     var nominativo = userVeicle.nome + " " + userVeicle.cognome;
+    $(".button-close-send").addClass("disabled");
+    $(".button-send-massive").addClass("hide");
+    $(".button-no-send").addClass("hide");
     console.log(company);
     $.ajax({
         method: "POST",
@@ -156,14 +178,35 @@ function yesSend() {
         dataType: 'json',
         complete: function (responce) {
             //console.log(responce);
-            $('#choice-title').text("Hai inviato l'email");
-            $('#choice-text').html("L'invio del email è andatoa buon fine");
-            $(".button-send").addClass("hide");
-            $(".button-no-send").addClass("hide");
+            if (massive) {
+                $('#choice-title').text("Invio email a ...");
+                $('#choice-text').html("Elenco Assegnatari:");
+                
+
+                $("#list-send-email").append('<li class="list-group-item">Email km inviata a <b>' + nominativo + '</b></li>');
+            } else {
+                $('#choice-title').text("Hai inviato l'email");
+                $('#choice-text').html("L'invio del email è andatoa buon fine");
+                $(".button-send").addClass("hide");
+            }
+            
             $(".button-close-send").removeClass("hide");
-            //$('#modalChoice').modal('hide');
+            $(".button-close-send").removeClass("disabled");
+
         }
     });
+}
+
+
+function yesSendMassive() {
+    for (var a = 0; a < rowel.length; a++){
+        if ((rowel[a].assegnatoa != "-") && ((rowel[a].stato == "Attiva") || (rowel[a].stato == "In Vendita"))) {
+            idRow = rowel[a].id;
+            veicle = searchData(rowel[a].id);
+            console.log(rowel[a]);
+            yesSend(true);
+        }
+    }
 }
     
 function searchData(id) {

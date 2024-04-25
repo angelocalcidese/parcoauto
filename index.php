@@ -29,8 +29,8 @@
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo Telepass
               </button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">
-                <i class="fa-solid fa-reply-all"></i>
+              <button type="button" class="btn btn-sm btn-outline-secondary" onClick="sendEmailKmMassive()">
+                <i class=" fa-solid fa-reply-all"></i>
                 Invia Richieste Km
               </button>
             </div>

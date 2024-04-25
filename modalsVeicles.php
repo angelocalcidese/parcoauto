@@ -400,10 +400,14 @@
             <div class="modal-body p-4 text-center">
                 <h5 class="mb-0" id="choice-title"></h5>
                 <p class="mb-0" id="choice-text"></p>
-                <input type="hidden" id="input-id">
+                <ul class="list-group mt-2" id="list-send-email">
+                    
+                </ul>
+                        <input type="hidden" id="input-id">
             </div>
             <div class="modal-footer flex-nowrap p-0">
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send hide " onClick="yesSend()"><strong>Si</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send-massive hide " onClick="yesSendMassive()"><strong>Si</strong></button>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-no-send" data-bs-dismiss="modal">No</button>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-close-send hide" onclick="closeModal()">Chiudi</button>
             </div>
