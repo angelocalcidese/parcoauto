@@ -3,6 +3,7 @@ var users = [];
 var rowel = [];
 var company = [];
 var veicle = [];
+var interventi = [];
 var idRow = null;
 var userAss = null;
 var kmAssMoment = 0;
@@ -40,6 +41,8 @@ function popVeicles(righe) {
         var type = "fa-car";
         if ((riga.stato == "Venduta") || (riga.stato == "Resa") || (riga.stato == "Rottamata")) {
             type = "fa-xmark";
+        } else if ((riga.stato == "Incidentata") || (riga.stato == "Guasta")) {
+            type = "fa-car-burst";
         } else if (riga.tipologia == "Ciclomotore") {
             type = "fa-motorcycle";
         } else if (riga.tipologia == "Furgone") {
@@ -316,8 +319,32 @@ function storyAssigned(id) {
 
     
 }
+function downloadfile(id) {
+    console.log(interventi[id]);
+    var data = interventi[id];
+    $.ajax({
+        method: "POST",
+        url: "../portale/api/getFile.php",
+        data: JSON.stringify({ name: data.fattura }),
+        dataType: 'json',
+        success: function (result) {
+            //var decoded = window.atob(result[0].file);
+            //console.log(decoded)
+             var a = document.createElement("a"); //Create <a>
+            a.href = window.atob(result[0].file); 
+            a.download = "fattura.pdf"; 
+            a.click(); 
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+            
+        }
+    });
+
+}
 
 function addIntervento(id) {
+    delFileInt();
     $("#alert-error-intervento").addClass("hide");
     var data = searchData(id);
     idRow = id;
@@ -331,6 +358,7 @@ function addIntervento(id) {
         dataType: 'json',
         success: function (data) {
             //console.log("GUIDE", data);
+            interventi = data;
             for (var b = 0; b < data.length; b++) {
                 var row = '<tr>';
                 row += '<td>' + data[b].id + '</td>';
@@ -339,7 +367,7 @@ function addIntervento(id) {
                 row += '<td>' + data[b].km + '</td>';
                 row += '<td>&euro; ' + data[b].prezzo + '</td>';
                 if (data[b].fattura) {
-                    row += '<td><a class="btn btn-sm btn-outline-secondary" target="_blank" href="' + data[b].fattura + '"><i class="fa-solid fa-file"></i></a></td>'; 
+                    row += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="downloadfile(' + b + ')"><i class="fa-solid fa-file"></i></button></td>'; 
                 } else {
                     row += '<td></td>';
                 }
@@ -636,18 +664,57 @@ function insAssegnatario() {
     });
 
 }
+
+function delFileInt() {
+    $("#input-linkintervento").val("");
+    $("#filenameint span").text("");
+    $("#filenameint").addClass("hide");
+    $("#upload-int-file").removeClass("hide");
+}
+
+function uploadFattura(evt) {
+    //var f = evt.target.files[0]; // FileList object
+    var f = document.querySelector('#input-linkinterventoFile').files[0];
+    console.log(f);
+   
+    // Closure to capture the file information.
+    if (f) {
+        var reader = new FileReader();
+        reader.onload = (function (theFile) {
+        return function (e) {
+            var binaryData = e.target.result;
+            //Converting Binary Data to base 64
+            var base64String = window.btoa(binaryData);
+            //showing file converted to base64
+            $("#filenameint span").text(f.name);
+            $("#filenameint").removeClass("hide");
+            $("#upload-int-file").addClass("hide");
+            document.getElementById('input-linkintervento').value = base64String;
+        };
+        })(f);
+    }
+    
+    // Read in the image file as a data URL.
+    reader.readAsBinaryString(f);
+}
+
+
 function insIntervento() {
     var prezzo = $("#input-costointervento").val();
     var km = $("#input-kmintervento").val();
     var intervento = $("#input-intervento").val();
     var data = $("#input-intgiorno").val();
     var link = $("#input-linkintervento").val();
+    var upload = document.querySelector('#input-linkinterventoFile').files[0];
+    //console.log(link);
+
     var count = 0;
     var html = "<ul>";
     if (intervento == "Seleziona") { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
     if (km == "") { html += "<li>Inserire i km</li>"; count++; }
     if (data == "") { html += "<li>Inserire la data </li>"; count++; }
     if (prezzo == "") { html += "<li>Inserire il costo dell'intervento</li>"; count++; }
+    if ((link == "") && (upload != "")) { html += "<li>Caricare prima il file selezionato</li>"; count++; }
 
     html += "</ul>";
     if (count > 0) {
@@ -674,8 +741,6 @@ function insIntervento() {
         }
         });
     }
-
-    
 
 }
 

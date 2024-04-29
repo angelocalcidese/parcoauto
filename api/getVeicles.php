@@ -68,7 +68,6 @@ if ($result2->num_rows > 0) {
         $object2->tipologia = $row["tipologia"];
         $object2->tipocontratto = $row["tipocontratto"];
         $object2->codice = $row["codice"]; 
-        $object2->veicolo = $row["veicolo"];
         $object2->stato = $row["statocarta"];
         $object2->statocliente = $row["statocliente"];
         $object2->scadenzacarta = $row["scadenzacarta"];

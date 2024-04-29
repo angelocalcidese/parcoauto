@@ -26,6 +26,8 @@
                                     <option>Resa</option>
                                     <option>Venduta</option>
                                     <option>Rottamata</option>
+                                    <option>Guasta</option>
+                                    <option>Incidentata</option>
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -236,9 +238,16 @@
                                     <label for="input-costointervento" class="col-form-label">Costo Int. &euro; :</label>
                                     <input type="text" class="form-control" id="input-costointervento" placeholder="costo intervento">
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col">
-                                    <label for="input-linkintervento" class="col-form-label">Link Fattura:</label>
-                                    <input type="text" class="form-control" id="input-linkintervento" placeholder="Link Fattura">
+                                    <label for="input-linkintervento" class="col-form-label">Fattura (pdf, jpg, png - max 10mb):</label>
+                                    <input type="hidden" id="input-linkintervento">
+                                    <p id="filenameint" class="hide"><span>Nome del file</span> <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delFileInt()"><i class="fa-solid fa-trash"></i></button></p>
+                                    <div id="upload-int-file" class="input-group">
+                                        <input type="file" class="form-control" id="input-linkinterventoFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
+                                        <button class="btn btn-outline-secondary" type="button" id="input-linkinterventoAddon" onclick="uploadFattura()">Carica File</button>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row justify-content-center mt-3">
@@ -401,9 +410,9 @@
                 <h5 class="mb-0" id="choice-title"></h5>
                 <p class="mb-0" id="choice-text"></p>
                 <ul class="list-group mt-2" id="list-send-email">
-                    
+
                 </ul>
-                        <input type="hidden" id="input-id">
+                <input type="hidden" id="input-id">
             </div>
             <div class="modal-footer flex-nowrap p-0">
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send hide " onClick="yesSend()"><strong>Si</strong></button>
