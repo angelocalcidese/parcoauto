@@ -1,7 +1,25 @@
 <?php
 require_once "../../portale/cors.php";
 require_once "../../portale/config.php";
+//require_once "../../portale/api/fileUpload.php";
 require_once "utility.php";
+
+function uploadFile($base64_file, $folder, $name)
+{
+    $file = $base64_file;
+    $pos = strpos($file, ';');
+    $type = explode(':', substr($file, 0, $pos))[1];
+    $mime = explode('/', $type);
+
+    //$ext = explode(".", $base64_file["imageName"]);
+
+    $pathImage = $folder . $name;
+    //print_r($pathImage);
+    $file = substr($file, strpos($file, ',') + 1, strlen($file));
+    $dataBase64 = base64_decode($file);
+    file_put_contents($pathImage, $dataBase64);
+    return true;
+}
 
 $data = getRequestDataBody();
 $km = 0;
@@ -32,7 +50,7 @@ if($data["intervento"] == "Revisione"){
     $sql2 = "UPDATE `veicoli` SET `assicurazione` = '" . $proxrev . "' WHERE `veicoli`.`id` = " . $data["veicolo"];
     $result2 = $conn->query($sql2);
 }
-$sql4 = "SELECT MAX(id) FROM file";
+$sql4 = "SELECT MAX(id) FROM interventi";
 $result4 = $conn->query($sql4);
 
 if ($result4->num_rows > 0) {
@@ -40,11 +58,15 @@ if ($result4->num_rows > 0) {
         $idveicolo = $row["MAX(id)"];
     }
 }
-$idveicolo = $idveicolo + 1;
-$nameFile = $data["intervento"]."_". $idveicolo;
 
-$sql3 = "INSERT INTO `file` (`id`, `type`, `file`) VALUES (NULL, '". $nameFile. "',  '".$data["fattura"]."')";
-$result3 = $conn->query($sql3);
+if(isset($data["fattura"])){
+    $file = explode(".",$data["nomefile"]);
+    $idveicolo = $idveicolo + 1;
+    $nameFile = $data["intervento"]."_". $idveicolo.".". $file[1];
+    $type = uploadFile($data["fattura"], "../../portale/file/", $nameFile);
+} else {
+    $nameFile = NULL;
+}
 
 $sql = "INSERT INTO `interventi` (`id`, `veicolo`, `intervento`, `data`, `km`, `prezzo`, `fattura`) 
 VALUES (NULL, '" . $data["veicolo"] . "', '" . $data["intervento"] . "', '" . $data["data"] . "', '" . $data["km"] . "', '" . $data["prezzo"] . "', '" . $nameFile . "')";

@@ -242,11 +242,11 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="input-linkintervento" class="col-form-label">Fattura (pdf, jpg, png - max 10mb):</label>
-                                    <input type="hidden" id="input-linkintervento">
+                                    <!--<input type="hidden" id="input-linkintervento">-->
                                     <p id="filenameint" class="hide"><span>Nome del file</span> <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delFileInt()"><i class="fa-solid fa-trash"></i></button></p>
                                     <div id="upload-int-file" class="input-group">
                                         <input type="file" class="form-control" id="input-linkinterventoFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
-                                        <button class="btn btn-outline-secondary" type="button" id="input-linkinterventoAddon" onclick="uploadFattura()">Carica File</button>
+                                        <!--<button class="btn btn-outline-secondary" type="button" id="input-linkinterventoAddon" onclick="uploadFattura()">Carica File</button>-->
                                     </div>
                                 </div>
                             </div>

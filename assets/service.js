@@ -367,7 +367,7 @@ function addIntervento(id) {
                 row += '<td>' + data[b].km + '</td>';
                 row += '<td>&euro; ' + data[b].prezzo + '</td>';
                 if (data[b].fattura) {
-                    row += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="downloadfile(' + b + ')"><i class="fa-solid fa-file"></i></button></td>'; 
+                    row += '<td><a href="../../portale/file/' + data[b].fattura + '" target="_blank"><i class="fa-solid fa-file"></i></a></td>'; 
                 } else {
                     row += '<td></td>';
                 }
@@ -698,24 +698,21 @@ function uploadFattura(evt) {
     reader.readAsBinaryString(f);
 }
 
-
-function insIntervento() {
+function interventoService(file, nomefile) {
     var prezzo = $("#input-costointervento").val();
     var km = $("#input-kmintervento").val();
     var intervento = $("#input-intervento").val();
     var data = $("#input-intgiorno").val();
-    var link = $("#input-linkintervento").val();
-    var upload = document.querySelector('#input-linkinterventoFile').files[0];
-    //console.log(link);
-
+    
+    //if (!file) { var file = null; }
     var count = 0;
     var html = "<ul>";
     if (intervento == "Seleziona") { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
     if (km == "") { html += "<li>Inserire i km</li>"; count++; }
     if (data == "") { html += "<li>Inserire la data </li>"; count++; }
     if (prezzo == "") { html += "<li>Inserire il costo dell'intervento</li>"; count++; }
-    if ((link == "") && (upload != "")) { html += "<li>Caricare prima il file selezionato</li>"; count++; }
 
+    //console.log(file);
     html += "</ul>";
     if (count > 0) {
         $("#alert-error-intervento").removeClass("hide");
@@ -723,24 +720,42 @@ function insIntervento() {
     } else {
         $("#alert-error-intervento").addClass("hide");
         $.ajax({
-        method: "POST",
-        url: "api/insertIntervento.php",
-            data: JSON.stringify({ veicolo: idRow, data: data, intervento: intervento, km: km, prezzo: prezzo, fattura: link }),
-        contentType: "application/json",
-        success: function (data) {
-            console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
-            $("#alert-success-intervento").removeClass("hide");
-            $("#alert-success-intervento").text("Veicolo modificato correttamente");
-            $("#view-inter").addClass("hide");
-            $("#butt-inter").text("OK");
-        },
-        error: function (error) {
-            console.log("funzione chiamata quando la chiamata fallisce", error);
-            $("#alert-error").removeClass("hide");
-            $("#alert-error").text(error);
-        }
+            method: "POST",
+            url: "api/insertIntervento.php",
+            data: JSON.stringify({ veicolo: idRow, data: data, intervento: intervento, km: km, prezzo: prezzo, fattura: file, nomefile: nomefile }),
+            contentType: "application/json",
+            success: function (data) {
+                console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
+                $("#alert-success-intervento").removeClass("hide");
+                $("#alert-success-intervento").text("Veicolo modificato correttamente");
+                $("#view-inter").addClass("hide");
+                $("#butt-inter").text("OK");
+            },
+            error: function (error) {
+                console.log("funzione chiamata quando la chiamata fallisce", error);
+                $("#alert-error").removeClass("hide");
+                $("#alert-error").text(error);
+            }
         });
     }
+}
+
+function insIntervento() {
+    var upload = document.querySelector('#input-linkinterventoFile').files[0];
+
+    if (upload) {
+        var reader = new FileReader();
+        reader.readAsDataURL(upload);
+        reader.onload = function () {
+            file = reader.result;
+            interventoService(file, upload.name);
+        };
+    } else {
+        interventoService();
+    }
+    
+
+    
 
 }
 
