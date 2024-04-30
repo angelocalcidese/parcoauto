@@ -711,7 +711,7 @@ function interventoService(file, nomefile) {
     if (km == "") { html += "<li>Inserire i km</li>"; count++; }
     if (data == "") { html += "<li>Inserire la data </li>"; count++; }
     if (prezzo == "") { html += "<li>Inserire il costo dell'intervento</li>"; count++; }
-
+    if (file == 'filerror') { html += "<li>Estensione file errato o troppo grande</li>"; count++; }
     //console.log(file);
     html += "</ul>";
     if (count > 0) {
@@ -742,14 +742,16 @@ function interventoService(file, nomefile) {
 
 function insIntervento() {
     var upload = document.querySelector('#input-linkinterventoFile').files[0];
-
-    if (upload) {
+    
+    if (upload && controlFileType(upload)) {
         var reader = new FileReader();
         reader.readAsDataURL(upload);
         reader.onload = function () {
             file = reader.result;
             interventoService(file, upload.name);
         };
+    } else if (upload && !controlFileType(upload)) {
+        interventoService('filerror');
     } else {
         interventoService();
     }

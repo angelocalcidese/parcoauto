@@ -53,7 +53,10 @@
             <a class="nav-link" href="#" id="tab-telepass" onClick="cambioTab('telepass')">Contratti Viabilità</a>
           </li>
         </ul>
-
+        <div class="table-responsive small tabs-veicolo" id="filtri-page">
+          <h2 class="mt-4">Filtri di Ricerca</h2>
+          <?php include("filterPage.php"); ?>
+        </div>
         <div class="table-responsive small tabs-veicolo" id="veicoli-page">
           <h2 class="mt-4">Veicoli</h2>
           <table class="table table-striped display" id="tabella-veicoli" style="width:100%">
@@ -135,6 +138,7 @@
   <script src="assets/service-multicard.js"></script>
   <script src="assets/service-telepass.js"></script>
   <script src="assets/service.js"></script>
+  <script src="assets/service-filters.js"></script>
   <script>
 
   </script>
