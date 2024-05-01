@@ -1,3 +1,4 @@
+var allData = [];
 var telepass = [];
 var users = [];
 var rowel = [];
@@ -15,11 +16,11 @@ if (mounth < 10) {
 var strDate = d.getDate() + "/" + mounth + "/" + d.getFullYear()
 
 function tablePagination(){
-   $('table.display').DataTable({
-            responsive: true,
-            searchable: false,
-            orderable: false,
-            targets: 0
+    var table = $('table.display').DataTable({
+        responsive: true,
+        searchable: false,
+        orderable: false,
+        argets: 0
     });
 }
 
@@ -32,10 +33,16 @@ function searchAssignedCars(id) {
     return assUser;
 }
 
-function popVeicles(righe) {
-    rowel = righe;
+function popVeicles(righe, filtri) {
+    //if (!filtri) {
+        rowel = righe;
+        
+    //}
+    console.log("ROWEL:", rowel);
+    
     addCars(righe);
     addCarsTelepass(righe);
+    $("#tabella-veicoli tbody").empty();
     for (i = 0; i < righe.length; i++) {
         var riga = righe[i];
         var type = "fa-car";
@@ -110,10 +117,9 @@ function kmSend() {
                     row += "<td>" + assegnatoUser.nome + " " + assegnatoUser.cognome +"</td>";
                     row += "<td>" + respRow.km + "</td>";
                     row += "<td>" + respRow.kmold + "</td>";
-                    row += "<td>" + respRow.spesacard + "</td>";
                     row += "<td>" + respRow.spesaextra + "</td>";
                 } else {
-                    row += "<td>" + mesiMap[mese] + "</td><td> - </td><td> - </td><td> - </td><td> - </td><td> - </td>";
+                    row += "<td>" + mesiMap[mese] + "</td><td> - </td><td> - </td><td> - </td><td> - </td>";
                 }
                
                 row += "</tr > ";
@@ -534,6 +540,7 @@ function allCall() {
         dataType: 'json', //restituisce un oggetto JSON
         complete: function (obj, stato) {
             var righe = obj.responseJSON;
+            allData = righe;
             popVeicles(righe.veicoli);
             popMulticard(righe.multicard);
             popTelepass(righe.telepass);
@@ -590,6 +597,8 @@ function usersCall() {
                 var element = "<option value='" + riga.id + "'>" + riga.nome + " " + riga.cognome + "</option>";
            
                 $("#user-gest").append(element);
+                $("#search-assegnato-input").append(element);
+                
             }
             allCall();
         }
@@ -755,10 +764,6 @@ function insIntervento() {
     } else {
         interventoService();
     }
-    
-
-    
-
 }
 
 $(document).ready(function () {

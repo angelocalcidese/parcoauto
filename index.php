@@ -17,6 +17,9 @@
         <div class="row">
           <div class="col">
             <div class="text-end">
+              <button class="btn btn-sm btn-outline-secondary" type="button" onclick="openFilter()">
+                <i class="fa-solid fa-filter"></i> Filtri di Ricerca
+              </button>
               <button type="button" class="btn btn-sm btn-outline-secondary buttNew" id="button-add-veicoli" onclick="openNewRow()">
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo veicolo
@@ -29,6 +32,7 @@
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo Telepass
               </button>
+
               <button type="button" class="btn btn-sm btn-outline-secondary" onClick="sendEmailKmMassive()">
                 <i class=" fa-solid fa-reply-all"></i>
                 Invia Richieste Km
@@ -41,9 +45,6 @@
         <?php include("modalsTelepass.php"); ?>
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link" id="tab-filtri" onClick="cambioTab('filtri')" href="#">Filtri Ricerca</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link active" aria-current="page" id="tab-veicoli" onClick="cambioTab('veicoli')" href="#">Veicoli</a>
           </li>
           <li class="nav-item">
@@ -53,12 +54,14 @@
             <a class="nav-link" href="#" id="tab-telepass" onClick="cambioTab('telepass')">Contratti Viabilità</a>
           </li>
         </ul>
-        <div class="table-responsive small tabs-veicolo" id="filtri-page">
-          <h2 class="mt-4">Filtri di Ricerca</h2>
-          <?php include("filterPage.php"); ?>
-        </div>
+
         <div class="table-responsive small tabs-veicolo" id="veicoli-page">
-          <h2 class="mt-4">Veicoli</h2>
+          <h2 class="mt-4">Veicoli
+            <button class="btn btn-sm btn-outline-secondary hide" id="button-clear-filters" type="button" onclick="clearInputSearch()">
+              <i class="fa-solid fa-filter "></i> Cancella Filtri
+            </button>
+          </h2>
+
           <table class="table table-striped display" id="tabella-veicoli" style="width:100%">
             <thead>
               <tr>
@@ -87,7 +90,7 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Codice</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Cliccando sul codice farai una ricerca automatica sul Veicolo assegnato">Codice <i class="fa-solid fa-circle-info"></i></th>
                 <th scope="col">Tipologia</th>
                 <th scope="col">Tipo Contratto</th>
                 <th scope="col">Stato </th>
@@ -109,7 +112,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Tipologia</th>
-                <th scope="col">Numero Seriale</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Cliccando sul codice farai una ricerca automatica sul Veicolo assegnato">Numero Seriale <i class="fa-solid fa-circle-info"></i></th>
                 <th scope="col">Codice Contratto</th>
                 <th scope="col">Attivazione</th>
                 <th scope="col">Stato </th>
@@ -131,9 +134,10 @@
 
   <script src="../portale/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../portale/assets/fontawesome/js/all.min.js"></script>
+  <script src="../portale/assets/moment.min.js"></script>
   <script src="../portale/assets/DataTables/datatables.min.js"></script>
   <script src="../portale/assets/DataTables/dataTables.dateTime.min.js"></script>
-  <script src="../portale/assets/moment.min.js"></script>
+
   <script src="../portale/assets/generalFunction.js"></script>
   <script src="assets/service-multicard.js"></script>
   <script src="assets/service-telepass.js"></script>

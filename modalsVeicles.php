@@ -365,7 +365,6 @@
                                             <th scope="col">Assegnata a</th>
                                             <th scope="col">Km da</th>
                                             <th scope="col">Km a</th>
-                                            <th scope="col">Spesa Multicard</th>
                                             <th scope="col">Spese Extra</th>
                                         </tr>
                                     </thead>
@@ -420,6 +419,22 @@
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-no-send" data-bs-dismiss="modal">No</button>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-close-send hide" onclick="closeModal()">Chiudi</button>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="viewFilters" tabindex="-1" aria-labelledby="viewFiltersLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="viewFiltersLabel">
+                    <span id="titolo-bene">Filtri di ricerca Veicoli</span>
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php include("filterPage.php"); ?>
+            </div>
+
         </div>
     </div>
 </div>

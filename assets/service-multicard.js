@@ -4,7 +4,7 @@ function popMulticard(righe) {
     for (i = 0; i < righe.length; i++) {
         var riga = righe[i];
         var element = '<td><i class="fa-solid fa-credit-card" title="' + riga.id + '"></i></td>';
-        element += "<td>" + riga.codice + "</td>";
+        element += '<td><a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onclick="searchVeicleMulticard(' + riga.id + ')">' + riga.codice + '</a></td>';
         element += "<td>" + riga.tipologia + "</td>";
         element += "<td>" + riga.tipocontratto + "</td>";
         element += "<td>" + statoActive(riga.stato) + "</td>";
@@ -17,6 +17,9 @@ function popMulticard(righe) {
         $("<tr/>")
             .append(element)
             .appendTo("#tabella-multicard");
+        
+        var opt = '<option value="' + riga.id + '">' + riga.codice + '</option>';
+        $("#search-multicard-input").append(opt);
     }
 }
 function searchMulticard(id) {

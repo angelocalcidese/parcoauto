@@ -5,7 +5,7 @@ function popTelepass(righe) {
         var riga = righe[i];
         var element = '<td><i class="fa-solid fa-road" title="'+ riga.id +'"></i></td>';
         element += "<td>" + riga.tipologia + "</td>";
-        element += "<td>" + riga.seriale + "</td>";
+        element += '<td><a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onclick="searchVeicleTelepass(' + riga.id + ')">' + riga.seriale + '</a></td>';
         element += "<td>" + riga.codice + "</td>";
         element += "<td>" + riga.attivazione + "</td>";
         element += "<td>" + statoActive(riga.stato) + "</td>";
@@ -15,6 +15,9 @@ function popTelepass(righe) {
         $("<tr/>")
             .append(element)
             .appendTo("#tabella-telepass");
+        
+        var opt = '<option value="' + riga.id + '">' + riga.seriale + '</option>';
+        $("#search-telepass-input").append(opt);
     }
 }
 
