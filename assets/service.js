@@ -8,12 +8,17 @@ var interventi = [];
 var idRow = null;
 var userAss = null;
 var kmAssMoment = 0;
+var idIntervento = null;
 var d = new Date();
+var day = d.getDate();
+if (day < 10) {
+    day = "0" + day;
+}
 var mounth = d.getMonth() + 1;
 if (mounth < 10) {
     mounth = "0" + mounth;
 }
-var strDate = d.getDate() + "/" + mounth + "/" + d.getFullYear()
+var strDate = day + "/" + mounth + "/" + d.getFullYear()
 
 function tablePagination(){
     var table = $('table.display').DataTable({
@@ -349,6 +354,19 @@ function downloadfile(id) {
 
 }
 
+function clearDocInt() {
+    $("#add-intervento-title").removeClass("hide");
+    $("#doc-intervento-title").addClass("hide");
+    delFileInt();
+    idIntervento = null;
+}
+
+function addDocInt(id) {
+    $("#add-intervento-title").addClass("hide");
+    $("#doc-intervento-title").removeClass("hide");
+    idIntervento = id;
+}
+
 function addIntervento(id) {
     delFileInt();
     $("#alert-error-intervento").addClass("hide");
@@ -367,7 +385,6 @@ function addIntervento(id) {
             interventi = data;
             for (var b = 0; b < data.length; b++) {
                 var row = '<tr>';
-                row += '<td>' + data[b].id + '</td>';
                 row += '<td>' + data[b].intervento + '</td>';
                 row += '<td>' + data[b].data + '</td>';
                 row += '<td>' + data[b].km + '</td>';
@@ -375,7 +392,7 @@ function addIntervento(id) {
                 if (data[b].fattura) {
                     row += '<td><a href="../../portale/file/' + data[b].fattura + '" target="_blank"><i class="fa-solid fa-file"></i></a></td>'; 
                 } else {
-                    row += '<td></td>';
+                    row += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="addDocInt(' + data[b].id + ')"><i class="fa-solid fa-upload"></i></button></td>';
                 }
                 
                 row += '</tr > ';
@@ -736,7 +753,7 @@ function interventoService(file, nomefile) {
             success: function (data) {
                 console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
                 $("#alert-success-intervento").removeClass("hide");
-                $("#alert-success-intervento").text("Veicolo modificato correttamente");
+                $("#alert-success-intervento").text("Intervento veicolo modificato correttamente");
                 $("#view-inter").addClass("hide");
                 $("#butt-inter").text("OK");
             },
@@ -748,11 +765,46 @@ function interventoService(file, nomefile) {
         });
     }
 }
+function interventoServiceDoc(file, nomefile) {
+    var interv = null;
+    for (var a = 0; a < interventi.length; a++){
+        if (idIntervento == interventi[a].id) {
+            interv = interventi[a];
+        }
+    }
+    var fileIntName = nomefile.split(".");
+    var namefile = interv.intervento + "_" + idIntervento + "." + fileIntName[1];
+    $.ajax({
+        method: "POST",
+        url: "api/insertDocIntervento.php",
+        data: JSON.stringify({ id: idIntervento, fattura: file, namefile: namefile}),
+        contentType: "application/json",
+        success: function (data) {
+            console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
+            $("#alert-success-intervento").removeClass("hide");
+            $("#alert-success-intervento").text("Intervento veicolo modificato correttamente");
+            $("#view-inter").addClass("hide");
+            $("#butt-inter").text("OK");
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+            $("#alert-error").removeClass("hide");
+            $("#alert-error").text(error);
+        }
+    });
+}
 
 function insIntervento() {
     var upload = document.querySelector('#input-linkinterventoFile').files[0];
     
-    if (upload && controlFileType(upload)) {
+    if (upload && controlFileType(upload) && idIntervento) {
+        var reader = new FileReader();
+        reader.readAsDataURL(upload);
+        reader.onload = function () {
+            file = reader.result;
+            interventoServiceDoc(file, upload.name);
+        };
+    } else if (upload && controlFileType(upload)) {
         var reader = new FileReader();
         reader.readAsDataURL(upload);
         reader.onload = function () {

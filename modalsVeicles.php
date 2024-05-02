@@ -192,7 +192,6 @@
                                 <table class="table" id="added-goods-to-employee">
                                     <thead>
                                         <tr>
-                                            <th scope="col">id</th>
                                             <th scope="col">Tipo Intervento</th>
                                             <th scope="col">Data</th>
                                             <th scope="col">Km</th>
@@ -208,8 +207,9 @@
                             </div>
                         </div>
                         <div id="display-add-int">
-                            <div class="row">
+                            <div class="row" id="add-intervento-title">
                                 <p class="h6">Aggiungi Intervento al Veicolo</p>
+
                                 <div class="col">
                                     <label for="input-intervento" class="col-form-label">Tipo di Intervento:</label>
                                     <select class="form-select" id="input-intervento">
@@ -240,13 +240,14 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <p class="h6 hide" id="doc-intervento-title">Aggiungi Documento a Intervento al Veicolo
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearDocInt()">Annulla <i class="fa-solid fa-xmark"></i></button>
+                                </p>
                                 <div class="col">
                                     <label for="input-linkintervento" class="col-form-label">Fattura (pdf, jpg, png - max 10mb):</label>
-                                    <!--<input type="hidden" id="input-linkintervento">-->
                                     <p id="filenameint" class="hide"><span>Nome del file</span> <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delFileInt()"><i class="fa-solid fa-trash"></i></button></p>
                                     <div id="upload-int-file" class="input-group">
                                         <input type="file" class="form-control" id="input-linkinterventoFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
-                                        <!--<button class="btn btn-outline-secondary" type="button" id="input-linkinterventoAddon" onclick="uploadFattura()">Carica File</button>-->
                                     </div>
                                 </div>
                             </div>
