@@ -347,7 +347,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewListKmLabel">
-                    <span id="titolo-bene">Storico Km Veicoli</span>
+                    <span id="titolo-bene">Storico Km Veicoli <b id="title-km-story"></b></span>
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -355,7 +355,35 @@
                 <div class="container-fluid">
                     <div class="alert alert-primary hide" id="alert-success-km" role="alert"></div>
                     <div class="alert alert-danger hide" id="alert-error-km" role="alert"></div>
+
                     <div id="view-assign">
+                        <div class="alert alert-secondary hide" id="form-addmodkm">
+                            <p class="h6">Modifica o Aggiungi km e spese</p>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="mod-km-mese" class="col-form-label">Mese:</label>
+                                    <br><b><span id="mod-km-mese"></span></b>
+                                </div>
+                                <div class="col">
+                                    <label for="input-km-mese-old" class="col-form-label">KM mese prec.:</label>
+                                    <input type="text" class="form-control input-insert numberInput" id="input-km-mese-old" disabled>
+                                </div>
+                                <div class="col">
+                                    <label for="input-km-mese" class="col-form-label">KM del mese:</label>
+                                    <input type="text" class="form-control input-insert numberInput " id="input-km-mese">
+                                </div>
+                                <div class="col">
+                                    <label for="input-spese-mese" class="col-form-label">Spese extra del mese:</label>
+                                    <input type="text" class="form-control input-insert numberInput" id="input-spese-mese">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col mt-3" style="text-align: center;">
+                                    <button type="button" class="btn btn-primary" onclick="kmaddmod()">Salva</button>
+                                    <button type="button" class="btn btn-secondary" onclick="closekmaddmod()">Cancella</button>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-md ms-auto " id="monitor-good">
@@ -367,6 +395,7 @@
                                             <th scope="col">Km da</th>
                                             <th scope="col">Km a</th>
                                             <th scope="col">Spese Extra</th>
+                                            <th scope="col">Add/Mod.</th>
                                         </tr>
                                     </thead>
                                     <tbody id="bodyKm">

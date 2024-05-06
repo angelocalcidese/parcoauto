@@ -1,4 +1,18 @@
 telepass = [];
+function searchTargaTelepass(id) {
+    var res = "-";
+    for (var a = 0; a < rowel.length; a++) {
+        if (rowel[a].telepass == id) {
+            if (res != "-") {
+                res = res + ' <a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+            } else {
+                res = '<a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+
+            }
+        }
+    }
+    return res;
+}
 function popTelepass(righe) {
     telepass = righe;
     for (i = 0; i < righe.length; i++) {
@@ -9,6 +23,7 @@ function popTelepass(righe) {
         element += "<td>" + riga.codice + "</td>";
         element += "<td>" + riga.attivazione + "</td>";
         element += "<td>" + statoActive(riga.stato) + "</td>";
+        element += "<td>" + searchTargaTelepass(riga.id) + "</td>";
         element += "<td>" + riga.validitaterritoriale + "</td>";
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCarsTelepass(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowTelepass(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
@@ -182,7 +197,7 @@ function addTelepassToCars(id) {
 }
 function addCarsTelepass(cars) {
     for (var a = 0; a < cars.length; a++) {
-        var check = '<li class="list-group-item">';
+        var check = '<li class="list-group-item list-telepass" id="list-telepass-' + cars[a].id + '">';
         check += '<div class="row"><div class="col-1"><input class="form-check-input check-cars-telepass" type = "checkbox" onChange="addTelepassToCars(' + cars[a].id + ')" value = "" id="checkcars-telepass-' + cars[a].id + '" ';
         check += ' >  </div><div class="col-3"><b>Targa: </b>' + cars[a].targa + '  </div><div class="col-4"><b>Assegnata a: </b> ' + searchAssignedCars(cars[a].assegnatoa) + '</div><div class="col-4"></div></div></li >';
         $('#check-cars-telepass').append(check);
@@ -209,8 +224,14 @@ function callListCarTelepass() {
 
 function viewListCarsTelepass(id) {
     idRow = id;
+    $(".list-telepass").removeClass("hide");
     $(".check-cars-telepass").prop('checked', false);
     callListCarTelepass();
+    for (var b = 0; b < rowel.length; b++) {
+        if (rowel[b].telepass && (rowel[b].telepass != id)) {
+            $("#list-telepass-" + rowel[b].id).addClass("hide");
+        }
+    }
     $('#viewListCarsTelepass').modal('show');
 }
 $(document).ready(function () {

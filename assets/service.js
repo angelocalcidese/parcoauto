@@ -5,20 +5,24 @@ var rowel = [];
 var company = [];
 var veicle = [];
 var interventi = [];
+var kmMeseList = [];
+var mesekmaddmod = null;
 var idRow = null;
 var userAss = null;
 var kmAssMoment = 0;
 var idIntervento = null;
 var d = new Date();
 var day = d.getDate();
+var idModkm = null;
 if (day < 10) {
     day = "0" + day;
 }
+var year = d.getFullYear();
 var mounth = d.getMonth() + 1;
 if (mounth < 10) {
     mounth = "0" + mounth;
 }
-var strDate = day + "/" + mounth + "/" + d.getFullYear()
+var strDate = day + "/" + mounth + "/" + d.getFullYear();
 
 function tablePagination(){
     var table = $('table.display').DataTable({
@@ -99,9 +103,91 @@ function searchKm(row, mese) {
     }
     return resp;
 }
+
+function closekmaddmod() {
+    $("#alert-success-km").addClass("hide");
+    $("#mod-km-mese").text("");
+    $("#input-km-mese").val("");
+    $("#input-km-mese-old").val("");
+    $("#input-spese-mese").val("");
+    $("#input-km-mese-old").attr("disabled", true);
+    idModkm = null;
+    $("#form-addmodkm").addClass("hide");
+}
+
+function searchKmForMounth(mese) {
+    var resp = null;
+
+    for (var a = 1; a < mese; a++) { 
+        if (kmMeseList[a] && kmMeseList[a].km) {
+            resp = kmMeseList[a].km
+        }
+    }
+
+    return resp;
+}
+
+function modKm(id) {
+    closekmaddmod();
+    for (var a = 0; a < kmMeseList.length; a++){
+        if (id == kmMeseList[a].id) {
+            idModkm = id;
+            mesekmaddmod = kmMeseList[a].mese;
+            mese = kmMeseList[a].mese - 1;
+            $("#mod-km-mese").text(mesiMap[mese]);
+            $("#input-km-mese").val(kmMeseList[a].km);
+            $("#input-km-mese-old").val(kmMeseList[a].kmold);
+            $("#input-spese-mese").val(kmMeseList[a].spesaextra);
+            $("#form-addmodkm").removeClass("hide");
+        }
+    }
+}
+function newKm(mese) {
+    console.log(veicle);
+    closekmaddmod();
+    mesekmaddmod = mese + 1;
+    $("#input-km-mese-old").attr("disabled", false);
+    $("#input-km-mese-old").val(veicle.km);
+    $("#mod-km-mese").text(mesiMap[mese]);
+    $("#form-addmodkm").removeClass("hide");
+}
+
+function kmaddmod() {
+    var km = $("#input-km-mese").val();
+    var kmold = $("#input-km-mese-old").val();
+    var spese = $("#input-spese-mese").val();
+    var anno = $("#input-annokmstoricos").val();
+    var last = false;
+    if (idModkm) {
+       for (var a = 0; a < kmMeseList.length; a++) {
+           if (idModkm == kmMeseList[a].id) { 
+               if (parseInt(kmMeseList[a].mese) == parseInt(mounth)) { last = true; }
+            }
+        } 
+    } else {
+        if (mesekmaddmod == mounth) {last = true;} 
+    }
+    
+    $.ajax({
+        method: "POST",
+        url: 'api/modKmMensili.php',
+        data: JSON.stringify({ id: idModkm, km: km, kmold: kmold, spese: spese, veicolo: veicle.id, assegnato: veicle.assegnatoa, lastmonth: last, mounth: mesekmaddmod, year: anno }),
+        dataType: 'json',
+        complete: function (responce) {
+            $("#alert-success-km").removeClass("hide");
+            $("#alert-success-km").text("km modificati con successo");
+            closekmaddmod();
+            kmSend();
+
+        }
+    });
+}
+
 function kmSend() {
     var anno = $("#input-annokmstoricos").val();
+    $("#title-km-story").text(anno);
     $("#bodyKm").empty();
+    kmMeseList = [];
     $.ajax({
         method: "POST",
         url: 'api/getStoryKm.php',
@@ -110,6 +196,7 @@ function kmSend() {
         complete: function (responce) {
             console.log("KM: ", responce.responseJSON);
             var dataRow = responce.responseJSON;
+            kmMeseList = dataRow;
             var mesi = 12;
             for (a = 1; a <= mesi; a++){
                 var row = "<tr>";
@@ -120,16 +207,17 @@ function kmSend() {
 
                     row += "<td>" + mesiMap[mese] + "</td>";
                     row += "<td>" + assegnatoUser.nome + " " + assegnatoUser.cognome +"</td>";
-                    row += "<td>" + respRow.km + "</td>";
                     row += "<td>" + respRow.kmold + "</td>";
+                    row += "<td>" + respRow.km + "</td>";
                     row += "<td>" + respRow.spesaextra + "</td>";
+                    row += '<td><button class="btn btn-sm btn-outline-secondary" onclick="modKm(' + respRow.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
                 } else {
-                    row += "<td>" + mesiMap[mese] + "</td><td> - </td><td> - </td><td> - </td><td> - </td>";
+                    row += '<td>' + mesiMap[mese] + '</td><td> - </td><td> - </td><td> - </td><td> - </td><td><button class="btn btn-sm btn-outline-secondary" onclick="newKm(' + mese + ')"><i class="fa-solid fa-plus"></i></button></td>';
                 }
                
                 row += "</tr > ";
                 $("#bodyKm").append(row);
-                console.log(row);
+                //console.log(row);
             }
             $('#modalChoicekm').modal('hide');
             $('#viewListKm').modal('show');

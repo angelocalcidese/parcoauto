@@ -1,4 +1,18 @@
 multicard = [];
+function searchTargaMulti(id) {
+    var res = "-";
+    for (var a = 0; a < rowel.length; a++){
+        if (rowel[a].multicard == id) {
+             if (res != "-") {
+                 res = res + ' <a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+            } else {
+                 res = '<a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+
+            }
+        }
+    }
+    return res;
+}
 function popMulticard(righe) {
     multicard = righe;
     for (i = 0; i < righe.length; i++) {
@@ -8,6 +22,7 @@ function popMulticard(righe) {
         element += "<td>" + riga.tipologia + "</td>";
         element += "<td>" + riga.tipocontratto + "</td>";
         element += "<td>" + statoActive(riga.stato) + "</td>";
+        element += "<td>" + searchTargaMulti(riga.id) + "</td>";
         element += "<td>" + riga.scadenzacarta + "</td>";
         element += "<td>" + yesOrNo(riga.rinnovabile) + "</td>";
         element += "<td>" + riga.pin + "</td>";
@@ -221,12 +236,14 @@ function addCardToCars(id) {
 }
 function addCars(cars) {
     for (var a = 0; a < cars.length; a++) {
-        var check = '<li class="list-group-item">';
+        
+        var check = '<li class="list-group-item list-multi" id="list-multi-' + cars[a].id + '">';
         check += '<input class="form-check-input check-cars" type = "checkbox" onChange="addCardToCars(' + cars[a].id + ')" value = "" id="checkcars-' + cars[a].id + '" ';
         check += ' >  <b>Targa: </b>' + cars[a].targa + '  <b>Assegnata a: </b> ' + searchAssignedCars(cars[a].assegnatoa) + '</li >';
         $('#check-cars').append(check);
         }
 }
+
 function callListCar() { 
     $.ajax({
         method: "POST",
@@ -248,8 +265,15 @@ function callListCar() {
 
 function viewListCars(id) {
     idRow = id;
+    $(".list-multi").removeClass("hide");
+
     $(".check-cars").prop('checked', false);
     callListCar();
+    for (var b = 0; b < rowel.length; b++) {
+        if (rowel[b].multicard && (rowel[b].multicard != id)) {
+            $("#list-multi-" + rowel[b].id).addClass("hide");
+        }
+    }
     $('#viewListCars').modal('show');
 }
 $(document).ready(function () { 

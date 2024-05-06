@@ -94,6 +94,7 @@
                 <th scope="col">Tipologia</th>
                 <th scope="col">Tipo Contratto</th>
                 <th scope="col">Stato </th>
+                <th scope="col">Associata a </th>
                 <th scope="col">Scadenza</th>
                 <th scope="col">Rinnovabile</th>
                 <th scope="col">PIN</th>
@@ -116,6 +117,7 @@
                 <th scope="col">Codice Contratto</th>
                 <th scope="col">Attivazione</th>
                 <th scope="col">Stato </th>
+                <th scope="col">Associata a </th>
                 <th scope="col">Validità Territoriale</th>
                 <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Targhe Veicoli Assegnati"><i class="fa-solid fa-list"></i></th>
                 <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Contratto Viabilità"><i class="fa-solid fa-file-pen"></i></th>
