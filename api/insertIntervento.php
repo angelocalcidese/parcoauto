@@ -49,6 +49,9 @@ if($data["intervento"] == "Revisione"){
 	$proxrev = $dataExpl[0] . "/" . $dataExpl[1] . "/" . $calcolo;
     $sql2 = "UPDATE `veicoli` SET `assicurazione` = '" . $proxrev . "' WHERE `veicoli`.`id` = " . $data["veicolo"];
     $result2 = $conn->query($sql2);
+} else if ($data["intervento"] == "Tagliando") {
+    $sql3 = "UPDATE `veicoli` SET `ultimo_tagliando` = '" . $data["km"] . "' WHERE `veicoli`.`id` =" . $data["veicolo"];
+    $result3 = $conn->query($sql3);
 }
 $sql4 = "SELECT MAX(id) FROM interventi";
 $result4 = $conn->query($sql4);
@@ -73,8 +76,7 @@ VALUES (NULL, '" . $data["veicolo"] . "', '" . $data["intervento"] . "', '" . $d
 $result = $conn->query($sql);
 
 if($km < $data["km"]){
-    $sql2 =
-    "UPDATE `veicoli` SET `km` = '". $data["km"]."' WHERE `veicoli`.`id` =" . $data["veicolo"];
+    $sql2 = "UPDATE `veicoli` SET `km` = '". $data["km"]."' WHERE `veicoli`.`id` =" . $data["veicolo"];
     $result1 = $conn->query($sql2);
 }
 echo $result;

@@ -31,6 +31,8 @@ if ($result->num_rows > 0) {
       $object->assicurazione = $row["assicurazione"];
       $object->multicard = $row["multicard"];
       $object->telepass = $row["telepass"];
+      $object->note = $row["note"];
+      $object->ultimo_tagliando = $row["ultimo_tagliando"];
       array_push($veicle, $object);
     }
   } else {

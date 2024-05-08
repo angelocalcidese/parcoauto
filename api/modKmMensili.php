@@ -12,7 +12,7 @@ if($data["lastmonth"] == true){
 }
 
 if(isset($data["id"])){
-   $sql = "UPDATE `kmveicolo` SET `km` = '" . $data["km"] . "', `spesaextra` = '" . $data["spese"]."' WHERE `kmveicolo`.`id` = " . $data["id"];
+   $sql = "UPDATE `kmveicolo` SET `km` = '" . $data["km"] . "', `spesaextra` = '" . $data["spese"]. "' , `kmold` = '" . $data["kmold"] . "'WHERE `kmveicolo`.`id` = " . $data["id"];
     $result = $conn->query($sql); 
 } else {
     $sql = "INSERT INTO `kmveicolo` (`id`, `veicolo`, `assegnata`, `kmold`, `km`, `spesaextra`, `mese`, `anno`) 

@@ -89,6 +89,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="input-note" class="form-label">Note:</label>
+                            <textarea class="form-control" id="input-note" rows="4" maxlength="3000"></textarea>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -113,6 +119,8 @@
                             <div class="text-center">
                                 <img data-src="holder.js/200x200" class="rounded" alt="200x200" style="width: 200px; height: 200px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_18e2832c287%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_18e2832c287%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.41666603088379%22%20y%3D%22104.40000009536743%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
                             </div>
+                            <p>Ultimo Tagliando a km: <b><span id="ultimo-tagliando"></span></b></p>
+                            <p id="prossimo-tagliando">Prossimo Tagliando tra km: <b><span></span></b></p>
                             <h6 class="mt-3">Notifiche</h6>
                             <ul class="list-group mt-2">
                                 <li class="list-group-item list-not-alarm alarm-tagliando-not hide" style="color: #f50505;">
@@ -163,6 +171,14 @@
                             <p>Cinghia Distribuzione ogni: <b><span class="view-veicle" id="view-distribuzione"> </span><i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-distribuzione" style="color: #f50505;"></i></b></p>
                             <p>Multicard: <b><span class="view-veicle" id="view-multicard"></span></b></p>
                             <p>Telepass: <b><span class="view-veicle" id="view-telepass"></span></b></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 ms-auto"></div>
+                        <div class="col-md-8 ms-auto">
+                            <p>Note: <br>
+                                <span class="view-veicle" id="view-note"></span>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -366,7 +382,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="input-km-mese-old" class="col-form-label">KM mese prec.:</label>
-                                    <input type="text" class="form-control input-insert numberInput" id="input-km-mese-old" disabled>
+                                    <input type="text" class="form-control input-insert numberInput" id="input-km-mese-old">
                                 </div>
                                 <div class="col">
                                     <label for="input-km-mese" class="col-form-label">KM del mese:</label>
@@ -438,10 +454,17 @@
             <div class="modal-body p-4 text-center">
                 <h5 class="mb-0" id="choice-title"></h5>
                 <p class="mb-0" id="choice-text"></p>
+                <div id="mounth-choice">
+                    <h6 class="mt-2">Seleziona il mese di richiesta km veicolo</h6>
+                    <select class="form-select mt-4" id="input-mesekmrichiesta">
+                
+                    </select>
+                </div>
                 <ul class="list-group mt-2" id="list-send-email">
 
                 </ul>
                 <input type="hidden" id="input-id">
+
             </div>
             <div class="modal-footer flex-nowrap p-0">
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send hide " onClick="yesSend()"><strong>Si</strong></button>

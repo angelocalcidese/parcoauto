@@ -35,9 +35,9 @@ function tablePagination(){
 
 function searchAssignedCars(id) {
     var assegnatoUser = searchUser(id);
-    var assUser = "Non Assegnata";
+    var assUser = "Non Assegnato";
     if ((id != '-') && (id != 0)) {
-        assUser = assegnatoUser.nome + " " + assegnatoUser.cognome;
+        assUser = "<b>" + assegnatoUser.nome + " " + assegnatoUser.cognome + "</b>";
     }
     return assUser;
 }
@@ -110,7 +110,7 @@ function closekmaddmod() {
     $("#input-km-mese").val("");
     $("#input-km-mese-old").val("");
     $("#input-spese-mese").val("");
-    $("#input-km-mese-old").attr("disabled", true);
+    //$("#input-km-mese-old").attr("disabled", true);
     idModkm = null;
     $("#form-addmodkm").addClass("hide");
 }
@@ -138,6 +138,7 @@ function modKm(id) {
             $("#input-km-mese").val(kmMeseList[a].km);
             $("#input-km-mese-old").val(kmMeseList[a].kmold);
             $("#input-spese-mese").val(kmMeseList[a].spesaextra);
+            //$("#input-km-mese-old").attr("disabled", false);
             $("#form-addmodkm").removeClass("hide");
         }
     }
@@ -146,7 +147,7 @@ function newKm(mese) {
     console.log(veicle);
     closekmaddmod();
     mesekmaddmod = mese + 1;
-    $("#input-km-mese-old").attr("disabled", false);
+    //$("#input-km-mese-old").attr("disabled", false);
     $("#input-km-mese-old").val(veicle.km);
     $("#mod-km-mese").text(mesiMap[mese]);
     $("#form-addmodkm").removeClass("hide");
@@ -236,7 +237,9 @@ function sendEmailKmMassive() {
             company = responce.responseJSON;
             $('#choice-title').text("Sei sicuro?");
             $('#choice-text').html("Stai per Inviare la richiesta dei km a tutti i dipendenti con un veicolo assegnato.</b>");
+            $(".button-send").addClass("hide");
             $(".button-send-massive").removeClass("hide");
+            $("#input-mesekmrichiesta").val(mounth);
             $('#modalChoice').modal('show');
         }
     });
@@ -258,6 +261,8 @@ function sendEmailKm(id) {
                 $('#choice-title').text("Sei sicuro?");
                 $('#choice-text').html("Stai per Inviare la richiesta dei km a <b>" + searchUser(veicle.assegnatoa).nome + " " + searchUser(veicle.assegnatoa).cognome + "</b>");
                 $(".button-send").removeClass("hide");
+                $(".button-send-massive").addClass("hide");
+                $("#input-mesekmrichiesta").val(mounth);
                 $('#modalChoice').modal('show');
             }
         });
@@ -270,13 +275,16 @@ function yesSend(massive) {
     var userVeicle = searchUser(veicle.assegnatoa);
     var nominativo = userVeicle.nome + " " + userVeicle.cognome;
     $(".button-close-send").addClass("disabled");
+    $(".button-send").addClass("hide");
     $(".button-send-massive").addClass("hide");
     $(".button-no-send").addClass("hide");
+    $('#choice-text').html("<b>Attendere ...</b>");
+    var mese = $("#input-mesekmrichiesta").val();
     console.log(company);
     $.ajax({
         method: "POST",
         url: 'api/sendKmMail.php',
-        data: JSON.stringify({ company: company[0].name, nominativo: nominativo, targa: veicle.targa, email: userVeicle.email, id: veicle.assegnatoa, veicolo: idRow }),
+        data: JSON.stringify({ company: company[0].name, nominativo: nominativo, targa: veicle.targa, email: userVeicle.email, id: veicle.assegnatoa, veicolo: idRow, mese : mese }),
         dataType: 'json',
         complete: function (responce) {
             //console.log(responce);
@@ -288,7 +296,7 @@ function yesSend(massive) {
                 $("#list-send-email").append('<li class="list-group-item">Email km inviata a <b>' + nominativo + '</b></li>');
             } else {
                 $('#choice-title').text("Hai inviato l'email");
-                $('#choice-text').html("L'invio del email è andatoa buon fine");
+                $('#choice-text').html("L'invio del email è andato a buon fine");
                 $(".button-send").addClass("hide");
             }
             
@@ -352,6 +360,7 @@ function openModRow(id) {
     $("#input-revisione").val(data.revisione);
     $("#input-bollo").val(data.bollo);
     $("#input-assicurazione").val(data.assicurazione);
+    $("#input-note").val(data.note);
     $('#addRow').modal('show');
 }
 
@@ -516,11 +525,12 @@ function addRow() {
     var bollo = $("#input-bollo").val();
     var assicurazione = $("#input-assicurazione").val();
     var vendita = $("#input-vendita").val();
+    var note = $("#input-note").val();
 
     $.ajax({
         method: "POST",
         url: "api/createVeicle.php",
-        data: JSON.stringify({ marca: marca, modello: modello, tipologia: tipologia, targa: targa, acquisto: acquisto, proprieta: proprieta, km: km, tagliando: tagliando, distribuzione: distribuzione, kml: kml, stato: stato, revisione: revisione, bollo: bollo, assicurazione: assicurazione, vendita: vendita}),
+        data: JSON.stringify({ marca: marca, modello: modello, tipologia: tipologia, targa: targa, acquisto: acquisto, proprieta: proprieta, km: km, tagliando: tagliando, distribuzione: distribuzione, kml: kml, stato: stato, revisione: revisione, bollo: bollo, assicurazione: assicurazione, vendita: vendita, note: note}),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -543,7 +553,7 @@ function modRow(data) {
     $.ajax({
         method: "POST",
         url: "api/modVeicle.php",
-        data: JSON.stringify({ id: data.id, marca: data.marca, modello: data.modello, tipologia: data.tipologia, targa: data.targa, acquisto: data.acquisto, proprieta: data.proprieta, stato: data.stato, assegnazione: data.assegnatoa, km: data.km, tagliando: data.tagliando, distribuzione: data.distribuzione, kml: data.kml, revisione: data.revisione, bollo: data.bollo, assicurazione: data.assicurazione, vendita: data.vendita }),
+        data: JSON.stringify({ id: data.id, marca: data.marca, modello: data.modello, tipologia: data.tipologia, targa: data.targa, acquisto: data.acquisto, proprieta: data.proprieta, stato: data.stato, assegnazione: data.assegnatoa, km: data.km, tagliando: data.tagliando, distribuzione: data.distribuzione, kml: data.kml, revisione: data.revisione, bollo: data.bollo, assicurazione: data.assicurazione, vendita: data.vendita, note: data.note }),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -577,6 +587,7 @@ function controlForm() {
     var bollo = $("#input-bollo").val();
     var assicurazione = $("#input-assicurazione").val();
     var vendita = $("#input-vendita").val();
+    var note = $("#input-note").val();
    
     var count = 0;
     var html = "<ul>";
@@ -614,6 +625,7 @@ function controlForm() {
             data.bollo = bollo;
             data.assicurazione = assicurazione;
             data.vendita = vendita;
+            data.note = note;
             modRow(data);
         } else {
           addRow();
@@ -665,16 +677,17 @@ function cambioTab(tab) {
 }
 
 function viewVeicle(id) {
-    //console.log("ID VIEW: " + id);
+    
     $(".view-veicle").text("");
     var veicolo = rowel[id];
     controlAlarm(veicolo.id);
+    console.log("ID VIEW: ", veicolo);
     $("#view-tipologia").text(veicolo.tipologia);
     $("#view-proprieta").text(veicolo.proprieta);
     $("#view-marca").text(veicolo.marca);
     $("#view-modello").text(veicolo.modello);
     $("#view-targa").text(veicolo.targa);
-    $("#view-assegnato").text(searchAssignedCars(veicolo.assegnatoa));
+    $("#view-assegnato").html(searchAssignedCars(veicolo.assegnatoa));
     $("#view-acquisto").text(veicolo.acquisto);
     $("#view-vendita").text(veicolo.vendita);
     $("#view-km").text(veicolo.km);
@@ -685,6 +698,13 @@ function viewVeicle(id) {
     $("#view-tagliando").text(veicolo.tagliando);
     $("#view-distribuzione").text(veicolo.distribuzione);
     $("#view-kml").text(veicolo.kml);
+    $("#view-note").html(veicolo.note);
+    if (veicolo.ultimo_tagliando) {
+       $("#ultimo-tagliando").html(veicolo.ultimo_tagliando); 
+    } else {
+        $("#ultimo-tagliando").html("Non registrato"); 
+    }
+    
     $("#view-telepass").text(searchTelepass(veicolo.telepass).seriale);
     $("#view-multicard").text(searchMulticard(veicolo.multicard).codice) ;
     $('#viewVeicle').modal('show');
@@ -913,6 +933,10 @@ $(document).ready(function () {
     }
     usersCall();
     
+    for (var a = 0; a < mesiSchema.length; a++){
+        var opt = '<option value="' + mesiSchema[a].val + '">' + mesiSchema[a].mese + '</option>';
+        $("#input-mesekmrichiesta").append(opt);
+    }
 
     new DateTime(document.getElementById('input-acquisto'), {
         format: 'DD/MM/YYYY'

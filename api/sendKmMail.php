@@ -12,7 +12,7 @@ $base64Targa = base64_encode($targa);
 $title = "Richiesta Inserimento KM";
 $message = "Salve <b>". $data["nominativo"]."</b>,<br> &egrave; stato richiesto il suo intervento per l'inserimento dei km mensili percorsi, <br>
 per il veicolo a lei assegnato targato <b>".$targa. "</b> presso la societ&agrave; <b>".$company. "</b>.<br>
-Pu&ograve; cliccare sul seguente <b><a href='http://easysw.it/portale/insertkm.php?t=". $base64Targa. "&i=" . $data["id"] . "&v=". $data["veicolo"]."'>Link</a></b> per inserire i dati richiesti.<br><br>
+Pu&ograve; cliccare sul seguente <b><a href='http://easysw.it/portale/insertkm.php?t=". $base64Targa. "&i=" . $data["id"] . "&v=". $data["veicolo"]."&mese=". $data["mese"]."'>Link</a></b> per inserire i dati richiesti.<br><br>
 <b>Cordiali Saluti</b><br><br>
 ".$company;
 

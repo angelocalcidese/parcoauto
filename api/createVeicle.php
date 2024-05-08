@@ -19,10 +19,10 @@ $ut_sql = "SELECT * FROM `veicoli` WHERE `targa` = '".$data["targa"]."'";
 
 if($exist){
     
-    $sql= "INSERT INTO `veicoli` (`id`, `company`, `tipologia`, `marca`, `modello`, `targa`, `acquisto`, `assegnazione`, `stato`, `proprieta`, `km`, `tagliando`, `distribuzione`, `kml`, `bollo`, `assicurazione`, `revisione`, `vendita`) 
+    $sql= "INSERT INTO `veicoli` (`id`, `company`, `tipologia`, `marca`, `modello`, `targa`, `acquisto`, `assegnazione`, `stato`, `proprieta`, `km`, `tagliando`, `distribuzione`, `kml`, `bollo`, `assicurazione`, `revisione`, `vendita`, `note`) 
     VALUES (NULL, '".$user_params ->company."', '" . $data["tipologia"] . "', '" . $data["marca"] . "', '" . $data["modello"] . "', '" . $data["targa"] . "', '" . $data["acquisto"] . "', 
     '-', '" . $data["stato"] . "', '" . $data["proprieta"] . "', '" . $data["km"] . "', '" . $data["tagliando"] . "', '" . $data["distribuzione"] . "', '" . $data["kml"] . "', '" . $data["bollo"] . "'
-, '" . $data["assicurazione"] . "', '" . $data["revisione"] . "', '" . $data["vendita"] . "')";
+, '" . $data["assicurazione"] . "', '" . $data["revisione"] . "', '" . $data["vendita"] . "', '" . $data["note"] . "')";
 
     $result = $conn->query($sql);
     //echo $result;
