@@ -1,5 +1,5 @@
 <?php
-require_once "utility.php";
+require_once "../../portale/utility.php";
 require_once "sendMailMessageCompany.php";
 //require_once "userExist.php";
 
