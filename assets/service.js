@@ -87,8 +87,6 @@ function popVeicles(righe, filtri) {
 
 }
 
-
-
 function openKmStory(id) {
     veicle = searchData(id);
     $('#modalChoicekm').modal('show');
@@ -205,15 +203,16 @@ function kmSend() {
                 var respRow = searchKm(dataRow, a);
                 if (respRow) {
                     var assegnatoUser = searchUser(respRow.assegnata);
-
+                    var kmeffettuati = respRow.km - respRow.kmold;
                     row += "<td>" + mesiMap[mese] + "</td>";
                     row += "<td>" + assegnatoUser.nome + " " + assegnatoUser.cognome +"</td>";
                     row += "<td>" + respRow.kmold + "</td>";
                     row += "<td>" + respRow.km + "</td>";
+                    row += "<td>(" + kmeffettuati + ")</td>";
                     row += "<td>" + respRow.spesaextra + "</td>";
                     row += '<td><button class="btn btn-sm btn-outline-secondary" onclick="modKm(' + respRow.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
                 } else {
-                    row += '<td>' + mesiMap[mese] + '</td><td> - </td><td> - </td><td> - </td><td> - </td><td><button class="btn btn-sm btn-outline-secondary" onclick="newKm(' + mese + ')"><i class="fa-solid fa-plus"></i></button></td>';
+                    row += '<td>' + mesiMap[mese] + '</td><td> - </td><td> - </td><td> - </td><td> - </td><td> - </td><td><button class="btn btn-sm btn-outline-secondary" onclick="newKm(' + mese + ')"><i class="fa-solid fa-plus"></i></button></td>';
                 }
                
                 row += "</tr > ";

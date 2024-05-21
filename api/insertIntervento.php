@@ -2,7 +2,7 @@
 require_once "../../portale/cors.php";
 require_once "../../portale/config.php";
 //require_once "../../portale/api/fileUpload.php";
-require_once "utility.php";
+require_once "../../portale/utility.php";
 
 function uploadFile($base64_file, $folder, $name)
 {

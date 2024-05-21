@@ -124,10 +124,7 @@
                             <h6 class="mt-3">Notifiche</h6>
                             <ul class="list-group mt-2">
                                 <li class="list-group-item list-not-alarm alarm-tagliando-not hide" style="color: #f50505;">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                    Tagliando da effettuare tra
-                                    <span></span> km
-                                </li>
+                                    <i class="fa-solid fa-triangle-exclamation"></i><span></span> Km</li>
                                 <li class="list-group-item hide list-not-alarm alarm-distribuzione-not" style="color: #f50505;">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     Distribuzione in scadenza tra
@@ -410,6 +407,7 @@
                                             <th scope="col">Assegnata a</th>
                                             <th scope="col">Km da</th>
                                             <th scope="col">Km a</th>
+                                            <th scope="col">Km effettuati</th>
                                             <th scope="col">Spese Extra</th>
                                             <th scope="col">Add/Mod.</th>
                                         </tr>
@@ -457,7 +455,7 @@
                 <div id="mounth-choice">
                     <h6 class="mt-2">Seleziona il mese di richiesta km veicolo</h6>
                     <select class="form-select mt-4" id="input-mesekmrichiesta">
-                
+
                     </select>
                 </div>
                 <ul class="list-group mt-2" id="list-send-email">
