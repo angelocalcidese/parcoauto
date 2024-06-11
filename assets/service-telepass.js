@@ -1,4 +1,4 @@
-telepass = [];
+var telepass = [];
 function searchTargaTelepass(id) {
     var res = "-";
     for (var a = 0; a < rowel.length; a++) {
@@ -14,6 +14,7 @@ function searchTargaTelepass(id) {
     return res;
 }
 function popTelepass(righe) {
+    console.log("GIRO TELEPASS");
     telepass = righe;
     for (i = 0; i < righe.length; i++) {
         var riga = righe[i];
@@ -27,12 +28,20 @@ function popTelepass(righe) {
         element += "<td>" + riga.validitaterritoriale + "</td>";
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCarsTelepass(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowTelepass(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
-        $("<tr/>")
-            .append(element)
-            .appendTo("#tabella-telepass");
+        $("<tr/>").append(element).appendTo("#tabella-telepass");
         
         var opt = '<option value="' + riga.id + '">' + riga.seriale + '</option>';
         $("#search-telepass-input").append(opt);
+
+        var element2 = '<td>' + riga.id + '</td>';
+        element2 += "<td>" + riga.tipologia + "</td>";
+        element2 += '<td>' + riga.seriale + '</td>';
+        element2 += "<td>" + riga.codice + "</td>";
+        element2 += "<td>" + riga.attivazione + "</td>";
+        element2 += "<td>" + statoActive(riga.stato) + "</td>";
+        element2 += "<td>" + searchTargaTelepass(riga.id) + "</td>";
+        element2 += "<td>" + riga.validitaterritoriale + "</td>";
+        $("<tr/>").append(element2).appendTo("#tabella-export-telepass");
     }
 }
 

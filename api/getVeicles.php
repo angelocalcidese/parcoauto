@@ -1,11 +1,22 @@
 <?php 
 require_once "../../portale/cors.php";
 require_once "../../portale/config.php";
+require_once "../../portale/utility.php";
 require_once "../../portale/api/getUserCoockie.php";
 
 /** GET VEICOLI */
+$data = getRequestDataBody();
 
-$sql = "SELECT * FROM `veicoli` WHERE `company` = ".$user_params ->company. " ORDER BY `stato`";
+$sql = "SELECT * FROM `veicoli` WHERE `company` = ".$user_params ->company;
+
+if (isset($data["stato"])) {
+  $sql .= " AND `stato` = '" . $data["stato"] . "'";
+}
+if (isset($data["assegnatoa"])) {
+  $sql .= " AND `assegnazione` = '" . $data["assegnatoa"] . "'";
+}
+
+$sql .= " ORDER BY `stato`";
 $result = $conn->query($sql);
 $veicle = array();
 

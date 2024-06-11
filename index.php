@@ -10,7 +10,7 @@
     <div class="row">
       <?php include("../portale/menu.php"); ?>
 
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-page">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
           <h1 class="h2">Gestione</h1>
         </div>
@@ -32,7 +32,9 @@
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo Telepass
               </button>
-
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew" id="button-exp-veicoli" onclick="exportXLS('veicoli', 'tabella-export-veicoli')"><i class="fa-solid fa-download"></i> Export Veicoli.xls</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-exp-multicard" onclick="exportXLS('multicard', 'tabella-export-multicard')"><i class="fa-solid fa-download"></i> Export Multicard.xls</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-exp-telepass" onclick="exportXLS('contratti', 'tabella-export-telepass')"><i class="fa-solid fa-download"></i> Export Contratti.xls</button>
               <button type="button" class="btn btn-sm btn-outline-secondary" onClick="sendEmailKmMassive()">
                 <i class=" fa-solid fa-reply-all"></i>
                 Invia Richieste Km
@@ -55,13 +57,97 @@
           </li>
         </ul>
 
+        <div class="hide">
+
+          <table class="table table-striped " id="tabella-export-veicoli">
+            <thead>
+              <tr>
+                <th scope="col">Stato</th>
+                <th scope="col">Tipologia</th>
+                <th scope="col">Marca</th>
+                <th scope="col">Modello</th>
+                <th scope="col">Targa</th>
+                <th scope="col">Assegnato</th>
+                <th scope="col">km</th>
+                <th scope="col">Acquisto</th>
+                <th scope="col">Multicard</th>
+                <th scope="col">Telepass</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <table class="table" id="tabella-export-multicard">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Codice</th>
+                <th scope="col">Tipologia</th>
+                <th scope="col">Tipo Contratto</th>
+                <th scope="col">Stato </th>
+                <th scope="col">Associata a </th>
+                <th scope="col">Scadenza</th>
+                <th scope="col">Rinnovabile</th>
+                <th scope="col">PIN</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+          <table class="table" id="tabella-export-telepass">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tipologia</th>
+                <th scope="col">Numero Seriale</th>
+                <th scope="col">Codice Contratto</th>
+                <th scope="col">Attivazione</th>
+                <th scope="col">Stato </th>
+                <th scope="col">Associata a </th>
+                <th scope="col">Validità Territoriale</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
         <div class="table-responsive small tabs-veicolo" id="veicoli-page">
           <h2 class="mt-4">Veicoli
             <button class="btn btn-sm btn-outline-secondary hide" id="button-clear-filters" type="button" onclick="clearInputSearch()">
               <i class="fa-solid fa-filter "></i> Cancella Filtri
             </button>
           </h2>
+          <div class="container mt-5 mb-5">
+            <div class="row">
+              <div class="col">
+                <h5>Filtri Semplici: </h5>
+              </div>
+              <div class="col">
+                <select class="form-select form-select-sm input-data-filter" id="input-stato-filter">
+                  <option value="" selected>Stato</option>
+                  <option >Attiva</option>
+                  <option>In Vendita</option>
+                  <option>Resa</option>
+                  <option>Venduta</option>
+                  <option>Rottamata</option>
+                  <option>Guasta</option>
+                  <option>Incidentata</option>
+                </select>
+              </div>
+              <div class="col">
+                <select class="form-select form-select-sm input-data-filter" id="input-assegnatoa-filter">
+                  <option value="" selected>Assegnato a</option>
+                </select>
+              </div>
 
+              <div class="col">
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="activeFilter()">Filtra <i class="fa-solid fa-filter"></i></button>
+              </div>
+              <div class="col">
+                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearFilter()">Cancella Filtri <i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </div>
+          </div>
           <table class="table table-striped display" id="tabella-veicoli" style="width:100%">
             <thead>
               <tr>
@@ -131,19 +217,10 @@
     </div>
   </div>
   <!-- jQuery library -->
-  <script src="assets/jquery/jquery-3.7.1.min.js"></script>
-  <script src="assets/jquery-ui/jquery-ui.js"></script>
-
-  <script src="../portale/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="../portale/assets/fontawesome/js/all.min.js"></script>
-  <script src="../portale/assets/moment.min.js"></script>
-  <script src="../portale/assets/DataTables/datatables.min.js"></script>
-  <script src="../portale/assets/DataTables/dataTables.dateTime.min.js"></script>
-
-  <script src="../portale/assets/generalFunction.js"></script>
+  <?php include("../portale/javascript.php"); ?>
   <script src="assets/service-multicard.js"></script>
   <script src="assets/service-telepass.js"></script>
-  <script src="assets/service.js"></script>
+  <!--<script src="assets/service.js"></script>-->
   <script src="assets/service-filters.js"></script>
   <script>
 

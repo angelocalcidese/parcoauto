@@ -1,4 +1,4 @@
-multicard = [];
+var multicard = [];
 function searchTargaMulti(id) {
     var res = "-";
     for (var a = 0; a < rowel.length; a++){
@@ -29,12 +29,22 @@ function popMulticard(righe) {
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCars(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowMulti(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
         
-        $("<tr/>")
-            .append(element)
-            .appendTo("#tabella-multicard");
+        $("<tr/>").append(element).appendTo("#tabella-multicard");
         
         var opt = '<option value="' + riga.id + '">' + riga.codice + '</option>';
         $("#search-multicard-input").append(opt);
+
+        var element2 = '<td>' + riga.id + '</td>';
+        element2 += '<td>' + riga.codice + '</a></td>';
+        element2 += "<td>" + riga.tipologia + "</td>";
+        element2 += "<td>" + riga.tipocontratto + "</td>";
+        element2 += "<td>" + statoActive(riga.stato) + "</td>";
+        element2 += "<td>" + searchTargaMulti(riga.id) + "</td>";
+        element2 += "<td>" + riga.scadenzacarta + "</td>";
+        element2 += "<td>" + yesOrNo(riga.rinnovabile) + "</td>";
+        element2 += "<td>" + riga.pin + "</td>";
+       
+        $("<tr/>").append(element2).appendTo("#tabella-export-multicard");
     }
 }
 function searchMulticard(id) {

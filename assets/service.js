@@ -14,6 +14,8 @@ var idIntervento = null;
 var d = new Date();
 var day = d.getDate();
 var idModkm = null;
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
 if (day < 10) {
     day = "0" + day;
 }
@@ -25,12 +27,12 @@ if (mounth < 10) {
 var strDate = day + "/" + mounth + "/" + d.getFullYear();
 
 function tablePagination(){
-    var table = $('table.display').DataTable({
+    /*var table = $('table.display').DataTable({
         responsive: true,
-        searchable: false,
-        orderable: false,
-        argets: 0
-    });
+        argets: 0,
+    });*/
+
+    var table = new DataTable('table.display');
 }
 
 function searchAssignedCars(id) {
@@ -42,12 +44,50 @@ function searchAssignedCars(id) {
     return assUser;
 }
 
-function popVeicles(righe, filtri) {
-    //if (!filtri) {
-        rowel = righe;
-        
-    //}
-    console.log("ROWEL:", rowel);
+function searchKmStory(id) {
+    if (day <= 15) {
+        mounth = mounth - 1;
+    }
+    $.ajax({
+        method: "POST",
+        url: 'api/getInsertKm.php',
+        data: JSON.stringify({ mese: mounth, anno: year }),
+        dataType: 'json',
+        complete: function (resp) {
+            controlKmMounth(resp);
+        }
+    });
+}
+
+function searchInsKm(id, resp) {
+    var responce = false;
+    for (var a = 0; a < resp.length; a++){
+        if (id == resp[a].veicolo) {
+            responce = true;
+        }
+    }
+    return responce;
+}
+
+function controlKmMounth(resp) {
+    console.log(resp)
+    for (i = 0; i < rowel.length; i++) { 
+        //var riga = righe[i];
+        if ((rowel[i].stato == "Attiva") && (rowel[i].assegnatoa != "-") && (rowel[i].assegnatoa != "")) {
+ //console.log("KM VEICOLO Ricerca: " + righe[i].id);
+            if (searchInsKm(rowel[i].id, resp.responseJSON)) {
+                $("#storykm-" + rowel[i].id).css("background-color", "#a3cd44");
+            } else {
+                $("#storykm-" + rowel[i].id).css("background-color", "#efce2b");
+            }
+        }
+    }
+}
+
+function popVeicles(righe) {
+    rowel = righe;
+    
+    console.log("ROWEL Veicle:", rowel);
     
     addCars(righe);
     addCarsTelepass(righe);
@@ -76,15 +116,29 @@ function popVeicles(righe, filtri) {
         element += "<td>" + riga.targa + "</td>";
         element += "<td>" + searchAssignedCars(riga.assegnatoa)  + "</td>";
         element += '<td style="text-align:center"><button title="Visualizza Dati del veicolo"  type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
-        element += '<td><button title="Visualizza Interventi del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
-        element += '<td><button title="Visualizza Asegnatari del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
-        element += '<td><button title="Modifica Dati del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
-        element += '<td><button title="Visualizza km e spese mensile veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openKmStory(' + riga.id + ')"><i class="fa-regular fa-calendar-days"></i></td>';
-        element += '<td><button title="Invia email richiesta km" type="button" class="btn btn-sm btn-outline-secondary alarm-button ' + disabledSend  + '" id="id-km-' + riga.id +'" onClick="sendEmailKm(' + riga.id + ')"><i class="fa-solid fa-reply"></i></button></td>';
+        element += '<td style="text-align:center"><button title="Visualizza Interventi del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
+        element += '<td style="text-align:center"><button title="Visualizza Assegnatari del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
+        element += '<td style="text-align:center"><button title="Modifica Dati del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
+        element += '<td style="text-align:center"><button title="Visualizza km e spese mensile veicolo" type="button" class="btn btn-sm btn-outline-secondary" id="storykm-' + riga.id + '" onClick="openKmStory(' + riga.id + ')"><i class="fa-regular fa-calendar-days"></i></td>';
+        element += '<td style="text-align:center"><button title="Invia email richiesta km" type="button" class="btn btn-sm btn-outline-secondary alarm-button ' + disabledSend  + '" id="id-km-' + riga.id +'" onClick="sendEmailKm(' + riga.id + ')"><i class="fa-solid fa-reply"></i></button></td>';
         $("<tr/>").append(element).appendTo("#tabella-veicoli");
         controlAlarm(riga.id); 
-    }
 
+        var element2 = "<td>" + riga.stato + "</td>";
+        element2 += '<td>' + riga.tipologia + '</td>';
+        element2 += "<td>" + riga.marca + "</td>";
+        element2 += "<td>" + riga.modello + "</td>";
+        element2 += "<td>" + riga.targa + "</td>";
+        element2 += "<td>" + searchAssignedCars(riga.assegnatoa) + "</td>";
+        element2 += "<td>" + riga.km + "</td>";
+        element2 += "<td>" + riga.acquisto + "</td>";
+        element2 += "<td>" + searchTelepass(riga.telepass).seriale + "</td>";
+        element2 += "<td>" + searchMulticard(riga.multicard).codice + "</td>";
+
+        $("<tr/>").append(element2).appendTo("#tabella-export-veicoli");
+
+    }
+    searchKmStory();
 }
 
 function openKmStory(id) {
@@ -649,12 +703,40 @@ function statoActive(val) {
     }
     return res;
 }
- 
-function allCall() { 
+function clearFilter() {
+    $(".input-data-filter").val("");
+    window.location.href = "/parcoauto/";
+}
+function activeFilter() {
+    var link = "/parcoauto/";
+
+    var stato = $("#input-stato-filter").val();
+    var assegnatoa = $("#input-assegnatoa-filter").val();
+    //var categoria = $("#input-categoria-filter").val();
+    //var tipologia = $("#input-tipologia-filter").val();
+    if ((stato != "") || (assegnatoa != "")) {
+        link += "?filter=on";
+    }
+    if (stato != "") { link += "&stato=" + stato; }
+    if (assegnatoa != "") { link += "&asse=" + assegnatoa; }
+    //if (categoria != "") { link += "&cat=" + categoria; }
+    //if (tipologia != "") { link += "&type=" + tipologia; }
+
+    window.location.href = link;
+}
+
+function allCallServ() { 
+    var filter = urlParams.get('filter');
+    var statofilter = urlParams.get('stato');
+    var assegnatofilter = urlParams.get('asse');
+
+    console.log("ALL CALL");
     $.ajax({
         url: 'api/getVeicles.php', 
-        dataType: 'json', //restituisce un oggetto JSON
-        complete: function (obj, stato) {
+        dataType: 'json', 
+        data: JSON.stringify({ stato: statofilter, assegnatoa: assegnatofilter, filter: filter }),
+        method: "POST",
+        complete: function (obj) {
             var righe = obj.responseJSON;
             allData = righe;
             popVeicles(righe.veicoli);
@@ -663,11 +745,15 @@ function allCall() {
             tablePagination();
         }
     });
+
+    $("#input-stato-filter").val(statofilter);
+    $("#input-assegnatoa-filter").val(assegnatofilter);
 }
 
 function cambioTab(tab) {
     $(".buttNew").addClass("hide");
-    $("#button-add-" + tab ).removeClass("hide");
+    $("#button-add-" + tab).removeClass("hide");
+    $("#button-exp-" + tab).removeClass("hide");
     $(".tabs-veicolo").addClass("hide");
     $("#" + tab + "-page").removeClass("hide");
     $(".nav-link").removeClass("active");
@@ -722,9 +808,10 @@ function usersCall() {
            
                 $("#user-gest").append(element);
                 $("#search-assegnato-input").append(element);
+                $("#input-assegnatoa-filter").append(element);
                 
             }
-            allCall();
+            allCallServ();
         }
     });
 }
