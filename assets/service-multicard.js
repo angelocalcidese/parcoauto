@@ -4,9 +4,9 @@ function searchTargaMulti(id) {
     for (var a = 0; a < rowel.length; a++){
         if (rowel[a].multicard == id) {
              if (res != "-") {
-                 res = res + ' <a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+                 res = res + ' <a href="#" data-toggle="tooltip" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
             } else {
-                 res = '<a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+                 res = '<a href="#" data-toggle="tooltip" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
 
             }
         }
@@ -59,7 +59,7 @@ function searchMulticard(id) {
 function openModRowMulti(id) {
     cleanInput();
     var data = searchMulticard(id);
-    console.log(data);
+    console.log("DATA Multicard: ", data);
     idRow = data.id;
 
     $("#input-tipologiaCard").val(data.tipologia);

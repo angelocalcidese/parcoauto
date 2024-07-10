@@ -6,8 +6,12 @@ var company = [];
 var veicle = [];
 var interventi = [];
 var kmMeseList = [];
+var selected = [];
+var kmInsMounth = [];
+var intTypeNum = 0;
 var mesekmaddmod = null;
 var idRow = null;
+var idInt = null;
 var userAss = null;
 var kmAssMoment = 0;
 var idIntervento = null;
@@ -30,16 +34,31 @@ function tablePagination(){
     /*var table = $('table.display').DataTable({
         responsive: true,
         argets: 0,
-    });*/
+    });
 
-    var table = new DataTable('table.display');
+    var table = new DataTable('table.display');*/
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $(".page-link").on("click", function () {
+        console.log("CAMBIO PAGINA");
+        controlKmMounth();
+    });
+    $('select[name="tabella-veicoli_length"]').on("change", function () {
+        console.log("Modifico lunghezza tabella");
+        controlKmMounth();
+    });
+    $('#dt-search-0').keyup(function () {
+        controlKmMounth();
+    });
 }
+
 
 function searchAssignedCars(id) {
     var assegnatoUser = searchUser(id);
     var assUser = "Non Assegnato";
     if ((id != '-') && (id != 0)) {
-        assUser = "<b>" + assegnatoUser.nome + " " + assegnatoUser.cognome + "</b>";
+        assUser = "" + assegnatoUser.nome + " " + assegnatoUser.cognome + "";
     }
     return assUser;
 }
@@ -54,7 +73,8 @@ function searchKmStory(id) {
         data: JSON.stringify({ mese: mounth, anno: year }),
         dataType: 'json',
         complete: function (resp) {
-            controlKmMounth(resp);
+            kmInsMounth = resp;
+            controlKmMounth();
         }
     });
 }
@@ -69,13 +89,14 @@ function searchInsKm(id, resp) {
     return responce;
 }
 
-function controlKmMounth(resp) {
-    console.log(resp)
+function controlKmMounth() {
+    //console.log("CONTROLLO KM", kmInsMounth);
+
     for (i = 0; i < rowel.length; i++) { 
         //var riga = righe[i];
         if ((rowel[i].stato == "Attiva") && (rowel[i].assegnatoa != "-") && (rowel[i].assegnatoa != "")) {
  //console.log("KM VEICOLO Ricerca: " + righe[i].id);
-            if (searchInsKm(rowel[i].id, resp.responseJSON)) {
+            if (searchInsKm(rowel[i].id, kmInsMounth.responseJSON)) {
                 $("#storykm-" + rowel[i].id).css("background-color", "#a3cd44");
             } else {
                 $("#storykm-" + rowel[i].id).css("background-color", "#efce2b");
@@ -113,8 +134,8 @@ function popVeicles(righe) {
         element += '<td>' + riga.tipologia + '</td>';
         element += "<td>" + riga.marca + "</td>";
         element += "<td>" + riga.modello + "</td>";
-        element += "<td>" + riga.targa + "</td>";
-        element += "<td>" + searchAssignedCars(riga.assegnatoa)  + "</td>";
+        element += '<td>' + riga.targa + '</td>';
+        element += "<td><b>" + searchAssignedCars(riga.assegnatoa)  + "</b></td>";
         element += '<td style="text-align:center"><button title="Visualizza Dati del veicolo"  type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
         element += '<td style="text-align:center"><button title="Visualizza Interventi del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
         element += '<td style="text-align:center"><button title="Visualizza Assegnatari del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
@@ -124,6 +145,20 @@ function popVeicles(righe) {
         $("<tr/>").append(element).appendTo("#tabella-veicoli");
         controlAlarm(riga.id); 
 
+        
+
+        var telepassSearch = "";
+        var res = searchTelepass(riga.telepass);
+        if (res.seriale) {
+            telepassSearch = res.seriale;
+        }
+
+        var multicard = "";
+        var resMulti = searchMulticard(riga.multicard);
+        if (resMulti.codice) {
+            multicard = resMulti.codice;
+        }
+
         var element2 = "<td>" + riga.stato + "</td>";
         element2 += '<td>' + riga.tipologia + '</td>';
         element2 += "<td>" + riga.marca + "</td>";
@@ -132,8 +167,8 @@ function popVeicles(righe) {
         element2 += "<td>" + searchAssignedCars(riga.assegnatoa) + "</td>";
         element2 += "<td>" + riga.km + "</td>";
         element2 += "<td>" + riga.acquisto + "</td>";
-        element2 += "<td>" + searchTelepass(riga.telepass).seriale + "</td>";
-        element2 += "<td>" + searchMulticard(riga.multicard).codice + "</td>";
+        element2 += "<td>" + telepassSearch + "</td>";
+        element2 += "<td>" + multicard + "</td>";
 
         $("<tr/>").append(element2).appendTo("#tabella-export-veicoli");
 
@@ -327,14 +362,18 @@ function sendEmailKm(id) {
 function yesSend(massive) {
     var userVeicle = searchUser(veicle.assegnatoa);
     var nominativo = userVeicle.nome + " " + userVeicle.cognome;
+   
+    var mese = $("#input-mesekmrichiesta").val();
+    console.log("MESE: ", mese);
+
+    if (mese != null) {
+    
     $(".button-close-send").addClass("disabled");
     $(".button-send").addClass("hide");
     $(".button-send-massive").addClass("hide");
     $(".button-no-send").addClass("hide");
     $('#choice-text').html("<b>Attendere ...</b>");
-    var mese = $("#input-mesekmrichiesta").val();
-    console.log(company);
-    $.ajax({
+       $.ajax({
         method: "POST",
         url: 'api/sendKmMail.php',
         data: JSON.stringify({ company: company[0].name, nominativo: nominativo, targa: veicle.targa, email: userVeicle.email, id: veicle.assegnatoa, veicolo: idRow, mese : mese }),
@@ -357,7 +396,12 @@ function yesSend(massive) {
             $(".button-close-send").removeClass("disabled");
 
         }
-    });
+     }); 
+    } else {
+        $("#alert-error-rickm").removeClass("hide");
+        setTimeout(closeAlarm, 1000);
+    }
+    
 }
 
 
@@ -414,6 +458,7 @@ function openModRow(id) {
     $("#input-bollo").val(data.bollo);
     $("#input-assicurazione").val(data.assicurazione);
     $("#input-note").val(data.note);
+    $("#input-posti").val(data.posti);
     $('#addRow').modal('show');
 }
 
@@ -505,20 +550,53 @@ function downloadfile(id) {
 }
 
 function clearDocInt() {
-    $("#add-intervento-title").removeClass("hide");
+    //$("#add-intervento-title").removeClass("hide");
+    $(".add-new-int").removeClass("hide");
     $("#doc-intervento-title").addClass("hide");
+    $("#input-linkinterventoFile").val("");
     delFileInt();
     idIntervento = null;
 }
 
 function addDocInt(id) {
-    $("#add-intervento-title").addClass("hide");
+    // $("#add-intervento-title").addClass("hide");
+    $("#input-linkinterventoFile").val("");
+    $(".add-new-int").addClass("hide");
     $("#doc-intervento-title").removeClass("hide");
     idIntervento = id;
 }
+function delIntAdv(id) {
+    $(".int-btn").removeClass("select-btn-int");
+    idInt = id;
+    $("#int-btn-sel-" + id).addClass("select-btn-int");
+    $("#adv-del-int").removeClass("hide");
+}
 
+function clearDelInt() {
+    addIntervento(idRow); 
+}
+
+function delIntervento() {
+    $.ajax({
+        method: "POST",
+        url: "api/delIntervento.php",
+        data: JSON.stringify({ id: idInt }),
+        dataType: 'json',
+        success: function (result) {
+            addIntervento(idRow)
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+
+        }
+    });
+}
 function addIntervento(id) {
     delFileInt();
+    $(".form-control").val("");
+    $(".spesa-input").prop("disabled", true);
+    $(".check-ins").prop("checked", false);
+    $("#adv-del-int").addClass("hide");
     $("#alert-error-intervento").addClass("hide");
     var data = searchData(id);
     idRow = id;
@@ -535,6 +613,7 @@ function addIntervento(id) {
             interventi = data;
             for (var b = 0; b < data.length; b++) {
                 var row = '<tr>';
+                row += '<td><button type="button" class="btn btn-sm btn-outline-secondary int-btn" id="int-btn-sel-' + data[b].id + '" onclick="delIntAdv(' + data[b].id + ')"><i class="fa-solid fa-trash"></i></button></td>';
                 row += '<td>' + data[b].intervento + '</td>';
                 row += '<td>' + data[b].data + '</td>';
                 row += '<td>' + data[b].km + '</td>';
@@ -579,11 +658,12 @@ function addRow() {
     var assicurazione = $("#input-assicurazione").val();
     var vendita = $("#input-vendita").val();
     var note = $("#input-note").val();
+    var posti = $("#input-posti").val();
 
     $.ajax({
         method: "POST",
         url: "api/createVeicle.php",
-        data: JSON.stringify({ marca: marca, modello: modello, tipologia: tipologia, targa: targa, acquisto: acquisto, proprieta: proprieta, km: km, tagliando: tagliando, distribuzione: distribuzione, kml: kml, stato: stato, revisione: revisione, bollo: bollo, assicurazione: assicurazione, vendita: vendita, note: note}),
+        data: JSON.stringify({ marca: marca, modello: modello, tipologia: tipologia, targa: targa, acquisto: acquisto, proprieta: proprieta, km: km, tagliando: tagliando, distribuzione: distribuzione, kml: kml, stato: stato, revisione: revisione, bollo: bollo, assicurazione: assicurazione, vendita: vendita, note: note, posti: posti}),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -606,7 +686,7 @@ function modRow(data) {
     $.ajax({
         method: "POST",
         url: "api/modVeicle.php",
-        data: JSON.stringify({ id: data.id, marca: data.marca, modello: data.modello, tipologia: data.tipologia, targa: data.targa, acquisto: data.acquisto, proprieta: data.proprieta, stato: data.stato, assegnazione: data.assegnatoa, km: data.km, tagliando: data.tagliando, distribuzione: data.distribuzione, kml: data.kml, revisione: data.revisione, bollo: data.bollo, assicurazione: data.assicurazione, vendita: data.vendita, note: data.note }),
+        data: JSON.stringify({ id: data.id, marca: data.marca, modello: data.modello, tipologia: data.tipologia, targa: data.targa, acquisto: data.acquisto, proprieta: data.proprieta, stato: data.stato, assegnazione: data.assegnatoa, km: data.km, tagliando: data.tagliando, distribuzione: data.distribuzione, kml: data.kml, revisione: data.revisione, bollo: data.bollo, assicurazione: data.assicurazione, vendita: data.vendita, note: data.note, posti: data.posti }),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -641,6 +721,7 @@ function controlForm() {
     var assicurazione = $("#input-assicurazione").val();
     var vendita = $("#input-vendita").val();
     var note = $("#input-note").val();
+    var posti = $("#input-posti").val();
    
     var count = 0;
     var html = "<ul>";
@@ -679,6 +760,7 @@ function controlForm() {
             data.assicurazione = assicurazione;
             data.vendita = vendita;
             data.note = note;
+            data.posti = posti;
             modRow(data);
         } else {
           addRow();
@@ -739,9 +821,14 @@ function allCallServ() {
         complete: function (obj) {
             var righe = obj.responseJSON;
             allData = righe;
+            telepass = righe.telepass;
+            multicard = righe.multicard;
+
             popVeicles(righe.veicoli);
             popMulticard(righe.multicard);
             popTelepass(righe.telepass);
+            
+            tablePaginationNew();
             tablePagination();
         }
     });
@@ -750,7 +837,10 @@ function allCallServ() {
     $("#input-assegnatoa-filter").val(assegnatofilter);
 }
 
+
+
 function cambioTab(tab) {
+    var url = new URL(window.location.href);
     $(".buttNew").addClass("hide");
     $("#button-add-" + tab).removeClass("hide");
     $("#button-exp-" + tab).removeClass("hide");
@@ -758,6 +848,11 @@ function cambioTab(tab) {
     $("#" + tab + "-page").removeClass("hide");
     $(".nav-link").removeClass("active");
     $("#tab-" + tab).addClass("active");
+    if (tab != "veicoli") {
+        url.searchParams.delete('length');
+        url.searchParams.delete('search');
+        window.history.replaceState(null, null, url);
+    }
     localStorage['tab'] = tab;
 }
 
@@ -784,6 +879,7 @@ function viewVeicle(id) {
     $("#view-distribuzione").text(veicolo.distribuzione);
     $("#view-kml").text(veicolo.kml);
     $("#view-note").html(veicolo.note);
+    $("#view-posti").html(veicolo.posti);
     if (veicolo.ultimo_tagliando) {
        $("#ultimo-tagliando").html(veicolo.ultimo_tagliando); 
     } else {
@@ -918,16 +1014,103 @@ function uploadFattura(evt) {
     reader.readAsBinaryString(f);
 }
 
+function addInterventiType(file, nomefile) {
+    //var prezzo = $("#input-costointervento").val();
+    var km = $("#input-kmintervento").val();
+    var selectEl = selected[intTypeNum];
+    var intervento = selectEl.name;
+    var prezzo = selectEl.value;
+    var data = $("#input-intgiorno").val();
+    var selcount = selected.length - 1;
+
+    console.log("Intervento:", intervento);
+    console.log("Intervento NUM :", intTypeNum);
+    $.ajax({
+        method: "POST",
+        url: "api/insertIntervento.php",
+        data: JSON.stringify({ veicolo: idRow, data: data, intervento: intervento, km: km, prezzo: prezzo, fattura: file, nomefile: nomefile }),
+        contentType: "application/json",
+        success: function (data) {
+            if (intTypeNum < selcount) {
+                intTypeNum++;  
+                addInterventiType(file, nomefile);
+            } else {
+              console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
+                $("#alert-success-intervento").removeClass("hide");
+                $("#alert-success-intervento").text("Intervento veicolo modificato correttamente");
+                $("#view-inter").addClass("hide");
+                $("#butt-inter").text("OK");  
+            }
+            
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+            $("#alert-error").removeClass("hide");
+            $("#alert-error").text(error);
+        }
+    });
+}
+
+function selCheckIns(type) {
+    if ($("#check-ins-" + type).is(':checked')) { 
+        $("#spesa-" + type).prop("disabled", false);
+    } else {
+        $("#spesa-" + type).prop("disabled", true);
+        $("#spesa-" + type).val("");
+        sumCheckIns();
+    }
+    
+}
+
+function sumCheckIns() {
+    var spesa = 0;
+    $('.spesa-input').each(function () {
+        var val = $(this).val() * 1;
+        if (val != "") {
+           spesa = spesa + val; 
+        } 
+       
+    });
+    if (spesa == 0) {
+            spesa = "";
+    } else {
+        spesa = spesa.toFixed(2);
+    }
+    $("#input-costointervento").val(spesa);
+}
+
 function interventoService(file, nomefile) {
     var prezzo = $("#input-costointervento").val();
     var km = $("#input-kmintervento").val();
-    var intervento = $("#input-intervento").val();
+    //var intervento = $("#input-intervento").val();
     var data = $("#input-intgiorno").val();
     
     //if (!file) { var file = null; }
     var count = 0;
+    var countVal = 0;
+    selected = [];
+
+    $('#sel-ins-int input:checked').each(function () {
+        //selected.push($(this).attr('name'));
+        var name = $(this).attr('name');
+        var title = $(this).attr('title');
+        var idname = name.toLowerCase();
+        var value = $("#spesa-" + idname).val();
+
+        if (value == "") countVal++;
+        var el = { "name": title, "value": value };
+        selected.push(el);
+    });
+
+    
+    console.log("SELECTED INT: ", selected);
+
     var html = "<ul>";
-    if (intervento == "Seleziona") { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
+    if (countVal > 0) {
+        html += "<li>Inserire il costo di tutti gli interventi selezionati</li>"; count++;
+    }
+    //if (intervento == "Seleziona") { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
+    if (selected.length == 0) { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
     if (km == "") { html += "<li>Inserire i km</li>"; count++; }
     if (data == "") { html += "<li>Inserire la data </li>"; count++; }
     if (prezzo == "") { html += "<li>Inserire il costo dell'intervento</li>"; count++; }
@@ -938,25 +1121,11 @@ function interventoService(file, nomefile) {
         $("#alert-error-intervento").removeClass("hide");
         $("#alert-error-intervento").html(html);
     } else {
+
         $("#alert-error-intervento").addClass("hide");
-        $.ajax({
-            method: "POST",
-            url: "api/insertIntervento.php",
-            data: JSON.stringify({ veicolo: idRow, data: data, intervento: intervento, km: km, prezzo: prezzo, fattura: file, nomefile: nomefile }),
-            contentType: "application/json",
-            success: function (data) {
-                console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
-                $("#alert-success-intervento").removeClass("hide");
-                $("#alert-success-intervento").text("Intervento veicolo modificato correttamente");
-                $("#view-inter").addClass("hide");
-                $("#butt-inter").text("OK");
-            },
-            error: function (error) {
-                console.log("funzione chiamata quando la chiamata fallisce", error);
-                $("#alert-error").removeClass("hide");
-                $("#alert-error").text(error);
-            }
-        });
+        addInterventiType(file, nomefile);
+
+       
     }
 }
 function interventoServiceDoc(file, nomefile) {
@@ -1012,6 +1181,41 @@ function insIntervento() {
     }
 }
 
+function importCSV() {
+    $("#import-csv").val("");
+    $('#modalCSV').modal('show');
+}
+
+function yesSendCsv() {
+    console.log("IMPORT", importXLS);
+}
+
+document.querySelector('#import-csv').addEventListener('change', function () {
+    var reader = new FileReader();
+    reader.onload = function () {
+        var arrayBuffer = this.result,
+            array = new Uint8Array(arrayBuffer),
+            binaryString = String.fromCharCode.apply(null, array);
+    
+        /* Call XLSX */
+        var workbook = XLSX.read(binaryString, {
+            type: "binary"
+        });
+
+        /* DO SOMETHING WITH workbook HERE */
+        var first_sheet_name = workbook.SheetNames[0];
+        /* Get worksheet */
+        var worksheet = workbook.Sheets[first_sheet_name];
+        console.log(XLSX.utils.sheet_to_json(worksheet, {
+            raw: true
+        }));
+        importXLS = XLSX.utils.sheet_to_json(worksheet, {
+            raw: true
+        });
+    }
+    reader.readAsArrayBuffer(this.files[0]);
+});
+
 $(document).ready(function () {
     console.log(localStorage['tab']);
     if (localStorage['tab']) {
@@ -1048,6 +1252,7 @@ $(document).ready(function () {
     new DateTime(document.getElementById('input-attivazionetelepass'), {
         format: 'DD/MM/YYYY'
     });
+
 });
 
 

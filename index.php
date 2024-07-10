@@ -32,6 +32,7 @@
                 <i class="fa-solid fa-file-circle-plus"></i>
                 Nuovo Telepass
               </button>
+              <!--<button type="button" class="btn btn-sm btn-outline-secondary buttNew" id="button-exp-veicoli" onclick="importCSV()"><i class="fa-solid fa-upload"></i> Import Multicard</button>-->
               <button type="button" class="btn btn-sm btn-outline-secondary buttNew" id="button-exp-veicoli" onclick="exportXLS('veicoli', 'tabella-export-veicoli')"><i class="fa-solid fa-download"></i> Export Veicoli.xls</button>
               <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-exp-multicard" onclick="exportXLS('multicard', 'tabella-export-multicard')"><i class="fa-solid fa-download"></i> Export Multicard.xls</button>
               <button type="button" class="btn btn-sm btn-outline-secondary buttNew hide" id="button-exp-telepass" onclick="exportXLS('contratti', 'tabella-export-telepass')"><i class="fa-solid fa-download"></i> Export Contratti.xls</button>
@@ -102,6 +103,7 @@
                 <th scope="col">Numero Seriale</th>
                 <th scope="col">Codice Contratto</th>
                 <th scope="col">Attivazione</th>
+                <th scope="col">N. Tessera</th>
                 <th scope="col">Stato </th>
                 <th scope="col">Associata a </th>
                 <th scope="col">Validità Territoriale</th>
@@ -112,7 +114,7 @@
           </table>
         </div>
         <div class="table-responsive small tabs-veicolo" id="veicoli-page">
-          <h2 class="mt-4">Veicoli
+          <h2 class="mt-4">Gestione automezzi
             <button class="btn btn-sm btn-outline-secondary hide" id="button-clear-filters" type="button" onclick="clearInputSearch()">
               <i class="fa-solid fa-filter "></i> Cancella Filtri
             </button>
@@ -125,7 +127,7 @@
               <div class="col">
                 <select class="form-select form-select-sm input-data-filter" id="input-stato-filter">
                   <option value="" selected>Stato</option>
-                  <option >Attiva</option>
+                  <option>Attiva</option>
                   <option>In Vendita</option>
                   <option>Resa</option>
                   <option>Venduta</option>
@@ -202,6 +204,7 @@
                 <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Cliccando sul codice farai una ricerca automatica sul Veicolo assegnato">Numero Seriale <i class="fa-solid fa-circle-info"></i></th>
                 <th scope="col">Codice Contratto</th>
                 <th scope="col">Attivazione</th>
+                <th scope="col">N. Tessera</th>
                 <th scope="col">Stato </th>
                 <th scope="col">Associata a </th>
                 <th scope="col">Validità Territoriale</th>

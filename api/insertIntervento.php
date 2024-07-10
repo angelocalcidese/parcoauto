@@ -52,6 +52,9 @@ if($data["intervento"] == "Revisione"){
 } else if ($data["intervento"] == "Tagliando") {
     $sql3 = "UPDATE `veicoli` SET `ultimo_tagliando` = '" . $data["km"] . "' WHERE `veicoli`.`id` =" . $data["veicolo"];
     $result3 = $conn->query($sql3);
+} else if ($data["intervento"] == "Distribuzione") {
+    $sql3 = "UPDATE `veicoli` SET `ultima_distribuzione` = '" . $data["km"] . "' WHERE `veicoli`.`id` =" . $data["veicolo"];
+    $result3 = $conn->query($sql3);
 }
 $sql4 = "SELECT MAX(id) FROM interventi";
 $result4 = $conn->query($sql4);

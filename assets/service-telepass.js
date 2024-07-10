@@ -1,18 +1,21 @@
 var telepass = [];
 function searchTargaTelepass(id) {
     var res = "-";
+    //console.log("ROWEL SEARCH", rowel);
     for (var a = 0; a < rowel.length; a++) {
         if (rowel[a].telepass == id) {
             if (res != "-") {
-                res = res + ' <a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+                res = res + ' <a href="#" data-toggle="tooltip" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
             } else {
-                res = '<a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+                res = '<a href="#" data-toggle="tooltip" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
 
             }
         }
     }
     return res;
 }
+
+
 function popTelepass(righe) {
     console.log("GIRO TELEPASS");
     telepass = righe;
@@ -23,8 +26,9 @@ function popTelepass(righe) {
         element += '<td><a href="#" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onclick="searchVeicleTelepass(' + riga.id + ')">' + riga.seriale + '</a></td>';
         element += "<td>" + riga.codice + "</td>";
         element += "<td>" + riga.attivazione + "</td>";
+        element += "<td>" + controlNull(riga.tessera) + "</td>";
         element += "<td>" + statoActive(riga.stato) + "</td>";
-        element += "<td>" + searchTargaTelepass(riga.id) + "</td>";
+        element += '<td>' + searchTargaTelepass(riga.id) + '</td>';
         element += "<td>" + riga.validitaterritoriale + "</td>";
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCarsTelepass(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowTelepass(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
@@ -38,6 +42,7 @@ function popTelepass(righe) {
         element2 += '<td>' + riga.seriale + '</td>';
         element2 += "<td>" + riga.codice + "</td>";
         element2 += "<td>" + riga.attivazione + "</td>";
+        element2 += "<td>" + controlNull(riga.tessera) + "</td>";
         element2 += "<td>" + statoActive(riga.stato) + "</td>";
         element2 += "<td>" + searchTargaTelepass(riga.id) + "</td>";
         element2 += "<td>" + riga.validitaterritoriale + "</td>";
@@ -58,11 +63,15 @@ function searchTelepass(id) {
 function openModRowTelepass(id) {
     cleanInput();
     var data = searchTelepass(id);
+    console.log("DATA TELEPASS: ", data);
     idRow = data.id;
     $("#input-tipologiatelepass").val(data.tipologia);
     $("#input-codicetelepass").val(data.codice);
     $("#input-statotelepass").val(data.stato);
+    $("#input-serialetelepass").val(data.seriale);
+    $("#input-attivazionetelepass").val(data.attivazione);
     $("#input-territorialetelepass").val(data.validitaterritoriale);
+    $("#input-tesseratelepass").val(data.tessera);
     $('#addRow3').modal('show');
 }
 
@@ -81,6 +90,7 @@ function controlFormTelepass() {
     var territorio = $("#input-territorialetelepass").val();
     var seriale = $("#input-serialetelepass").val();
     var attivazione = $("#input-attivazionetelepass").val();
+    var tessera = $("#input-tesseratelepass").val();
 
     var count = 0;
     var html = "<ul>";
@@ -105,7 +115,7 @@ function controlFormTelepass() {
             data.validitaterritoriale = territorio;
             data.attivazione = attivazione;
             data.seriale = seriale;
-
+            data.tessera = tessera;
             modRowTelepass(data);
         } else {
             addRowTelepass();
@@ -120,11 +130,12 @@ function addRowTelepass() {
     var territorio = $("#input-territorialetelepass").val();
     var seriale = $("#input-serialetelepass").val();
     var attivazione = $("#input-attivazionetelepass").val();
+    var tessera = $("#input-tesseratelepass").val();
 
     $.ajax({
         method: "POST",
         url: "api/createTelepass.php",
-        data: JSON.stringify({ codice: codice, tipologia: tipologia, stato: stato, validitaterritoriale: territorio, seriale: seriale, attivazione: attivazione}),
+        data: JSON.stringify({ codice: codice, tipologia: tipologia, stato: stato, validitaterritoriale: territorio, seriale: seriale, attivazione: attivazione, tessera: tessera}),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
@@ -146,7 +157,7 @@ function modRowTelepass(data) {
     $.ajax({
         method: "POST",
         url: "api/modTelepass.php",
-        data: JSON.stringify({ id: data.id, tipologia: data.tipologia, stato: data.stato, codice: data.codice, validitaterritoriale: data.validitaterritoriale, attivazione: data.attivazione, seriale: data.seriale}),
+        data: JSON.stringify({ id: data.id, tipologia: data.tipologia, stato: data.stato, codice: data.codice, validitaterritoriale: data.validitaterritoriale, attivazione: data.attivazione, seriale: data.seriale, tessera: data.tessera}),
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);

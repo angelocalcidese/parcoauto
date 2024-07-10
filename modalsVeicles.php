@@ -15,6 +15,7 @@
                                     <option>Autovettura</option>
                                     <option>Furgone</option>
                                     <option>Ciclomotore</option>
+                                    <option>Ambulanza</option>
                                     <option>Altro</option>
                                 </select>
                             </div>
@@ -41,6 +42,10 @@
                             <div class="mb-3">
                                 <label for="input-targa" class="col-form-label">Targa:</label>
                                 <input type="text" class="form-control input-insert" id="input-targa">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-posti" class="col-form-label">Posti Auto:</label>
+                                <input type="text" class="form-control input-insert numberInput" id="input-posti">
                             </div>
 
                         </div>
@@ -124,7 +129,8 @@
                             <h6 class="mt-3">Notifiche</h6>
                             <ul class="list-group mt-2">
                                 <li class="list-group-item list-not-alarm alarm-tagliando-not hide" style="color: #f50505;">
-                                    <i class="fa-solid fa-triangle-exclamation"></i><span></span> Km</li>
+                                    <i class="fa-solid fa-triangle-exclamation"></i><span></span> Km
+                                </li>
                                 <li class="list-group-item hide list-not-alarm alarm-distribuzione-not" style="color: #f50505;">
                                     <i class="fa-solid fa-triangle-exclamation"></i>
                                     Distribuzione in scadenza tra
@@ -151,6 +157,7 @@
                             <p>Tipologia: <b><span class="view-veicle" id="view-tipologia"></span></b></p>
                             <p>Marca: <b><span class="view-veicle" id="view-marca"></span></b></p>
                             <p>Modello: <b><span class="view-veicle" id="view-modello"></span></b></p>
+                            <p>Posti Auto: <b><span class="view-veicle" id="view-posti"></span></b></p>
                             <p>Proprietà: <b><span class="view-veicle" id="view-proprieta"></span></b></p>
                             <p>Acquisto: <b><span class="view-veicle" id="view-acquisto"></span></b></p>
                             <p>Vendita: <b><span class="view-veicle" id="view-vendita"></span></b></p>
@@ -187,7 +194,7 @@
     </div>
 </div>
 <div class="modal fade" id="viewGestEl" tabindex="-1" aria-labelledby="viewGestElLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewGestElLabel">
@@ -200,78 +207,186 @@
                     <div class="alert alert-danger hide" id="alert-error-intervento" role="alert"></div>
                     <div id="view-inter">
                         <div class="row">
-                            <div class="col-md-12 ms-auto " id="monitor-good">
+                            <div class="col border border-primary rounded pt-3">
 
-                                <table class="table" id="added-goods-to-employee">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Tipo Intervento</th>
-                                            <th scope="col">Data</th>
-                                            <th scope="col">Km</th>
-                                            <th scope="col">Costo</th>
-                                            <th scope="col">Fattura</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="bodyIntervento">
+                                <div id="display-add-int">
+                                    <div class="row" id="add-intervento-title">
+                                        <p class="h6  add-new-int">Aggiungi Intervento al Veicolo</p>
 
-                                    </tbody>
-                                </table>
+                                        <div class="col-7 add-new-int">
 
-                            </div>
-                        </div>
-                        <div id="display-add-int">
-                            <div class="row" id="add-intervento-title">
-                                <p class="h6">Aggiungi Intervento al Veicolo</p>
+                                            <label for="input-intervento" class="col-form-label">Tipo di Intervento:</label>
+                                            <ul class="list-group" id="sel-ins-int">
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('bollo')" name="Bollo" title="Bollo" id="check-ins-bollo">
+                                                            Bollo
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-bollo" onchange="sumCheckIns('bollo')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('assicurazione')" name="Assicurazione" title="Assicurazione" id="check-ins-assicurazione"> Assicurazione
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" onchange="sumCheckIns('assicurazione')" id="spesa-assicurazione" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('tagliando')" name="Tagliando" title="Tagliando" id="check-ins-tagliando"> Tagliando
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-tagliando" onchange="sumCheckIns('tagliando')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('revisione')" name="Revisione" title="Revisione" id="check-ins-revisione"> Revisione
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-revisione" onchange="sumCheckIns('revisione')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('riparazione')" name="Riparazione" title="Riparazione" id="check-ins-riparazione"> Riparazione
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-riparazione" onchange="sumCheckIns('riparazione')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" onchange="selCheckIns('gomme')" value="" name="Gomme" title="Cambio gomme" id="check-ins-gomme"> C. Gomme
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-gomme" onchange="sumCheckIns('gomme')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('rottamata')" name="Rottamata" title="Rottamata" id="check-ins-rottamata"> Rottamata
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-rottamata" onchange="sumCheckIns('rottamata')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('venduta')" name="Venduta" title="Venduta" id="check-ins-venduta"> Venduta
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-venduta" onchange="sumCheckIns('venduta')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" onchange="selCheckIns('furto')" value="" name="Furto" title="Furto" id="check-ins-furto"> Furto
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-furto" onchange="sumCheckIns('furto')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('incidente')" name="Incidente" title="Incidente" id="check-ins-incidente"> Incidente
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-incidente" onchange="sumCheckIns('incidente')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-5">
+                                            <label for="input-kmintervento" class="col-form-label add-new-int">Km del Veicolo:</label>
+                                            <input type="text" class="form-control add-new-int" id="input-kmintervento" placeholder="km">
 
-                                <div class="col">
-                                    <label for="input-intervento" class="col-form-label">Tipo di Intervento:</label>
-                                    <select class="form-select" id="input-intervento">
-                                        <option selected>Seleziona</option>
-                                        <option>Tagliando</option>
-                                        <option>Revisione</option>
-                                        <option>Bollo</option>
-                                        <option>Cambio Gomme</option>
-                                        <option>Riparazione</option>
-                                        <option>Rottamata</option>
-                                        <option>Assicurazione</option>
-                                        <option>Venduta</option>
-                                        <option>Furto</option>
-                                        <option>Incidente</option>
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <label for="input-kmintervento" class="col-form-label">Km Veicolo:</label>
-                                    <input type="text" class="form-control" id="input-kmintervento" placeholder="km">
-                                </div>
-                                <div class="col">
-                                    <label for="input-intgiorno" class="col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="Per Assicurazione, Bollo e Revisione verrà calcolata poi la data di scadenza, quindi inserire il giorno di pagamento.">In Data <i class="fa-solid fa-circle-info"></i> :</label>
-                                    <input type="text" class="form-control format-data" id="input-intgiorno" placeholder="giorno intervento">
-                                </div>
-                                <div class="col">
-                                    <label for="input-costointervento" class="col-form-label">Costo Int. &euro; :</label>
-                                    <input type="text" class="form-control" id="input-costointervento" placeholder="costo intervento">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <p class="h6 hide" id="doc-intervento-title">Aggiungi Documento a Intervento al Veicolo
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearDocInt()">Annulla <i class="fa-solid fa-xmark"></i></button>
-                                </p>
-                                <div class="col">
-                                    <label for="input-linkintervento" class="col-form-label">Fattura (pdf, jpg, png - max 10mb):</label>
-                                    <p id="filenameint" class="hide"><span>Nome del file</span> <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delFileInt()"><i class="fa-solid fa-trash"></i></button></p>
-                                    <div id="upload-int-file" class="input-group">
-                                        <input type="file" class="form-control" id="input-linkinterventoFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
+                                            <label for="input-intgiorno" class="col-form-label add-new-int" data-bs-toggle="tooltip" data-bs-placement="top" title="Per Assicurazione, Bollo e Revisione verrà calcolata poi la data di scadenza, quindi inserire il giorno di pagamento.">In Data <i class="fa-solid fa-circle-info"></i> :</label>
+                                            <input type="text" class="form-control format-data add-new-int" id="input-intgiorno" placeholder="giorno intervento">
+
+                                            <label for="input-costointervento " class="col-form-label add-new-int">Costo Totale Intervento &euro; :</label>
+                                            <input type="number" class="form-control add-new-int" id="input-costointervento" placeholder="Tot. intervento" disabled>
+
+                                            <p class="h6 hide" id="doc-intervento-title">Aggiungi Documento a Intervento al Veicolo
+                                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearDocInt()">Annulla <i class="fa-solid fa-xmark"></i></button>
+                                            </p>
+                                            <label for="input-linkintervento" class="col-form-label">Fattura (pdf, jpg, png - max 10mb):</label>
+                                            <p id="filenameint" class="hide"><span>Nome del file</span> <button type="button" class="btn btn-sm btn-outline-secondary" onclick="delFileInt()"><i class="fa-solid fa-trash"></i></button></p>
+                                            <div id="upload-int-file" class="input-group">
+                                                <input type="file" class="form-control" id="input-linkinterventoFile" aria-describedby="inputGroupFileAddon" aria-label="Upload">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row justify-content-center mt-3 mb-3">
+
+                                        <div class="col-4" style="text-align:center">
+                                            <button type="button" class="btn btn-outline-secondary" id="button-add-int" onclick="insIntervento()">Aggiungi</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row justify-content-center mt-3">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-md-12 ms-auto " id="monitor-good">
+                                        <div class="col border border-primary rounded pt-3 hide" id="adv-del-int">
+                                            <div class="row">
+                                                <p class="text-center"><b>Sicuro di Voler Cancellare questo Intervento?</b></p>
+                                                <p class="text-center">(I km non verranno automaticamente resettati, se occorre, utilizzare la funzione apposita)</p>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-link" onclick="delIntervento()">Si</button>
+                                                    <button type=" button" class="btn btn-link" onclick="clearDelInt()">No</button>
+                                                </div>
+                                            </div>
 
-                                <div class="col-4" style="text-align:center">
-                                    <button type="button" class="btn btn-outline-secondary" id="button-add-int" onclick="insIntervento()">Aggiungi</button>
+                                        </div>
+                                        <table class="table" id="added-goods-to-employee">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Del.</th>
+                                                    <th scope="col">Tipo Intervento</th>
+                                                    <th scope="col">Data</th>
+                                                    <th scope="col">Km</th>
+                                                    <th scope="col">Costo</th>
+                                                    <th scope="col">Fattura</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="bodyIntervento">
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+
+
 
 
                 </div>
@@ -454,6 +569,7 @@
                 <p class="mb-0" id="choice-text"></p>
                 <div id="mounth-choice">
                     <h6 class="mt-2">Seleziona il mese di richiesta km veicolo</h6>
+                    <div class="alert alert-danger hide" id="alert-error-rickm" role="alert">Selezionare il mese della richiesta</div>
                     <select class="form-select mt-4" id="input-mesekmrichiesta">
 
                     </select>
@@ -467,6 +583,28 @@
             <div class="modal-footer flex-nowrap p-0">
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send hide " onClick="yesSend()"><strong>Si</strong></button>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send-massive hide " onClick="yesSendMassive()"><strong>Si</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-no-send" data-bs-dismiss="modal">No</button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-close-send hide" onclick="closeModal()">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalCSV" tabindex="-1" aria-labelledby="csvModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+                <h5 class="mb-0">Carica XLSX</h5>
+                <h5 class="mb-0" id="csv-title"></h5>
+                <p class="mb-0" id="csv-text"></p>
+                <div class="spinner-border mb-3 hide" id="spinner-modal" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="mb-3" id="import-csv">
+                    <input class="form-control" type="file" id="import-csv">
+                </div>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end button-send" onClick="yesSendCsv()"><strong>Si</strong></button>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-no-send" data-bs-dismiss="modal">No</button>
                 <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 button-close-send hide" onclick="closeModal()">Chiudi</button>
             </div>

@@ -25,6 +25,10 @@
                                 <input type="text" class="form-control input-insert" id="input-attivazionetelepass">
                             </div>
                             <div class="mb-3">
+                                <label for="input-tesseratelepass" class="col-form-label">N. Tessera:</label>
+                                <input type="text" class="form-control input-insert" id="input-tesseratelepass">
+                            </div>
+                            <div class="mb-3">
                                 <label for="input-statotelepass" class="col-form-label">Stato Apparecchio:</label>
                                 <select class="form-select input-insert" id="input-statotelepass">
                                     <option selected value="1">Attivo</option>
