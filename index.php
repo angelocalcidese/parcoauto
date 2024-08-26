@@ -70,6 +70,9 @@
                 <th scope="col">Targa</th>
                 <th scope="col">Assegnato</th>
                 <th scope="col">km</th>
+                <th scope="col">Alimentazione</th>
+                <th scope="col">Classe Inquinamento</th>
+                <th scope="col">ZTL</th>
                 <th scope="col">Acquisto</th>
                 <th scope="col">Multicard</th>
                 <th scope="col">Telepass</th>

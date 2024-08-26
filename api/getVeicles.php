@@ -34,6 +34,9 @@ if ($result->num_rows > 0) {
       $object->proprieta = $row["proprieta"];
       $object->km = $row["km"];
       $object->kml = $row["kml"];
+      $object->alimentazione = $row["alimentazione"];
+      $object->classeinq = $row["classeinq"];
+      $object->ztl = $row["ztl"];
       $object->distribuzione = $row["distribuzione"];
       $object->tagliando = $row["tagliando"];
       $object->stato = $row["stato"];

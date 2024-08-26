@@ -67,8 +67,16 @@
                                 <input type="text" class="form-control input-insert numberInput" id="input-km">
                             </div>
                             <div class="mb-3">
+                                <label for="input-alimentazione" class="col-form-label">Alimentazione:</label>
+                                <input type="text" class="form-control input-insert" id="input-alimentazione">
+                            </div>
+                            <div class="mb-3">
                                 <label for="input-kml" class="col-form-label">Consumo Km/l:</label>
                                 <input type="text" class="form-control input-insert numberInput" id="input-kml">
+                            </div>
+                            <div class="mb-3">
+                                <label for="input-classeinq" class="col-form-label">Classe Inquinamento:</label>
+                                <input type="text" class="form-control input-insert" id="input-classeinq">
                             </div>
                         </div>
                         <div class="col">
@@ -92,6 +100,14 @@
                                 <label for="input-revisione" class="col-form-label">Scadenza Revisione:</label>
                                 <input type="text" class="form-control input-insert format-data" id="input-revisione" pattern="^\\s*($1)\\W*($2)?\\W*($3)?([0-9]*).*" maxlength="10">
                             </div>
+                            <div class="mb-3">
+                                <label for="input-alimentazione" class="col-form-label">Autorizzazione ZTL:</label>
+                                <select class="form-select input-insert" id="input-ztl">
+                                    <option value="0" selected>No</option>
+                                    <option value="1">Si</option>
+                                </select>
+                            </div>
+
                         </div>
                     </div>
                     <div class="row">
@@ -126,6 +142,7 @@
                             </div>
                             <p>Ultimo Tagliando a km: <b><span id="ultimo-tagliando"></span></b></p>
                             <p id="prossimo-tagliando">Prossimo Tagliando tra km: <b><span></span></b></p>
+                            <p id="prossima-distribuzione">Prossima Distribuzione tra km: <b><span></span></b></p>
                             <h6 class="mt-3">Notifiche</h6>
                             <ul class="list-group mt-2">
                                 <li class="list-group-item list-not-alarm alarm-tagliando-not hide" style="color: #f50505;">
@@ -164,10 +181,14 @@
                             <p>Km: <b><span class="view-veicle" id="view-km"></span></b></p>
                             <p>Targa: <b><span class="view-veicle" id="view-targa"></span></b></p>
                             <p>Stato: <b><span class="view-veicle" id="view-stato"></span></b></p>
+                            <p>Assegnato a: <b><span class="view-veicle" id="view-assegnato"></span></b></p>
                         </div>
                         <div class="col-md-4 ms-auto">
-                            <p>Assegnato a: <b><span class="view-veicle" id="view-assegnato"></span></b></p>
+
                             <p>Km/l: <b><span class="view-veicle" id="view-kml"></span></b></p>
+                            <p>Alimentazione: <b><span class="view-veicle" id="view-alimentazione"></span></b></p>
+                            <p>Classe Inquinamento: <b><span class="view-veicle" id="view-classeinq"></span></b></p>
+                            <p>ZTL: <b><span class="view-veicle" id="view-ztl"></span></b></p>
                             <p>Scadenza Revisione: <b><span class="view-veicle" id="view-revisione"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-revisione" style="color: #f50505;"></i></b></p>
                             <p>Scadenza Assicurazione: <b><span class="view-veicle" id="view-assicurazione"></span> <i class="fa-solid fa-triangle-exclamation alarm-not " id="alarm-assicurazione" style="color: #f50505;"></i></b></p>
                             <p>Scadenza Bollo: <b><span class="view-veicle" id="view-bollo"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-bollo" style="color: #f50505;"></i></b></p>
@@ -198,7 +219,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewGestElLabel">
-                    Interventi veicolo</h1>
+                    Interventi veicolo targato <u><b id="int-targa"></b></u> assegnato a <u><b id="int-assegnatoa"></b></u></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -245,6 +266,16 @@
                                                         </div>
                                                         <div class="col">
                                                             <input class="form-control form-control-sm spesa-input" id="spesa-tagliando" onchange="sumCheckIns('tagliando')" type="number" placeholder="&euro;" disabled>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('distribuzione')" name="Distribuzione" title="Distribuzione" id="check-ins-distribuzione"> Distribuzione
+                                                        </div>
+                                                        <div class="col">
+                                                            <input class="form-control form-control-sm spesa-input" id="spesa-distribuzione" onchange="sumCheckIns('distribuzione')" type="number" placeholder="&euro;" disabled>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -402,7 +433,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewListElLabel">
-                    <span id="titolo-bene">Assegnatari Veicoli</span>
+                    <span id="titolo-bene">Assegnatari Veicoli targato <u><b id="story-targa"></b></u></span>
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -475,7 +506,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewListKmLabel">
-                    <span id="titolo-bene">Storico Km Veicoli <b id="title-km-story"></b></span>
+                    <span id="titolo-bene">Storico Km Veicoli <b id="title-km-story"></b> del veicolo targato <u><b id="km-story-targa"></b></u></span>
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -549,6 +580,7 @@
         <div class="modal-content rounded-3 shadow">
             <div class="modal-body p-4 text-center">
                 <h5 class="mb-0">Seleziona l'anno di ricerca per lo storico</h5>
+                <h6 id="km-targa-1"></h6>
                 <select class="form-select mt-4" id="input-annokmstoricos">
                     <option selected>2024</option>
                     <option>2023</option>

@@ -5,7 +5,7 @@ require_once "../../portale/utility.php";
 
 $data = getRequestDataBody();
 
-$sql = "SELECT * FROM `interventi` WHERE `veicolo` = " . $data["veicolo"];
+$sql = "SELECT * FROM `interventi` WHERE `veicolo` = " . $data["veicolo"]. " ORDER BY str_to_date(data,'%d/%m/%Y')";
 $result = $conn->query($sql);
 
 $res = array();
