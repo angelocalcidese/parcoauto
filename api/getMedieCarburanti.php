@@ -4,25 +4,25 @@ require_once "../../portale/config.php";
 require_once "../../portale/utility.php";
 
 $data = getRequestDataBody();
-
-$sql = "SELECT * FROM `interventi` WHERE `veicolo` = " . $data["veicolo"]. " ORDER BY str_to_date(data,'%d/%m/%Y') DESC";
+$res = array();
+$sql = "SELECT * FROM `carburanti_media` WHERE `day` = '".$data["day"]."'";
 $result = $conn->query($sql);
 
-$res = array();
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $object = new stdClass();
         $object->id = $row["id"];
-        $object->intervento = $row["intervento"];
-        $object->data = $row["data"];
-        $object->km = $row["km"];
-        $object->prezzo = $row["prezzo"];
-        $object->fattura = $row["fattura"];
+        $object->day = $row["day"];
+        $object->benzina = $row["benzina"];
+        $object->diesel = $row["diesel"];
+        $object->gpl = $row["gpl"];
+        
         array_push($res, $object);
     }
 }
 
 echo json_encode($res);
+//echo $sql;
 
 $conn->close();

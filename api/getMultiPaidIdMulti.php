@@ -2,27 +2,25 @@
 require_once "../../portale/cors.php";
 require_once "../../portale/config.php";
 require_once "../../portale/utility.php";
+require_once "../../portale/api/getUserCoockie.php";
 
 $data = getRequestDataBody();
-
-$sql = "SELECT * FROM `interventi` WHERE `veicolo` = " . $data["veicolo"]. " ORDER BY str_to_date(data,'%d/%m/%Y') DESC";
-$result = $conn->query($sql);
-
 $res = array();
+$sql = "SELECT * FROM `multicard_spesa` WHERE `anno` = '" . $data["anno"] . "' AND `codice` = '" . $data["codice"] . "'";
+$result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $object = new stdClass();
         $object->id = $row["id"];
-        $object->intervento = $row["intervento"];
-        $object->data = $row["data"];
-        $object->km = $row["km"];
-        $object->prezzo = $row["prezzo"];
-        $object->fattura = $row["fattura"];
+        $object->codice = $row["codice"];
+        $object->mese = $row["mese"];
+        $object->spesa = $row["spesa"];
         array_push($res, $object);
     }
 }
 
 echo json_encode($res);
+//echo $sql;
 
 $conn->close();

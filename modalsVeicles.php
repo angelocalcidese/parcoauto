@@ -15,7 +15,6 @@
                                     <option>Autovettura</option>
                                     <option>Furgone</option>
                                     <option>Ciclomotore</option>
-                                    <option>Ambulanza</option>
                                     <option>Altro</option>
                                 </select>
                             </div>
@@ -137,38 +136,77 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="text-center">
-                                <img data-src="holder.js/200x200" class="rounded" alt="200x200" style="width: 200px; height: 200px;" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_18e2832c287%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_18e2832c287%22%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2274.41666603088379%22%20y%3D%22104.40000009536743%22%3E200x200%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" data-holder-rendered="true">
+                            <div class="border border-primary rounded px-2 py-2 mx-1 my-2">
+                                <h6>Prossimi Interventi e info:</h6>
+                                <p>Ultimo Tagliando a km: <b><span id="ultimo-tagliando"></span></b></p>
+                                <p id="prossimo-tagliando">Prossimo Tagliando tra km: <b><span></span></b></p>
+                                <p id="prossima-distribuzione">Prossima Distribuzione tra km: <b><span></span></b></p>
                             </div>
-                            <p>Ultimo Tagliando a km: <b><span id="ultimo-tagliando"></span></b></p>
-                            <p id="prossimo-tagliando">Prossimo Tagliando tra km: <b><span></span></b></p>
-                            <p id="prossima-distribuzione">Prossima Distribuzione tra km: <b><span></span></b></p>
-                            <h6 class="mt-3">Notifiche</h6>
-                            <ul class="list-group mt-2">
-                                <li class="list-group-item list-not-alarm alarm-tagliando-not hide" style="color: #f50505;">
-                                    <i class="fa-solid fa-triangle-exclamation"></i><span></span> Km
-                                </li>
-                                <li class="list-group-item hide list-not-alarm alarm-distribuzione-not" style="color: #f50505;">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                    Distribuzione in scadenza tra
-                                    <span></span> km
-                                </li>
-                                <li class="list-group-item hide list-not-alarm alarm-bollo-not" style="color: #f50505;">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                    Bollo in scadenza tra
-                                    <span></span> giorni
-                                </li>
-                                <li class="list-group-item hide list-not-alarm alarm-assicurazione-not" style="color: #f50505;">
-                                    <i class="fa-solid fa-triangle-exclamation"></i>
-                                    Assicurazione in scadenza tra
-                                    <span></span> giorni
-                                </li>
-                                <li class="list-group-item hide list-not-alarm alarm-revisione-not" style="color: #f50505;">
-                                    <i class="fa-solid fa-triangle-exclamation "></i>
-                                    Revisione in scadenza tra
-                                    <span></span> giorni
-                                </li>
-                            </ul>
+                            <div class="border border-primary rounded px-2 py-2 mx-1 my-2">
+                                <h6 class="mt-3">Notifiche:</h6>
+                                <ul class="list-group mt-2">
+                                    <li class="list-group-item list-not-alarm alarm-tagliando-not-important hide text-danger">
+                                        <i class="fa-solid fa-triangle-exclamation"></i><span></span> Km
+                                    </li>
+                                    <li class="list-group-item list-not-alarm alarm-tagliando-not hide text-primary">
+                                        <i class="fa-solid fa-circle-info"></i><span></span> Km
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-distribuzione-not-important text-danger">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        Distribuzione scaduta da
+                                        <span></span> km
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-distribuzione-not text-primary">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        Distribuzione in scadenza tra
+                                        <span></span> km
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-bollo-not text-primary">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        Bollo in scadenza tra
+                                        <span></span> giorni
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-bollo-not-important text-danger">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        Bollo scaduto da
+                                        <span></span> giorni
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-assicurazione-not text-primary">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        Assicurazione in scadenza tra
+                                        <span></span> giorni
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-assicurazione-not-important text-danger">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        Assicurazione scaduta da
+                                        <span></span> giorni
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-revisione-not text-primary">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                        Revisione in scadenza tra
+                                        <span></span> giorni
+                                    </li>
+                                    <li class="list-group-item hide list-not-alarm alarm-revisione-not-important text-danger">
+                                        <i class="fa-solid fa-triangle-exclamation "></i>
+                                        Revisione scaduta da
+                                        <span></span> giorni
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="border border-primary rounded px-2 py-2 mx-1 my-2">
+                                <h6 class="mt-3">Documenti Veicolo:</h6>
+                                <ul class="list-group mt-2">
+                                    <li class="list-group-item doc-download hide" id="dowload-libretto">
+                                        <a href="" target="_blank"><i class="fa-regular fa-file"></i> Libretto di circolazione</a>
+                                    </li>
+                                    <li class="list-group-item doc-download hide" id="dowload-assicurazione">
+                                        <a href="" target="_blank"><i class="fa-regular fa-file"></i> Assicurazione</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+
+
                         </div>
                         <div class="col-md-4 ms-auto">
                             <p>Tipologia: <b><span class="view-veicle" id="view-tipologia"></span></b></p>
@@ -189,11 +227,30 @@
                             <p>Alimentazione: <b><span class="view-veicle" id="view-alimentazione"></span></b></p>
                             <p>Classe Inquinamento: <b><span class="view-veicle" id="view-classeinq"></span></b></p>
                             <p>ZTL: <b><span class="view-veicle" id="view-ztl"></span></b></p>
-                            <p>Scadenza Revisione: <b><span class="view-veicle" id="view-revisione"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-revisione" style="color: #f50505;"></i></b></p>
-                            <p>Scadenza Assicurazione: <b><span class="view-veicle" id="view-assicurazione"></span> <i class="fa-solid fa-triangle-exclamation alarm-not " id="alarm-assicurazione" style="color: #f50505;"></i></b></p>
-                            <p>Scadenza Bollo: <b><span class="view-veicle" id="view-bollo"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-bollo" style="color: #f50505;"></i></b></p>
-                            <p>Tagliando ogni: <b><span class="view-veicle" id="view-tagliando"></span> <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-tagliando" style="color: #f50505;"></i></b></p>
-                            <p>Cinghia Distribuzione ogni: <b><span class="view-veicle" id="view-distribuzione"> </span><i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-distribuzione" style="color: #f50505;"></i></b></p>
+                            <p>Scadenza Revisione: <b><span class="view-veicle" id="view-revisione"></span>
+                                    <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-revisione-important" style="color: #f50505;"></i>
+                                    <i class="fa-solid fa-circle-info alarm-not hide" id="alarm-revisione" style="color: #1e64dc;"></i>
+                                </b></p>
+                            <p>Scadenza Assicurazione: <b><span class="view-veicle" id="view-assicurazione"></span>
+                                    <i class="fa-solid fa-triangle-exclamation alarm-not " id="alarm-assicurazione-important" style="color: #f50505;"></i>
+                                    <i class="fa-solid fa-circle-info alarm-not hide" id="alarm-assicurazione" style="color: #1e64dc;"></i>
+                                </b></p>
+                            <p>Scadenza Bollo: <b>
+                                    <span class="view-veicle" id="view-bollo"></span>
+                                    <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-bollo-important" style="color: #f50505;"></i>
+                                    <i class="fa-solid fa-circle-info alarm-not hide" id="alarm-bollo" style="color: #1e64dc;"></i>
+                                </b>
+                            </p>
+                            <p>Tagliando ogni: <b>
+                                    <span class="view-veicle" id="view-tagliando"></span>
+                                    <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-tagliando-important" style="color: #f50505;"></i>
+                                    <i class="fa-solid fa-circle-info alarm-not hide" id="alarm-tagliando" style="color: #1e64dc;"></i>
+                                </b></p>
+                            <p>Cinghia Distribuzione ogni: <b>
+                                    <span class="view-veicle" id="view-distribuzione"> </span>
+                                    <i class="fa-solid fa-triangle-exclamation alarm-not hide" id="alarm-distribuzione-important" style="color: #f50505;"></i>
+                                    <i class="fa-solid fa-circle-info alarm-not hide" id="alarm-distribuzione" style="color: #1e64dc;"></i>
+                                </b></p>
                             <p>Multicard: <b><span class="view-veicle" id="view-multicard"></span></b></p>
                             <p>Telepass: <b><span class="view-veicle" id="view-telepass"></span></b></p>
                         </div>
@@ -219,7 +276,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewGestElLabel">
-                    Interventi veicolo targato <u><b id="int-targa"></b></u> assegnato a <u><b id="int-assegnatoa"></b></u></h1>
+                    Interventi e documenti veicolo targato <u><b id="int-targa"></b></u> assegnato a <u id="int-assegnatoa"></u></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -228,131 +285,201 @@
                     <div class="alert alert-danger hide" id="alert-error-intervento" role="alert"></div>
                     <div id="view-inter">
                         <div class="row">
+
                             <div class="col border border-primary rounded pt-3">
 
                                 <div id="display-add-int">
                                     <div class="row" id="add-intervento-title">
-                                        <p class="h6  add-new-int">Aggiungi Intervento al Veicolo</p>
+                                        <p class="h6  add-new-int">Aggiungi Intervento o Documento Veicolo</p>
 
-                                        <div class="col-7 add-new-int">
-
+                                        <div class="col-7 add-new-int" id="sel-ins-int">
                                             <label for="input-intervento" class="col-form-label">Tipo di Intervento:</label>
-                                            <ul class="list-group" id="sel-ins-int">
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('bollo')" name="Bollo" title="Bollo" id="check-ins-bollo">
-                                                            Bollo
+                                            <fieldset class="border rounded p-1 mb-1">
+                                                <legend class="float-none w-auto p-1" style="font-size:12px; font-weight:bold">Doc. Amministrativi</legend>
+                                                <ul class="list-group list-group-flush" style="font-size:14px">
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('acquisto')" name="Acquisto" title="Acquisto" id="check-ins-acquisto">
+                                                                Acquisto
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-acquisto" onchange="sumCheckIns('acquisto')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-bollo" onchange="sumCheckIns('bollo')" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('venduta')" name="Venduta" title="Venduta" id="check-ins-venduta"> Vendita
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-venduta" onchange="sumCheckIns('venduta')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('assicurazione')" name="Assicurazione" title="Assicurazione" id="check-ins-assicurazione"> Assicurazione
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('rottamata')" name="Rottamata" title="Rottamata" id="check-ins-rottamata"> Rottamazione
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-rottamata" onchange="sumCheckIns('rottamata')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" onchange="sumCheckIns('assicurazione')" id="spesa-assicurazione" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('bollo')" name="Bollo" title="Bollo" id="check-ins-bollo">
+                                                                Bollo
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-bollo" onchange="sumCheckIns('bollo')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('tagliando')" name="Tagliando" title="Tagliando" id="check-ins-tagliando"> Tagliando
+                                                    </li>
+                                                </ul>
+
+                                            </fieldset>
+                                            <fieldset class="border rounded p-1 mb-1">
+                                                <legend class="float-none w-auto p-1" style="font-size:12px; font-weight:bold">Documenti veicolo</legend>
+                                                <ul class="list-group list-group-flush" style="font-size:14px">
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('libretto')" name="Libretto" title="Libretto" id="check-ins-libretto">
+                                                                Libretto
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-libretto" onchange="sumCheckIns('libretto')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-tagliando" onchange="sumCheckIns('tagliando')" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('assicurazione')" name="Assicurazione" title="Assicurazione" id="check-ins-assicurazione"> Assicurazione
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" onchange="sumCheckIns('assicurazione')" id="spesa-assicurazione" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('distribuzione')" name="Distribuzione" title="Distribuzione" id="check-ins-distribuzione"> Distribuzione
+                                                    </li>
+                                                </ul>
+                                            </fieldset>
+                                            <fieldset class="border rounded p-1 mb-1">
+                                                <legend class="float-none w-auto p-1" style="font-size:12px; font-weight:bold">Interventi</legend>
+                                                <ul class="list-group list-group-flush" style="font-size:14px">
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('tagliando')" name="Tagliando" title="Tagliando" id="check-ins-tagliando"> Tagliando
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-tagliando" onchange="sumCheckIns('tagliando')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-distribuzione" onchange="sumCheckIns('distribuzione')" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('distribuzione')" name="Distribuzione" title="Distribuzione" id="check-ins-distribuzione"> Distribuzione
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-distribuzione" onchange="sumCheckIns('distribuzione')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('revisione')" name="Revisione" title="Revisione" id="check-ins-revisione"> Revisione
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('revisione')" name="Revisione" title="Revisione" id="check-ins-revisione"> Revisione
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-revisione" onchange="sumCheckIns('revisione')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-revisione" onchange="sumCheckIns('revisione')" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('riparazione')" name="Riparazione" title="Riparazione" id="check-ins-riparazione"> Riparazione
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-riparazione" onchange="sumCheckIns('riparazione')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('riparazione')" name="Riparazione" title="Riparazione" id="check-ins-riparazione"> Riparazione
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" onchange="selCheckIns('gomme')" value="" name="Gomme" title="Cambio gomme" id="check-ins-gomme"> C. Gomme
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-gomme" onchange="sumCheckIns('gomme')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-riparazione" onchange="sumCheckIns('riparazione')" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+
+
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" onchange="selCheckIns('furto')" value="" name="Furto" title="Furto" id="check-ins-furto"> Furto
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-furto" onchange="sumCheckIns('furto')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" onchange="selCheckIns('gomme')" value="" name="Gomme" title="Cambio gomme" id="check-ins-gomme"> C. Gomme
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('incidente')" name="Incidente" title="Incidente" id="check-ins-incidente"> Incidente
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-incidente" onchange="sumCheckIns('incidente')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-gomme" onchange="sumCheckIns('gomme')" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('lavaggio')" name="Lavaggio" title="Lavaggio" id="check-ins-lavaggio"> Lavaggio
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-lavaggio" onchange="sumCheckIns('lavaggio')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('rottamata')" name="Rottamata" title="Rottamata" id="check-ins-rottamata"> Rottamata
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('sanificazione')" name="Sanificazione" title="Sanificazione" id="check-ins-sanificazione"> Sanificazione
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-sanificazione" onchange="sumCheckIns('sanificazione')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-rottamata" onchange="sumCheckIns('rottamata')" type="number" placeholder="&euro;" disabled>
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('altro')" name="altro" title="Altro" id="check-ins-altro"> Altro
+                                                            </div>
+                                                            <div class="col">
+                                                                <input class="form-control form-control-sm spesa-input" id="spesa-altro" onchange="sumCheckIns('altro')" type="number" placeholder="&euro;" disabled>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('venduta')" name="Venduta" title="Venduta" id="check-ins-venduta"> Venduta
-                                                        </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-venduta" onchange="sumCheckIns('venduta')" type="number" placeholder="&euro;" disabled>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" onchange="selCheckIns('furto')" value="" name="Furto" title="Furto" id="check-ins-furto"> Furto
-                                                        </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-furto" onchange="sumCheckIns('furto')" type="number" placeholder="&euro;" disabled>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li class="list-group-item">
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <input class="form-check-input check-ins" type="checkbox" value="" onchange="selCheckIns('incidente')" name="Incidente" title="Incidente" id="check-ins-incidente"> Incidente
-                                                        </div>
-                                                        <div class="col">
-                                                            <input class="form-control form-control-sm spesa-input" id="spesa-incidente" onchange="sumCheckIns('incidente')" type="number" placeholder="&euro;" disabled>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                                    </li>
+                                                </ul>
+
+                                            </fieldset>
+
                                         </div>
-                                        <div class="col-5">
-                                            <label for="input-kmintervento" class="col-form-label add-new-int">Km del Veicolo:</label>
+                                        <div class="col-5" id="colonna-carica">
+                                            <label for="input-kmintervento" class="col-form-label add-new-int mb-3">Km del Veicolo:</label>
                                             <input type="text" class="form-control add-new-int" id="input-kmintervento" placeholder="km">
 
                                             <label for="input-intgiorno" class="col-form-label add-new-int" data-bs-toggle="tooltip" data-bs-placement="top" title="Per Assicurazione, Bollo e Revisione verrà calcolata poi la data di scadenza, quindi inserire il giorno di pagamento.">In Data <i class="fa-solid fa-circle-info"></i> :</label>
@@ -423,7 +550,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="butt-inter" onclick="closeModal()">Chiudi</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="butt-inter">Chiudi</button>
             </div>
         </div>
     </div>
@@ -502,7 +629,7 @@
 </div>
 
 <div class="modal fade" id="viewListKm" tabindex="-1" aria-labelledby="viewListKmLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="viewListKmLabel">
@@ -550,12 +677,13 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Mese</th>
-                                            <th scope="col">Assegnata a</th>
-                                            <th scope="col">Km da</th>
-                                            <th scope="col">Km a</th>
-                                            <th scope="col">Km effettuati</th>
-                                            <th scope="col">Spese Extra</th>
-                                            <th scope="col">Add/Mod.</th>
+                                            <th scope="col" class="text-center">Assegnata a</th>
+                                            <th scope="col" class="text-center">Km da</th>
+                                            <th scope="col" class="text-center">Km a</th>
+                                            <th scope="col" class="text-center">Km effettuati</th>
+                                            <th scope="col" class="text-center">Spese Extra</th>
+                                            <th scope="col" class="text-center">Spesa Multicard</th>
+                                            <th scope="col" class="text-center">Add/Mod.</th>
                                         </tr>
                                     </thead>
                                     <tbody id="bodyKm">

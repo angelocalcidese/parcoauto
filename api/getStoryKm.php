@@ -20,6 +20,7 @@ if ($result->num_rows > 0) {
         $object->spesacard = $row["spesacard"];
         $object->spesaextra = $row["spesaextra"];
         $object->mese = $row["mese"];
+        $object->multicard = $row["multicard"];
         array_push($km, $object);
     }
 }

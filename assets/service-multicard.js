@@ -1,20 +1,26 @@
 var multicard = [];
+var idMulti = null;
+var mesemulti = [];
+var tipocontratto = [];
 function searchTargaMulti(id) {
     var res = "-";
     for (var a = 0; a < rowel.length; a++){
         if (rowel[a].multicard == id) {
              if (res != "-") {
-                 res = res + ' <a href="#" data-toggle="tooltip" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+                 res = res + ' <a href="#" data-toggle="tooltip" data-bs-html="true" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
             } else {
-                 res = '<a href="#" data-toggle="tooltip" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
+                 res = '<a href="#" data-toggle="tooltip" data-bs-html="true" title="' + searchAssignedCars(rowel[a].assegnatoa) + '" class="link-dark link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" onClick="viewVeicle(' + a + ')">' + rowel[a].targa + '</a>';
 
             }
         }
     }
     return res;
 }
+
+
 function popMulticard(righe) {
     multicard = righe;
+
     for (i = 0; i < righe.length; i++) {
         var riga = righe[i];
         var element = '<td><i class="fa-solid fa-credit-card" title="' + riga.id + '"></i></td>';
@@ -26,9 +32,9 @@ function popMulticard(righe) {
         element += "<td>" + riga.scadenzacarta + "</td>";
         element += "<td>" + yesOrNo(riga.rinnovabile) + "</td>";
         element += "<td>" + riga.pin + "</td>";
+        element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="choiceYearMulticard(' + riga.id + ')"><i class="fa-solid fa-coins"></i></button></td>';
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="viewListCars(' + riga.id + ')"><i class="fa-solid fa-plus"></i></i></button></td>';
         element += '<td style="text-align:center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="openModRowMulti(' + riga.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
-        
         $("<tr/>").append(element).appendTo("#tabella-multicard");
         
         var opt = '<option value="' + riga.id + '">' + riga.codice + '</option>';
@@ -45,8 +51,196 @@ function popMulticard(righe) {
         element2 += "<td>" + riga.pin + "</td>";
        
         $("<tr/>").append(element2).appendTo("#tabella-export-multicard");
+
+        if (riga.stato == "1") {
+            var typecontr = riga.tipocontratto.replace(" ", "");
+            var listspesa = '<tr class="allmulti-lists list-paid-' + typecontr +' hide" ><th scope="row" class="text-start">' + riga.codice + '</th>'; 
+            listspesa += '<td><div class="container"><div class="row"><div class="col-md-2">&euro;</div>';
+            listspesa += '<div class="col-md-8"><input class="form-control form-control-sm mese-card" id="spesa-list-' + riga.id + '" type="number" placeholder="0,00"></div>';
+            listspesa += '<div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveForMonthAngYear(' + riga.id + ')">Save</button></div></div></div></td>';
+            listspesa += '<td id="spesalist-messaggio-' + riga.id + '"> <p class="text-secondary"><i class="fa-regular fa-share-from-square"></i> Non Caricato</p></td></tr>';
+            //$("<tr/>").append(listspesa).appendTo("#yaear-month-spesa-lists");
+
+            $("#yaear-month-spesa-lists").append(listspesa);
+            
+            var found = false;
+            for (var a = 0; a < tipocontratto.length; a++){
+                if (tipocontratto[a] == riga.tipocontratto) {
+                    found = true;
+                }
+            }
+            if (!found) tipocontratto.push(riga.tipocontratto);
+        }
+        
+
+    }
+
+    console.log("TIPI CONTRATTO", tipocontratto);
+    for (var a = 0; a < tipocontratto.length; a++) {
+        $("#input-typemulticards").append('<option>' + tipocontratto[a] + '</option>');
+    }
+    var totList = '<tr class="table-secondary"><td></td><td><b>Totale: <span id="tot-spesa-list">&euro; 0,00</span></b></td><td></td></tr>';
+    $("#yaear-month-spesa-lists").append(totList);
+    //$("<tr/>").append(totList).appendTo("#yaear-month-spesa-lists");
+}
+function openModalYearMonthCard() {
+    $("#input-mesemulticards").val(d.getMonth() + 1);
+    $("#input-annomulticards").val(d.getFullYear());
+    $("#choiceYearAndMonth").modal("show");
+}
+
+function openListSpesa() {
+    $(".allmulti-lists").addClass("hide");
+    var mese = $("#input-mesemulticards").val();
+    var anno = $("#input-annomulticards").val();
+    var tipocontratto = $("#input-typemulticards").val();
+    $("#spesa-fornitore-list").text(tipocontratto);
+    tipocontr = tipocontratto.replace(" ", "");
+    $(".mese-card").val("");
+
+    for (var a = 0; a < multicard.length; a++){
+        $("#spesalist-messaggio-" + multicard[a].id).html('<p class="text-secondary"><i class="fa-regular fa-share-from-square"></i> Non Caricato</p>');
+    }
+
+    $(".list-paid-" + tipocontr).removeClass("hide");
+    
+    console.log("TIPOCONTRATTO", tipocontratto);
+    $("#spesa-mese-list").text(mese);
+    $("#anno-mese-list").text(anno);
+    
+    $.ajax({
+        method: "POST",
+        url: "api/getMultiPaidMonthYear.php",
+        data: JSON.stringify({ mese: mese, anno: anno, tipocontratto: tipocontratto }),
+        dataType: 'json',
+        success: function (data) {
+             console.log("MULTICARD PAID", data);
+            mesemulti = data;
+            $("#choiceYearAndMonth").modal("hide");
+            $("#insertSpesaAllMulticard").modal("show");
+            var spesatot = 0;
+            for (var a = 0; a < data.length; a++) {
+                $("#spesa-list-" + data[a].codice).val(data[a].spesa);
+                $("#spesalist-messaggio-" + data[a].codice).html('<p class="text-success"><i class="fa-solid fa-circle-check"></i> Presente</p>');
+                spesatot = spesatot + parseFloat(data[a].spesa);
+            }
+            $("#tot-spesa-list").text(formatCurrency(spesatot));
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+        }
+    });
+}
+
+function choiceYearMulticard(id) {
+    idMulti = searchMulticard(id);
+    var card = searchMulticard(id);
+    $("#modalChoiceMulticard").modal("show");
+    $(".multicard-name").html("<b>" + card.codice + "</b>");
+}
+
+function searchYear() {
+    $(".mese-card").val("");
+    var anno = $("#input-annomulticard").val();
+    $("#multicard-year").text(anno);
+    var totalespesa = 0;
+    for (var a = 1; a <= 12; a++) {
+          $("#stato-mese-multi-" + a).html('<p class="text-secondary"><i class="fa-regular fa-share-from-square"></i> Non Caricato</p>');
+        }
+    $("#totale-spesa-multi").text(formatCurrency(totalespesa));
+    
+    $.ajax({
+        method: "POST",
+        url: "api/getMultiPaid.php",
+        data: JSON.stringify({ id: idMulti.id, anno: anno}),
+        dataType: 'json',
+        success: function (data) {
+           // console.log("MULTICARD PAID", data);
+            mesemulti = data;
+            $("#modalChoiceMulticard").modal("hide");
+
+            for (var a = 0; a < data.length; a++){
+                $("#multi-mounth-" + data[a].mese).val(data[a].spesa);
+                $("#stato-mese-multi-" + data[a].mese).html('<p class="text-success"><i class="fa-solid fa-circle-check"></i> Presente</p>');
+                totalespesa = totalespesa + parseFloat(data[a].spesa);
+            }
+            
+            $("#totale-spesa-multi").text(formatCurrency(totalespesa));
+            $("#insertMulticardSpesa").modal("show");
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+        }
+    });    
+}
+
+function saveForMonthAngYear(codice) {
+    var mese = $("#input-mesemulticards").val();
+    var anno = $("#input-annomulticards").val();
+    var spesa = $("#spesa-list-" + codice).val();
+    var preso = false;
+    idMulti = searchMulticard(codice);
+    for (var a = 0; a < mesemulti.length; a++) {
+        if (mesemulti[a].codice == codice) {
+            preso = true;
+        }
+    }
+
+    if (preso) {
+        editPaid(anno, mese, codice, spesa);
+    } else {
+        addPaid(anno, mese, codice, spesa)
     }
 }
+
+function saveMultiPaid(id) {
+    var anno = $("#input-annomulticard").val();
+    var spesa = $("#multi-mounth-" + id).val();
+    var preso = false;
+
+    for (var a = 0; a < mesemulti.length; a++){
+        if (mesemulti[a].mese == id) {
+            preso = true;
+        }
+    }
+
+    if (preso) {
+        editPaid(anno, id, idMulti, spesa, true);
+    } else {
+        addPaid(anno, id, idMulti, spesa, true)
+    }
+}
+
+function addPaid(anno, mese, codice, spesa, single) { 
+    $.ajax({
+        method: "POST",
+        url: "api/insertMultiPaid.php",
+        data: JSON.stringify({ idcodice: idMulti.id, anno: anno, mese: mese, spesa: spesa, tipocontratto: idMulti.tipocontratto }),
+        contentType: "application/json",
+        success: function (data) {
+            if (single) { searchYear(); } else { openListSpesa(); }
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+        }
+    });
+}
+
+function editPaid(anno, mese, codice, spesa, single) {
+    $.ajax({
+        method: "POST",
+        url: "api/modMultiPaid.php",
+        data: JSON.stringify({ idcodice: idMulti.id, anno: anno, mese: mese, spesa: spesa, tipocontratto: idMulti.tipocontratto }),
+        contentType: "application/json",
+        success: function (data) {
+            if (single) { searchYear(); } else { openListSpesa(); }
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+        }
+    });
+}
+
 function searchMulticard(id) {
     var data = "";
     for (var a = 0; a < multicard.length; a++) {

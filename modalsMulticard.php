@@ -114,3 +114,321 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalChoiceMulticard" tabindex="-1" aria-labelledby="choiceModalMulticard" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+                <h5 class="mb-0">Seleziona l'anno di ricerca per la Multicard: <span class="multicard-name"></span></h5>
+                <select class="form-select mt-4" id="input-annomulticard">
+                    <option selected>2024</option>
+                    <option>2023</option>
+                </select>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end" onClick="searchYear()"><strong>Cerca</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="insertMulticardSpesa" tabindex="-1" aria-labelledby="insertMulticardSpesa" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Gestisci Anno <span id="multicard-year"></span> della multicard: <span class="multicard-name"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mese</th>
+                            <th scope="col">Spesa</th>
+                            <th scope="col">Stato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gennaio</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8" class="align-self-end"><input class="form-control form-control-sm mese-card" id="multi-mounth-1" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(1)">Save</button></div>
+
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-1" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Febbraio</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-2" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(2)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-2" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marzo</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-3" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(3)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-3" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Aprile</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-4" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(4)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-4" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Maggio</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-5" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(5)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-5" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Giugno</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-6" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(6)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-6" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Luglio</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-7" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(7)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-7" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Agosto</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-8" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(8)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-8" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Settembre</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-9" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(9)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-9" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ottobre</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-10" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(10)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-10" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Novembre</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-11" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(11)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-11" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Dicembre</td>
+                            <td>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-2">&euro;</div>
+                                        <div class="col-md-8"><input class="form-control form-control-sm mese-card" id="multi-mounth-12" type="number" placeholder="0,00"></div>
+                                        <div class="col-md-2"><button type="button" class="btn btn-outline-success btn-sm" onclick="saveMultiPaid(12)">Save</button></div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td id="stato-mese-multi-12" class="text-center">
+                                <p class="text-secondary">Non Caricato</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Totale Spesa Annuale:</td>
+                            <td>
+                                <p class="h4" id="totale-spesa-multi"></p>
+                            </td>
+                            <td class="text-center">
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer p-4 text-center">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="choiceYearAndMonth" tabindex="-1" aria-labelledby="choiceYearAndMonth" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-body p-4 text-center">
+                <h5 class="mb-0">Seleziona Mese, Anno per visualizzare le spese delle multicard</h5>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select class="form-select mt-4" id="input-typemulticards">
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select mt-4" id="input-mesemulticards">
+                                <option selected value="1">Gennaio</option>
+                                <option value="2">Febbraio</option>
+                                <option value="3">Marzo</option>
+                                <option value="4">Aprile</option>
+                                <option value="5">Maggio</option>
+                                <option value="6">Giugno</option>
+                                <option value="7">Luglio</option>
+                                <option value="8">Agosto</option>
+                                <option value="9">Settembre</option>
+                                <option value="10">Ottobre</option>
+                                <option value="11">Novembre</option>
+                                <option value="12">Dicembre</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select mt-4" id="input-annomulticards">
+                                <option selected>2024</option>
+                                <option>2023</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end" onClick="openListSpesa()"><strong>Cerca</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="insertSpesaAllMulticard" tabindex="-1" aria-labelledby="insertSpesaAllMulticard" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content rounded-3 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Gestisci le spese delle multicard del periodo <span id="spesa-mese-list">MESE</span>/<span id="anno-mese-list">ANNO</span>
+                    del Forniore <span id="spesa-fornitore-list">FORNITORE</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 text-center">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-start">Multicard</th>
+                            <th scope="col">Spesa</th>
+                            <th scope="col">Stato</th>
+                        </tr>
+                    </thead>
+                    <tbody id="yaear-month-spesa-lists">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer p-4 text-center">
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Chiudi</button>
+            </div>
+        </div>
+    </div>
+</div>

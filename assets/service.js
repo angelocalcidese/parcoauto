@@ -8,6 +8,11 @@ var interventi = [];
 var kmMeseList = [];
 var selected = [];
 var kmInsMounth = [];
+var giri = 0;
+var caburantiDB = [];
+var carburantiUSD = [];
+var carburantiEU = [];
+var statoveicoli = [0, 0, 0];
 var intTypeNum = 0;
 var mesekmaddmod = null;
 var idRow = null;
@@ -20,6 +25,7 @@ var day = d.getDate();
 var idModkm = null;
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
+
 if (day < 10) {
     day = "0" + day;
 }
@@ -58,7 +64,7 @@ function searchAssignedCars(id) {
     var assegnatoUser = searchUser(id);
     var assUser = "Non Assegnato";
     if ((id != '-') && (id != 0)) {
-        assUser = "<strong>" + assegnatoUser.nome + " " + assegnatoUser.cognome + "</strong>";
+        assUser = "<b>" + assegnatoUser.nome + " " + assegnatoUser.cognome + "</b>";
     }
     return assUser;
 }
@@ -105,6 +111,48 @@ function controlKmMounth() {
     }
 }
 
+function dunutsDiagarm() {
+    // Recupera il contesto del canvas
+    const ctx = document.getElementById('myDoughnutChart').getContext('2d');
+
+    // Configurazione dei dati e delle opzioni del grafico
+    const myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut', // Tipo di grafico
+        data: {
+            labels: ['Veicoli Senza Int.', 'Prossimi interventi', 'Interventi scaduti'], // Etichette per ogni sezione
+            datasets: [{
+                label: 'Veicoli',
+                data: statoveicoli, // Valori di ogni sezione
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true, // Il grafico si adatta al contenitore
+            plugins: {
+                legend: {
+                    position: 'top', // Posizione della legenda
+                },
+                tooltip: {
+                    enabled: true // Mostra tooltip al passaggio del mouse
+                }
+            }
+        }
+    });
+};
+
+var statoattiva = 0;
+var statoguaste = 0;
+var statovendute = 0;
 function popVeicles(righe) {
     rowel = righe;
     
@@ -118,15 +166,22 @@ function popVeicles(righe) {
         var type = "fa-car";
         if ((riga.stato == "Venduta") || (riga.stato == "Resa") || (riga.stato == "Rottamata")) {
             type = "fa-xmark";
+            statovendute++;
         } else if ((riga.stato == "Incidentata") || (riga.stato == "Guasta")) {
             type = "fa-car-burst";
+            statoguaste++;
         } else if (riga.tipologia == "Ciclomotore") {
             type = "fa-motorcycle";
+            statoattiva++;
         } else if (riga.tipologia == "Furgone") {
             type = "fa-truck";
-        } 
+            statoattiva++;
+        } else {
+            statoattiva++;
+        }
         var disabledSend = null;
-        if ((riga.assegnatoa == "-") || ((riga.stato != "Attiva") && (riga.stato != "In Vendita"))) {
+
+        if ((riga.assegnatoa == "0") || ((riga.stato != "Attiva") && (riga.stato != "In Vendita"))) {
             disabledSend = "disabled";
         } 
         var element = '<td id="id-car-' + riga.id +'" title="' + riga.id + '"><i  class="fa-solid ' + type +'" alt="' + riga.id + '" ></i></td>';
@@ -137,15 +192,14 @@ function popVeicles(righe) {
         element += '<td>' + riga.targa + '</td>';
         element += "<td>" + searchAssignedCars(riga.assegnatoa)  + "</td>";
         element += '<td style="text-align:center"><button title="Visualizza Dati del veicolo"  type="button" class="btn btn-sm btn-outline-secondary" onClick="viewVeicle(' + i + ')"><i class="fa-solid fa-desktop"></i></td>';
-        element += '<td style="text-align:center"><button title="Visualizza Interventi del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i></button></td>';
+        element += '<td style="text-align:center"><button title="Visualizza Interventi del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="addIntervento(' + riga.id + ')"><i class="fa-solid fa-screwdriver-wrench"></i> + <i class="fa-solid fa-file-arrow-up"></i></button></td>';
         element += '<td style="text-align:center"><button title="Visualizza Assegnatari del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="storyAssigned(' + riga.id + ')"><i class="fa-solid fa-user"></i></td>';
         element += '<td style="text-align:center"><button title="Modifica Dati del veicolo" type="button" class="btn btn-sm btn-outline-secondary" onClick="openModRow(' + riga.id + ')"><i class="fa-solid fa-square-pen"></i></button></td>';
         element += '<td style="text-align:center"><button title="Visualizza km e spese mensile veicolo" type="button" class="btn btn-sm btn-outline-secondary" id="storykm-' + riga.id + '" onClick="openKmStory(' + riga.id + ')"><i class="fa-regular fa-calendar-days"></i></td>';
         element += '<td style="text-align:center"><button title="Invia email richiesta km" type="button" class="btn btn-sm btn-outline-secondary alarm-button ' + disabledSend  + '" id="id-km-' + riga.id +'" onClick="sendEmailKm(' + riga.id + ')"><i class="fa-solid fa-reply"></i></button></td>';
         $("<tr/>").append(element).appendTo("#tabella-veicoli");
-        controlAlarm(riga.id); 
-
         
+        controlAlarm(riga.id);  
 
         var telepassSearch = "";
         var res = searchTelepass(riga.telepass);
@@ -172,11 +226,24 @@ function popVeicles(righe) {
         element2 += "<td>" + riga.acquisto + "</td>";
         element2 += "<td>" + telepassSearch + "</td>";
         element2 += "<td>" + multicard + "</td>";
+        element2 += "<td>" + riga.revisione + "</td>";
+        element2 += "<td>" + riga.assicurazione + "</td>";
+        element2 += "<td>" + riga.bollo + "</td>";
+
         
 
         $("<tr/>").append(element2).appendTo("#tabella-export-veicoli");
 
     }
+    $("#testa-stato-attivo").text(statoattiva);
+    if (statoguaste > 0) $("#stato-guaste").removeClass("hide");
+    $("#testa-stato-guaste").text(statoguaste);
+    if (statovendute > 0) $("#stato-vendute").removeClass("hide");
+    $("#testa-stato-vendute").text(statovendute);
+
+    //statoveicoli[0] = righe.length;
+    //console.log("STATO VEICOLI FINALE", statoveicoli);
+    dunutsDiagarm();
     searchKmStory();
 }
 
@@ -281,6 +348,7 @@ function kmSend() {
     $("#title-km-story").text(anno);
     $("#bodyKm").empty();
     var dativeicolo = searchData(veicle.id);
+    
     $("#km-story-targa").text(dativeicolo.targa);
     kmMeseList = [];
     $.ajax({
@@ -289,10 +357,11 @@ function kmSend() {
         data: JSON.stringify({ id: veicle.id, anno: anno }),
         dataType: 'json',
         complete: function (responce) {
-            console.log("KM: ", responce.responseJSON);
+            //console.log("KM: ", responce.responseJSON);
             var dataRow = responce.responseJSON;
             kmMeseList = dataRow;
             var mesi = 12;
+            var totkm = 0;
             for (a = 1; a <= mesi; a++){
                 var row = "<tr>";
                 var mese = a - 1;
@@ -300,23 +369,52 @@ function kmSend() {
                 if (respRow) {
                     var assegnatoUser = searchUser(respRow.assegnata);
                     var kmeffettuati = respRow.km - respRow.kmold;
-                    row += "<td>" + mesiMap[mese] + "</td>";
-                    row += "<td>" + assegnatoUser.nome + " " + assegnatoUser.cognome +"</td>";
-                    row += "<td>" + respRow.kmold + "</td>";
-                    row += "<td>" + respRow.km + "</td>";
-                    row += "<td>(" + kmeffettuati + ")</td>";
-                    row += "<td>" + respRow.spesaextra + "</td>";
-                    row += '<td><button class="btn btn-sm btn-outline-secondary" onclick="modKm(' + respRow.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
+                    totkm = totkm + kmeffettuati;
+                    row += '<td>' + mesiMap[mese] + "</td>";
+                    row += '<td class="text-center">' + assegnatoUser.nome + " " + assegnatoUser.cognome +"</td>";
+                    row += '<td class="text-center">' + respRow.kmold + "</td>";
+                    row += '<td class="text-center">' + respRow.km + "</td>";
+                    row += '<td class="text-center">(' + kmeffettuati + ')</td>';
+                    row += '<td class="text-center">&euro;' + Number(respRow.spesaextra).toLocaleString("it-IT", { minimumFractionDigits: 2 }) + "</td>";
+                    row += '<td class="text-center" id="multi-spesa-mese-' + a + '"> - </td>';
+                    row += '<td class="text-center"><button class="btn btn-sm btn-outline-secondary" onclick="modKm(' + respRow.id + ')"><i class="fa-solid fa-pen-to-square"></i></button></td>';
                 } else {
-                    row += '<td>' + mesiMap[mese] + '</td><td> - </td><td> - </td><td> - </td><td> - </td><td> - </td><td><button class="btn btn-sm btn-outline-secondary" onclick="newKm(' + mese + ')"><i class="fa-solid fa-plus"></i></button></td>';
+                    row += '<td>' + mesiMap[mese] + '</td><td class="text-center"> - </td><td class="text-center"> - </td><td class="text-center"> - </td><td class="text-center"> - </td><td class="text-center"> - </td><td class="text-center"> - </td><td class="text-center"><button class="btn btn-sm btn-outline-secondary" onclick="newKm(' + mese + ')"><i class="fa-solid fa-plus"></i></button></td>';
                 }
                
                 row += "</tr > ";
                 $("#bodyKm").append(row);
-                //console.log(row);
+            }
+
+            var totali = '<tr class="table-secondary"><td colspan="4"></td><td>Tot.Km: <b>' + totkm + '</b></td><td></td><td>Tot. Spesa Carb: <b id="tot-spesa-carb"></b></td><td></td></tr>';
+            $("#bodyKm").append(totali);
+
+            if (dativeicolo.multicard != "") {
+                addDataMulticard(dativeicolo.multicard, anno);
             }
             $('#modalChoicekm').modal('hide');
             $('#viewListKm').modal('show');
+        }
+    });
+}
+
+function addDataMulticard(multicard, anno) {
+    var tot = 0;
+    $.ajax({
+        method: "POST",
+        url: "api/getMultiPaidIdMulti.php",
+        data: JSON.stringify({ codice: multicard, anno: anno }),
+        dataType: 'json',
+        success: function (data) {
+            for (var a = 0; a < data.length; a++) {
+                if ($("#multi-spesa-mese-" + data[a].mese).length) tot = tot + parseFloat(data[a].spesa);
+                $("#multi-spesa-mese-" + data[a].mese).html(formatCurrency(data[a].spesa));
+            }
+            $("#tot-spesa-carb").text(formatCurrency(tot))
+        },
+        error: function (error) {
+            console.log("Nessuna Checkbox attiva", error);
+
         }
     });
 }
@@ -475,6 +573,7 @@ function openModRow(id) {
 function openNewRow() {
     cleanInput();
     $("#input-stato").val("Attiva");
+    $("#input-tipologia").val("Seleziona");
     $('#addRow').modal('show');
 }
 
@@ -564,6 +663,8 @@ function clearDocInt() {
     $(".add-new-int").removeClass("hide");
     $("#doc-intervento-title").addClass("hide");
     $("#input-linkinterventoFile").val("");
+    $("#colonna-carica").removeClass("col-12");
+    $("#colonna-carica").addClass("col-5");
     delFileInt();
     idIntervento = null;
 }
@@ -573,6 +674,8 @@ function addDocInt(id) {
     $("#input-linkinterventoFile").val("");
     $(".add-new-int").addClass("hide");
     $("#doc-intervento-title").removeClass("hide");
+    $("#colonna-carica").removeClass("col-5");
+    $("#colonna-carica").addClass("col-12");
     idIntervento = id;
 }
 function delIntAdv(id) {
@@ -603,16 +706,18 @@ function delIntervento() {
 }
 function addIntervento(id) {
     delFileInt();
+    clearDocInt();
     $(".form-control").val("");
     $(".spesa-input").prop("disabled", true);
     $(".check-ins").prop("checked", false);
     $("#adv-del-int").addClass("hide");
     $("#alert-error-intervento").addClass("hide");
+    $("#alert-success-intervento").addClass("hide");
     var data = searchData(id);
     idRow = id;
     $("#bodyIntervento").empty();
     $("#int-targa").text(data.targa);
-    $("#int-assegnatoa").text(searchAssignedCars(data.assegnatoa));
+    $("#int-assegnatoa").html(searchAssignedCars(data.assegnatoa));
     $("#input-kmintervento").val(data.km);
     $("#input-intgiorno").val(strDate);
     $.ajax({
@@ -623,25 +728,28 @@ function addIntervento(id) {
         success: function (data) {
             //console.log("GUIDE", data);
             interventi = data;
+            var spesa = 0;
             for (var b = 0; b < data.length; b++) {
                 var row = '<tr>';
                 row += '<td><button type="button" class="btn btn-sm btn-outline-secondary int-btn" id="int-btn-sel-' + data[b].id + '" onclick="delIntAdv(' + data[b].id + ')"><i class="fa-solid fa-trash"></i></button></td>';
                 row += '<td>' + data[b].intervento + '</td>';
                 row += '<td>' + data[b].data + '</td>';
                 row += '<td>' + data[b].km + '</td>';
-                row += '<td>&euro; ' + data[b].prezzo + '</td>';
+                var nuovoprezzo = data[b].prezzo.replace(/,/g, ".");
+                row += '<td class="table-secondary text-end">' + formatCurrency(nuovoprezzo) + '</td>';
+                if (data[b].prezzo) spesa = spesa + parseFloat(data[b].prezzo);
                 if (data[b].fattura) {
-                    row += '<td><a href="../../portale/file/' + data[b].fattura + '" target="_blank"><i class="fa-solid fa-file"></i></a></td>'; 
+                    row += '<td class="text-center"><a class="btn btn-sm btn-outline-success" href="../../portale/file/' + data[b].fattura + '" target="_blank"><i class="fa-solid fa-file-arrow-down"></i></a></td>'; 
                 } else {
-                    row += '<td><button type="button" class="btn btn-sm btn-outline-secondary" onclick="addDocInt(' + data[b].id + ')"><i class="fa-solid fa-upload"></i></button></td>';
+                    row += '<td class="text-center"><button type="button" class="btn btn-sm btn-outline-secondary" onclick="addDocInt(' + data[b].id + ')"><i class="fa-solid fa-upload"></i></button></td>';
                 }
                 
                 row += '</tr > ';
                 $("#bodyIntervento").append(row);
                 userAss = data[b].id;
             }
-
-            console.log("DATA", data);
+            var totint = '<tr><td colspan="3"></td><td class="text-end"><b>Totale: </b></td><td class="table-secondary text-end"><b> ' + formatCurrency(spesa) + '</b></td><td></td></tr>';
+            $("#bodyIntervento").append(totint);
            
             $('#viewGestEl').modal('show');
             
@@ -668,7 +776,11 @@ function addRow() {
     var kml = $("#input-kml").val();
     var alimentazione = $("#input-alimentazione").val();
     var classeinq = $("#input-classeinq").val();
-    var ztl = $("#input-ztl").val();
+    var ztl = 0;
+    if ($("#input-ztl").val() != null) {
+        ztl = $("#input-ztl").val();
+    }
+     
     var tagliando = $("#input-tagliando").val();
     var distribuzione = $("#input-distribuzione").val();
     var revisione = $("#input-revisione").val();
@@ -685,11 +797,17 @@ function addRow() {
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
-            $("#alert-success").removeClass("hide");
-            $("#alert-success").text("Veicolo inserito correttamente");
-            $("#form-add").addClass("hide");
-            $("#add-button").addClass("hide");
-            cleanInput();
+            if (!data.error) {
+                $("#alert-success").removeClass("hide");
+                $("#alert-success").text("Veicolo inserito correttamente");
+                $("#form-add").addClass("hide");
+                $("#add-button").addClass("hide");
+                cleanInput();
+            } else {
+                $("#alert-error").removeClass("hide");
+                $("#alert-error").text("TARGA già esistente");
+            }
+            
         },
         error: function (error) {
             console.log("funzione chiamata quando la chiamata fallisce", error);
@@ -746,8 +864,11 @@ function controlForm() {
    
     var count = 0;
     var html = "<ul>";
+
+    //console.log("Tipologia", tipologia);
     if (marca == "") { html += "<li>Inserire Marca</li>"; count++; }
     if (modello == "") { html += "<li>Inserire Modello</li>"; count++; }
+    //if ((tipologia == "Seleziona") || (tipologia == null)) { html += "<li>Selezionare la Tipologia</li>"; count++; }
     if (tipologia == "Seleziona") { html += "<li>Selezionare la Tipologia</li>"; count++; }
     if (targa == "") { html += "<li>Inserire targa</li>"; count++; }
     if (proprieta == "") { html += "<li>Inserire la Proprietà del veicolo</li>"; count++; }
@@ -757,11 +878,13 @@ function controlForm() {
     if (distribuzione == "") { html += "<li>Inserire i Km per la cadenza della distribuzione</li>"; count++; }
     if (kml == "") { html += "<li>Inserire il consumo del Veicolo (km/l)</li>"; count++; }
     if (alimentazione == "") { html += "<li>Inserire alimentazione Veicolo</li>"; count++; }
+    if (posti == "") { html += "<li>Inserire Posti Disponibili nel veicolo</li>"; count++; }
 
     html += "</ul>";
     if (count > 0) {
         $("#alert-error").removeClass("hide");
         $("#alert-error").html(html);
+        setTimeout(closeAlarm, 4000);
     } else {
         $("#alert-error").addClass("hide");
         if (idRow) {
@@ -837,7 +960,7 @@ function allCallServ() {
     var statofilter = urlParams.get('stato');
     var assegnatofilter = urlParams.get('asse');
 
-    console.log("ALL CALL");
+    //console.log("ALL CALL");
     $.ajax({
         url: 'api/getVeicles.php', 
         dataType: 'json', 
@@ -855,6 +978,7 @@ function allCallServ() {
             
             tablePaginationNew();
             tablePagination();
+            closeCarica();
         }
     });
 
@@ -882,7 +1006,8 @@ function cambioTab(tab) {
 }
 
 function viewVeicle(id) {
-    
+    $("#dowload-assicurazione").addClass("hide");
+    $("#dowload-libretto").addClass("hide");
     $(".view-veicle").text("");
     var veicolo = rowel[id];
     controlAlarm(veicolo.id);
@@ -915,8 +1040,40 @@ function viewVeicle(id) {
     }
     
     $("#view-telepass").text(searchTelepass(veicolo.telepass).seriale);
-    $("#view-multicard").text(searchMulticard(veicolo.multicard).codice) ;
-    $('#viewVeicle').modal('show');
+    $("#view-multicard").text(searchMulticard(veicolo.multicard).codice);
+    
+    console.log("RISPOSTA", rowel[id].id);
+
+    $.ajax({
+        method: "POST",
+        url: "api/getDocumenti.php",
+        data: JSON.stringify({ veicolo: rowel[id].id }),
+        dataType: 'json',
+        success: function (data) {
+            console.log("RISPOSTA", data);
+            var path = "../../portale/file/";
+            for (i = 0; i < data.length; i++) { 
+                var riga = data[i];
+                if (riga.intervento == "Libretto" && riga.fattura != "") {
+                    $("#dowload-libretto").removeClass("hide");
+                    var filelibretto = path + riga.fattura;
+                    $("#dowload-libretto a").attr("href", filelibretto);
+                }
+                if (riga.intervento == "Assicurazione" && riga.fattura != "") {
+                    $("#dowload-assicurazione").removeClass("hide");
+                    var fileass = path + riga.fattura;
+                    $("#dowload-assicurazione a").attr("href", fileass);
+                }
+            }
+            $('#viewVeicle').modal('show');
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+            $('#viewVeicle').modal('show');
+        }
+    });
+
+    
 }
 
 function usersCall() {
@@ -1052,6 +1209,7 @@ function addInterventiType(file, nomefile) {
 
     console.log("Intervento:", intervento);
     console.log("Intervento NUM :", intTypeNum);
+    if (prezzo == "") prezzo = 0;
     $.ajax({
         method: "POST",
         url: "api/insertIntervento.php",
@@ -1063,10 +1221,15 @@ function addInterventiType(file, nomefile) {
                 addInterventiType(file, nomefile);
             } else {
               console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
+                addIntervento(idRow);
                 $("#alert-success-intervento").removeClass("hide");
-                $("#alert-success-intervento").text("Intervento veicolo modificato correttamente");
-                $("#view-inter").addClass("hide");
-                $("#butt-inter").text("OK");  
+                $("#alert-success-intervento").text("Intervento veicolo inserito correttamente");
+                setTimeout(function () {
+                    $(".alert").addClass("hide");
+                }, 2000);
+                //$("#view-inter").addClass("hide");
+                //$("#butt-inter").text("OK");  
+                
             }
             
         },
@@ -1079,8 +1242,13 @@ function addInterventiType(file, nomefile) {
 }
 
 function selCheckIns(type) {
+    console.log("CHECK", type);
+    var sum = $("#input-costointervento").val();
     if ($("#check-ins-" + type).is(':checked')) { 
         $("#spesa-" + type).prop("disabled", false);
+        /*if (type == "libretto") {
+            $("#input-costointervento").val(parseInt(sum) + 0);
+        }*/
     } else {
         $("#spesa-" + type).prop("disabled", true);
         $("#spesa-" + type).val("");
@@ -1110,6 +1278,8 @@ function interventoService(file, nomefile) {
     var prezzo = $("#input-costointervento").val();
     var km = $("#input-kmintervento").val();
     //var intervento = $("#input-intervento").val();
+    var libretto = false;
+    var onlylibretto = false;
     var data = $("#input-intgiorno").val();
     
     //if (!file) { var file = null; }
@@ -1124,23 +1294,27 @@ function interventoService(file, nomefile) {
         var idname = name.toLowerCase();
         var value = $("#spesa-" + idname).val();
 
-        if (value == "") countVal++;
+        if (name == "Libretto") {
+            //value = 0;
+            libretto = true;
+        }
+        if ((value == "") && (name != "Libretto")) countVal++;
         var el = { "name": title, "value": value };
         selected.push(el);
     });
 
-    
-    console.log("SELECTED INT: ", selected);
-
-    var html = "<ul>";
-    if (countVal > 0) {
-        html += "<li>Inserire il costo di tutti gli interventi selezionati</li>"; count++;
+    if ((selected.length == 1) && libretto) {
+        onlylibretto = true;
     }
+    var html = "<ul>";
+    /*if (countVal > 0) {
+        html += "<li>Inserire il costo di tutti gli interventi selezionati</li>"; count++;
+    }*/
     //if (intervento == "Seleziona") { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
     if (selected.length == 0) { html += "<li>Selezionare il tipo di intervento</li>"; count++; }
     if (km == "") { html += "<li>Inserire i km</li>"; count++; }
     if (data == "") { html += "<li>Inserire la data </li>"; count++; }
-    if (prezzo == "") { html += "<li>Inserire il costo dell'intervento</li>"; count++; }
+    //if ((prezzo == "") && !onlylibretto) { html += "<li>Inserire il costo dell'intervento</li>"; count++; }
     if (file == 'filerror') { html += "<li>Estensione file errato o troppo grande</li>"; count++; }
     //console.log(file);
     html += "</ul>";
@@ -1171,10 +1345,15 @@ function interventoServiceDoc(file, nomefile) {
         contentType: "application/json",
         success: function (data) {
             console.log("funzione chiamata quando la chiamata ha successo (response 200)", data);
+            
+            addIntervento(idRow);
             $("#alert-success-intervento").removeClass("hide");
-            $("#alert-success-intervento").text("Intervento veicolo modificato correttamente");
-            $("#view-inter").addClass("hide");
-            $("#butt-inter").text("OK");
+            $("#alert-success-intervento").text("Documento Caricato Correttamente");
+            setTimeout(function () {
+                $(".alert").addClass("hide");
+            }, 2000);
+            //$("#view-inter").addClass("hide");
+            //$("#butt-inter").text("OK");
         },
         error: function (error) {
             console.log("funzione chiamata quando la chiamata fallisce", error);
@@ -1243,13 +1422,113 @@ document.querySelector('#import-csv').addEventListener('change', function () {
     reader.readAsArrayBuffer(this.files[0]);
 });
 
+function caricaInterventi() {
+    $.ajax({
+        url: 'api/getInterventi.php',
+        dataType: 'json', //restituisce un oggetto JSON
+        complete: function (interventi) {
+            //console.log("Interventi", interventi.responseJSON);
+            interventi = interventi.responseJSON;
+            var somma = 0;
+            for (i = 0; i < interventi.length; i++) {
+                var riga = interventi[i];
+                var data = riga.data.split("/");
+                //console.log("DATA:", data);
+                if ((data[2] == d.getFullYear()) && riga.prezzo) {
+                    somma = somma + parseFloat(riga.prezzo);
+                }
+            }
+            //console.log("SOMMA", somma);
+            $("#spesatorint").text(formatCurrency(somma));
+            $("#title-int-spesa").text(d.getFullYear());
+        }
+    });
+}
+
+
+
+function convertUsdInEuro() {
+    if (giri < carburantiUSD.length) {
+        $.ajax({
+            url: `https://v6.exchangerate-api.com/v6/751431015b56c692d1d5e837/latest/USD`, // URL dell'API
+            method: "GET",
+            success: function (response) {
+                const rate = response.conversion_rates.EUR; // Ottieni il tasso di cambio USD -> EUR
+                const amountInEUR = carburantiUSD[giri] * rate; // Converte l'importo
+                console.log(`L'importo in EUR è: ${amountInEUR.toFixed(2)}`);
+                carburantiUSD[giri] = amountInEUR;
+                giri++;
+                convertUsdInEuro();
+            },
+            error: function (error) {
+                console.log("Errore nella chiamata API:", error);
+            }
+        }); 
+    } else {
+        $.ajax({
+            method: "POST",
+            url: "api/addMediaCarburanti.php",
+            data: JSON.stringify({ benzina: carburantiUSD[0], diesel: carburantiUSD[1], gpl: carburantiUSD[2], day: strDate }),
+            contentType: "application/json",
+            success: function (data) {
+                medieCarburantiDb()
+            },
+            error: function (error) {
+                console.log("funzione chiamata quando la chiamata fallisce", error);
+                
+            }
+        });
+    }   
+}
+
+function mediaCarburanti() {
+    $("#btn-media-carb").prop("disabled", true);
+    $.ajax({
+        url: 'api/mediaCarburanti.php',
+        dataType: 'json', //restituisce un oggetto JSON
+        complete: function (data) {
+            console.log("RISPOSTA CARBURANTI: ", data.responseJSON);
+            var resp = data.responseJSON;
+            if (resp.success) {
+                var bodyres = resp.result;
+                carburantiUSD = [bodyres.gasoline, bodyres.diesel, bodyres.lpg];
+                convertUsdInEuro();
+
+                $("#btn-media-carb").prop("disabled", true);
+            }
+        }
+    });
+}
+
+function medieCarburantiDb() {
+    $.ajax({
+        method: "POST",
+        url: 'api/getMedieCarburanti.php',
+        data: JSON.stringify({ day: strDate }),
+        dataType: 'json', //restituisce un oggetto JSON
+        complete: function (data) {  
+            caburantiDB = data.responseJSON;
+            //console.log("RISPOSTA CARBURANTI DB: ", resp);
+            var ricarica = 0;
+            for (var a = 0; a < caburantiDB.length; a++){
+                $(".benzina-price").text(formatCurrency(caburantiDB[a].benzina));
+                $(".diesel-price").text(formatCurrency(caburantiDB[a].diesel));
+                $(".gpl-price").text(formatCurrency(caburantiDB[a].gpl));
+            }
+
+            if (caburantiDB.length == 0) mediaCarburanti();
+        }
+    });
+}
+
 $(document).ready(function () {
-    console.log(localStorage['tab']);
+    openCarica();
     if (localStorage['tab']) {
         cambioTab(localStorage['tab'])
     }
     usersCall();
-    
+    caricaInterventi();
+    medieCarburantiDb();
     for (var a = 0; a < mesiSchema.length; a++){
         var opt = '<option value="' + mesiSchema[a].val + '">' + mesiSchema[a].mese + '</option>';
         $("#input-mesekmrichiesta").append(opt);
@@ -1280,7 +1559,10 @@ $(document).ready(function () {
         format: 'DD/MM/YYYY'
     });
     deleteNotifiche("parcoauto");
+    
 });
 
+  
+    
 
            

@@ -3,6 +3,7 @@ require_once "../../portale/cors.php";
 require_once "../../portale/config.php";
 //require_once "../../portale/api/fileUpload.php";
 require_once "../../portale/utility.php";
+require_once "../../portale/api/getUserCoockie.php";
 
 function uploadFile($base64_file, $folder, $name)
 {
@@ -74,8 +75,8 @@ if(isset($data["fattura"])){
     $nameFile = NULL;
 }
 
-$sql = "INSERT INTO `interventi` (`id`, `veicolo`, `intervento`, `data`, `km`, `prezzo`, `fattura`) 
-VALUES (NULL, '" . $data["veicolo"] . "', '" . $data["intervento"] . "', '" . $data["data"] . "', '" . $data["km"] . "', '" . $data["prezzo"] . "', '" . $nameFile . "')";
+$sql = "INSERT INTO `interventi` (`id`, `veicolo`, `intervento`, `data`, `km`, `prezzo`, `fattura`, `company`) 
+VALUES (NULL, '" . $data["veicolo"] . "', '" . $data["intervento"] . "', '" . $data["data"] . "', '" . $data["km"] . "', '" . $data["prezzo"] . "', '" . $nameFile . "', '" . $user_params->company . "')";
 $result = $conn->query($sql);
 
 if($km < $data["km"]){

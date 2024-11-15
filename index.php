@@ -76,6 +76,9 @@
                 <th scope="col">Acquisto</th>
                 <th scope="col">Multicard</th>
                 <th scope="col">Telepass</th>
+                <th scope="col">Scadenza Revisione</th>
+                <th scope="col">Scadenza Assicurazione</th>
+                <th scope="col">Scadenza Bollo</th>
               </tr>
             </thead>
             <tbody>
@@ -122,37 +125,107 @@
               <i class="fa-solid fa-filter "></i> Cancella Filtri
             </button>
           </h2>
-          <div class="container mt-5 mb-5">
+
+          <div class="container my-2">
             <div class="row">
-              <div class="col">
-                <h5>Filtri Semplici: </h5>
+              <div class="col-md-2">
+                <fieldset class="border rounded p-1">
+                  <legend class="float-none w-auto px-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-chart-line"></i> Stato Interventi</legend>
+                  <canvas id="myDoughnutChart" width="200" height="200"></canvas>
+                </fieldset>
               </div>
-              <div class="col">
-                <select class="form-select form-select-sm input-data-filter" id="input-stato-filter">
-                  <option value="" selected>Stato</option>
-                  <option>Attiva</option>
-                  <option>In Vendita</option>
-                  <option>Resa</option>
-                  <option>Venduta</option>
-                  <option>Rottamata</option>
-                  <option>Guasta</option>
-                  <option>Incidentata</option>
-                </select>
-              </div>
-              <div class="col">
-                <select class="form-select form-select-sm input-data-filter" id="input-assegnatoa-filter">
-                  <option value="" selected>Assegnato a</option>
-                </select>
+              <div class="col-md-10">
+
+                <div class="container">
+                  <div class="row">
+                    <div class="col-md">
+                      <fieldset class="border rounded p-1">
+                        <legend class="float-none w-auto p-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-filter"></i> Filtri</legend>
+                        <div class="container mb-4">
+                          <div class="row">
+                            <div class="col-md">
+                              <select class="form-select form-select-sm input-data-filter" id="input-stato-filter">
+                                <option value="" selected>Stato</option>
+                                <option>Attiva</option>
+                                <option>In Vendita</option>
+                                <option>Resa</option>
+                                <option>Venduta</option>
+                                <option>Rottamata</option>
+                                <option>Guasta</option>
+                                <option>Incidentata</option>
+                              </select>
+                            </div>
+                            <div class="col-md">
+                              <select class="form-select form-select-sm input-data-filter" id="input-assegnatoa-filter">
+                                <option value="" selected>Assegnato a</option>
+                              </select>
+                            </div>
+
+                            <div class="col-md">
+                              <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="activeFilter()">Filtra <i class="fa-solid fa-filter"></i></button>
+                              </div>
+                            </div>
+                            <div class="col-md">
+                              <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearFilter()">Cancella Filtri <i class="fa-solid fa-xmark"></i></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <fieldset class="border rounded p-1">
+                        <legend class="float-none w-auto p-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-hand-holding-dollar"></i> Spesa Interventi nel <span id="title-int-spesa"></span></legend>
+                        <p class="h3 mx-4 mb-3" id="spesatorint"></p>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-3">
+                      <fieldset class="border rounded p-1">
+                        <legend class="float-none w-auto  px-2 pt-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-car"></i> Stato Veicoli</legend>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-4 text-center">
+                              <label>Attivi</label>
+                              <p class="h3 text-success" id="testa-stato-attivo">0</p>
+                            </div>
+                            <div class="col-md-4 text-center hide" id="stato-guaste">
+                              <label>Guasti</label>
+                              <p class="h3 text-danger" id="testa-stato-guaste">0</p>
+                            </div>
+                            <div class="col-md-4 text-center hide" id="stato-vendute">
+                              <label>Venduti</label>
+                              <p class="h3 text-secondary" id="testa-stato-vendute">0</p>
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-3">
+                      <fieldset class="border rounded p-1 ">
+                        <legend class="float-none w-auto px-2 pt-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-gas-pump"></i> Prezzi medi Carburanti</legend>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-md-6 p-1">Benzina: <b class="benzina-price"></b></div>
+                            <div class="col-md-6 p-1">Diesel: <b class="diesel-price"></b></div>
+                            <div class="col-md-6 p-1">GPL: <b class="gpl-price"></b></div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+
+
+
               </div>
 
-              <div class="col">
-                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="activeFilter()">Filtra <i class="fa-solid fa-filter"></i></button>
-              </div>
-              <div class="col">
-                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearFilter()">Cancella Filtri <i class="fa-solid fa-xmark"></i></button>
-              </div>
             </div>
           </div>
+
           <table class="table table-striped display" id="tabella-veicoli" style="width:100%">
             <thead>
               <tr>
@@ -163,12 +236,12 @@
                 <th scope="col">Modello</th>
                 <th scope="col">Targa</th>
                 <th scope="col">Assegnato</th>
-                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Dettaglio Veicolo">Vis.</th>
-                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Interventi Veicolo">Int.</th>
-                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Assegnatari Veicolo">Ass.</th>
-                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Dati del Veicolo">Mod.</th>
-                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Km">Km Mese</th>
-                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Invia Email di richiesta km al Assegnatario">Ric. Km</th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Dettaglio Veicolo">Vis. <i class="fa-solid fa-circle-info"></i></th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Interventi e Documenti Veicolo">Int. <i class="fa-solid fa-circle-info"></i></th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Assegnatari Veicolo">Ass. <i class="fa-solid fa-circle-info"></i></th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Dati del Veicolo">Mod. <i class="fa-solid fa-circle-info"></i></th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Storico Km">Km Mese <i class="fa-solid fa-circle-info"></i></th>
+                <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Invia Email di richiesta km al Assegnatario">Ric. Km <i class="fa-solid fa-circle-info"></i></th>
               </tr>
             </thead>
             <tbody>
@@ -177,6 +250,30 @@
         </div>
         <div class="table-responsive small tabs-veicolo hide" id="multicard-page">
           <h2 class="mt-4">Multicard</h2>
+          <div class="container mb-3">
+            <div class="row">
+              <div class="col-md-3">
+                <fieldset class="border rounded p-1 ">
+                  <legend class="float-none w-auto px-2" style="font-size:12px; font-weight:bold">Altri strumenti</legend>
+                  <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-outline-secondary btn-sm my-1" onclick="openModalYearMonthCard()"><i class="fa-solid fa-hand-holding-dollar"></i> Inserimento Spese mensile CARD</button>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-md-3">
+                <fieldset class="border rounded p-1 ">
+                  <legend class="float-none w-auto px-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-gas-pump"></i> Prezzi medi Carburanti</legend>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-6 p-2">Benzina: <b class="benzina-price"></b></div>
+                      <div class="col-md-6 p-2">Diesel: <b class="diesel-price"></b></div>
+                      <div class="col-md-6 p-2">GPL: <b class="gpl-price"></b></div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
           <table class="table table-striped display" id="tabella-multicard" style="width:100%">
             <thead>
               <tr>
@@ -189,6 +286,7 @@
                 <th scope="col">Scadenza</th>
                 <th scope="col">Rinnovabile</th>
                 <th scope="col">PIN</th>
+                <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Spesa mensile della multicard"><i class="fa-solid fa-hand-holding-dollar"></i> Spesa mensile</th>
                 <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizza Targhe Veicoli Assegnati"><i class="fa-solid fa-list"></i></th>
                 <th scope="col" style="text-align:center" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifica Dettaglio Multicard"><i class="fa-solid fa-file-pen"></i></th>
               </tr>
@@ -232,7 +330,6 @@
 
   </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.2/dist/chart.umd.js" integrity="sha384-eI7PSr3L1XLISH8JdDII5YN/njoSsxfbrkCTnJrzXt+ENP5MOVBxD+l6sEG4zoLp" crossorigin="anonymous"></script>
-  <script src="dashboard.js"></script>
   <?php include("../portale/footer.php"); ?>
 </body>
 

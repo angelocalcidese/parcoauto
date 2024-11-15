@@ -76,7 +76,7 @@ if ($result1->num_rows > 0) {
     //echo "0 results";
   }
 /** GET MULTICARD */
-  $sql2 = "SELECT * FROM `multicard` WHERE `company` = " . $user_params->company;
+  $sql2 = "SELECT * FROM `multicard` WHERE `company` = '" . $user_params->company. "' ORDER BY `multicard`.codice";
 $result2 = $conn->query($sql2);
 $multicard = array();
 

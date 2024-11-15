@@ -2,10 +2,11 @@
 require_once "../../portale/cors.php";
 require_once "../../portale/config.php";
 require_once "../../portale/utility.php";
+require_once "../../portale/api/getUserCoockie.php";
 
 $data = getRequestDataBody();
 
-$sql = "SELECT * FROM `interventi` WHERE `veicolo` = " . $data["veicolo"]. " ORDER BY str_to_date(data,'%d/%m/%Y') DESC";
+$sql = "SELECT * FROM `interventi` WHERE `company` = '" . $user_params->company . "'";
 $result = $conn->query($sql);
 
 $res = array();
