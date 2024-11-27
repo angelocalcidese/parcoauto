@@ -12,8 +12,18 @@ $sql = "SELECT * FROM `veicoli` WHERE `company` = ".$user_params ->company;
 if (isset($data["stato"])) {
   $sql .= " AND `stato` = '" . $data["stato"] . "'";
 }
+
 if (isset($data["assegnatoa"])) {
-  $sql .= " AND `assegnazione` = '" . $data["assegnatoa"] . "'";
+  $lista = explode(",", $data["assegnatoa"]);
+  for($a = 0; $a < count($lista); $a++){
+    if($a == 0){
+      $sql .= " AND `assegnazione` = '" . $lista[$a] . "'";
+    } else {
+      $sql .= " OR `assegnazione` = '" . $lista[$a] . "'";
+    }
+    
+  }
+  //$sql .= " AND `assegnazione` = '" . $data["assegnatoa"] . "'";
 }
 
 $sql .= " ORDER BY `stato`";
@@ -51,9 +61,8 @@ if ($result->num_rows > 0) {
       $object->posti = $row["posti"];
       array_push($veicle, $object);
     }
-  } else {
-    //echo "0 results";
-  }
+  } 
+  
 /** GET TELEPASS */
 $sql1 = "SELECT * FROM `telepass` WHERE `company` = " . $user_params->company;
 $result1 = $conn->query($sql1);

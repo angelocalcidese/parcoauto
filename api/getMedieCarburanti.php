@@ -5,7 +5,7 @@ require_once "../../portale/utility.php";
 
 $data = getRequestDataBody();
 $res = array();
-$sql = "SELECT * FROM `carburanti_media` WHERE `day` = '".$data["day"]."'";
+$sql = "SELECT * FROM `carburanti_media`";
 $result = $conn->query($sql);
 
 

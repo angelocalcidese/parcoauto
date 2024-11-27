@@ -134,94 +134,83 @@
                   <canvas id="myDoughnutChart" width="200" height="200"></canvas>
                 </fieldset>
               </div>
-              <div class="col-md-10">
+              <div class="col-md-3">
+                <fieldset class="border rounded p-1">
+                  <legend class="float-none w-auto px-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-hand-holding-dollar"></i> Spesa Interventi nel <span id="title-int-spesa"></span></legend>
+                  <p class="h3 mx-4 mb-3" id="spesatorint"></p>
+                </fieldset>
 
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md">
-                      <fieldset class="border rounded p-1">
-                        <legend class="float-none w-auto p-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-filter"></i> Filtri</legend>
-                        <div class="container mb-4">
-                          <div class="row">
-                            <div class="col-md">
-                              <select class="form-select form-select-sm input-data-filter" id="input-stato-filter">
-                                <option value="" selected>Stato</option>
-                                <option>Attiva</option>
-                                <option>In Vendita</option>
-                                <option>Resa</option>
-                                <option>Venduta</option>
-                                <option>Rottamata</option>
-                                <option>Guasta</option>
-                                <option>Incidentata</option>
-                              </select>
-                            </div>
-                            <div class="col-md">
-                              <select class="form-select form-select-sm input-data-filter" id="input-assegnatoa-filter">
-                                <option value="" selected>Assegnato a</option>
-                              </select>
-                            </div>
-
-                            <div class="col-md">
-                              <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="activeFilter()">Filtra <i class="fa-solid fa-filter"></i></button>
-                              </div>
-                            </div>
-                            <div class="col-md">
-                              <div class="d-grid gap-2">
-                                <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearFilter()">Cancella Filtri <i class="fa-solid fa-xmark"></i></button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </fieldset>
+                <fieldset class="border rounded p-1">
+                  <legend class="float-none w-auto  px-2 pt-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-car"></i> Stato Veicoli</legend>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-4 text-center">
+                        <label>Attivi</label>
+                        <p class="h3 text-success" id="testa-stato-attivo">0</p>
+                      </div>
+                      <div class="col-md-4 text-center hide" id="stato-guaste">
+                        <label>Guasti</label>
+                        <p class="h3 text-danger" id="testa-stato-guaste">0</p>
+                      </div>
+                      <div class="col-md-4 text-center hide" id="stato-vendute">
+                        <label>Venduti</label>
+                        <p class="h3 text-secondary" id="testa-stato-vendute">0</p>
+                      </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-3">
-                      <fieldset class="border rounded p-1">
-                        <legend class="float-none w-auto p-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-hand-holding-dollar"></i> Spesa Interventi nel <span id="title-int-spesa"></span></legend>
-                        <p class="h3 mx-4 mb-3" id="spesatorint"></p>
-                      </fieldset>
-                    </div>
-                    <div class="col-md-3">
-                      <fieldset class="border rounded p-1">
-                        <legend class="float-none w-auto  px-2 pt-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-car"></i> Stato Veicoli</legend>
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-md-4 text-center">
-                              <label>Attivi</label>
-                              <p class="h3 text-success" id="testa-stato-attivo">0</p>
-                            </div>
-                            <div class="col-md-4 text-center hide" id="stato-guaste">
-                              <label>Guasti</label>
-                              <p class="h3 text-danger" id="testa-stato-guaste">0</p>
-                            </div>
-                            <div class="col-md-4 text-center hide" id="stato-vendute">
-                              <label>Venduti</label>
-                              <p class="h3 text-secondary" id="testa-stato-vendute">0</p>
-                            </div>
-                          </div>
-                        </div>
-                      </fieldset>
-                    </div>
-                    <div class="col-md-3">
-                      <fieldset class="border rounded p-1 ">
-                        <legend class="float-none w-auto px-2 pt-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-gas-pump"></i> Prezzi medi Carburanti</legend>
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-md-6 p-1">Benzina: <b class="benzina-price"></b></div>
-                            <div class="col-md-6 p-1">Diesel: <b class="diesel-price"></b></div>
-                            <div class="col-md-6 p-1">GPL: <b class="gpl-price"></b></div>
-                          </div>
-                        </div>
-                      </fieldset>
+                </fieldset>
+
+                <fieldset class="border rounded p-1 ">
+                  <legend class="float-none w-auto px-2 pt-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-gas-pump"></i> Prezzi medi Carburanti</legend>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-6 p-1">Benzina: <b class="benzina-price"></b></div>
+                      <div class="col-md-6 p-1">Diesel: <b class="diesel-price"></b></div>
+                      <div class="col-md-6 p-1">GPL: <b class="gpl-price"></b></div>
                     </div>
                   </div>
-                </div>
-
-
-
+                </fieldset>
               </div>
+
+              <div class="col-md-3">
+                <fieldset class="border border-primary rounded p-1">
+                  <legend class="float-none w-auto px-1" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-filter"></i> Filtri</legend>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md p-1">
+                        <label>Stato</label>
+                        <select class="form-select form-select-sm input-data-filter" id="input-stato-filter">
+                          <option value="" selected>Stato</option>
+                          <option>Attiva</option>
+                          <option>In Vendita</option>
+                          <option>Resa</option>
+                          <option>Venduta</option>
+                          <option>Rottamata</option>
+                          <option>Guasta</option>
+                          <option>Incidentata</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md p-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Per Selezionare più Assegnatari seleziona con il mouse tenendo premuto il tasto 'Ctrl'">
+                        <label><i class="fa-solid fa-circle-info"></i> Sel. Multipla Assegnatario</label>
+                        <select class="form-select form-select-sm input-data-filter" id="input-assegnatoa-filter" multiple data-live-search="true">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md p-1">
+                        <div class="d-grid gap-2">
+                          <button type="button" class="btn btn-sm btn-outline-success" onclick="activeFilter()">Filtra <i class="fa-solid fa-filter"></i></button>
+                          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearFilter()">Cancella Filtri <i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+
+
 
             </div>
           </div>
@@ -260,7 +249,7 @@
                   </div>
                 </fieldset>
               </div>
-              <div class="col-md-3">
+              <!-- <div class="col-md-3">
                 <fieldset class="border rounded p-1 ">
                   <legend class="float-none w-auto px-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-gas-pump"></i> Prezzi medi Carburanti</legend>
                   <div class="container">
@@ -268,6 +257,38 @@
                       <div class="col-md-6 p-2">Benzina: <b class="benzina-price"></b></div>
                       <div class="col-md-6 p-2">Diesel: <b class="diesel-price"></b></div>
                       <div class="col-md-6 p-2">GPL: <b class="gpl-price"></b></div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>-->
+              <div class="col-md-6">
+                <fieldset class="border rounded p-1 ">
+                  <legend class="float-none w-auto px-2" style="font-size:12px; font-weight:bold"><i class="fa-solid fa-gas-pump"></i> Prezzi medi Carburanti</legend>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-md-3 ">Benzina:
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">&euro;</span>
+                          <input type="text" class="form-control form-control-sm" id="input-benzina-price">
+                        </div>
+                      </div>
+                      <div class="col-md-3 ">Diesel:
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">&euro;</span>
+                          <input type="text" class="form-control form-control-sm" id="input-diesel-price">
+                        </div>
+                      </div>
+                      <div class="col-md-3 ">GPL:
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">&euro;</span>
+                          <input type="text" class="form-control form-control-sm" id="input-gpl-price">
+                        </div>
+                      </div>
+                      <div class="col-md-3 pt-4">
+                        <div class="d-grid gap-2">
+                          <button type="button" class="btn btn-outline-success btn-sm" onclick="addCarburanti()"><i class="fa-solid fa-floppy-disk"></i> Aggiorna</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </fieldset>

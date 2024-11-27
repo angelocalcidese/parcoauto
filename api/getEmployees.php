@@ -3,7 +3,7 @@ require_once "../../portale/cors.php";
 require_once "../../portale/config.php";
 require_once "../../portale/api/getUserCoockie.php";
 
-$sql = "SELECT * FROM `user` WHERE `company` = " . $user_params->company . " AND `view` = 1";
+$sql = "SELECT * FROM `user` WHERE `company` = " . $user_params->company . " AND `view` = 1 ORDER BY `cognome`, `nome`";
 $result = $conn->query($sql);
 $data = array();
 

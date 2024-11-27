@@ -983,7 +983,11 @@ function allCallServ() {
     });
 
     $("#input-stato-filter").val(statofilter);
-    $("#input-assegnatoa-filter").val(assegnatofilter);
+    if (assegnatofilter != null) {
+        var asse = assegnatofilter.split(",");
+        $("#input-assegnatoa-filter").val(asse);
+    }
+    
 }
 
 
@@ -1508,18 +1512,64 @@ function medieCarburantiDb() {
         dataType: 'json', //restituisce un oggetto JSON
         complete: function (data) {  
             caburantiDB = data.responseJSON;
-            //console.log("RISPOSTA CARBURANTI DB: ", resp);
+            console.log("RISPOSTA CARBURANTI DB: ", caburantiDB);
             var ricarica = 0;
             for (var a = 0; a < caburantiDB.length; a++){
+                $("#input-benzina-price").val(caburantiDB[a].benzina);
+                $("#input-diesel-price").val(caburantiDB[a].diesel);
+                $("#input-gpl-price").val(caburantiDB[a].gpl);
                 $(".benzina-price").text(formatCurrency(caburantiDB[a].benzina));
                 $(".diesel-price").text(formatCurrency(caburantiDB[a].diesel));
                 $(".gpl-price").text(formatCurrency(caburantiDB[a].gpl));
             }
 
-            if (caburantiDB.length == 0) mediaCarburanti();
+            //if (caburantiDB.length == 0) mediaCarburanti();
         }
     });
 }
+
+function addCarburanti() {
+    var benzina = $("#input-benzina-price").val();
+    var diesel = $("#input-diesel-price").val();
+    var gpl = $("#input-gpl-price").val();
+    benzina = benzina.replace(",", ".");
+    diesel = diesel.replace(",", ".");
+    gpl = gpl.replace(",", ".");
+    $.ajax({
+        method: "POST",
+        url: "api/addMediaCarburanti.php",
+        data: JSON.stringify({ benzina: benzina, diesel: diesel, gpl: gpl, day: strDate }),
+        contentType: "application/json",
+        success: function (data) {
+            medieCarburantiDb()
+        },
+        error: function (error) {
+            console.log("funzione chiamata quando la chiamata fallisce", error);
+
+        }
+    });
+}
+
+// Attiva il trascinamento quando la modale viene mostrata
+const modalElement = document.getElementById('viewVeicle');
+modalElement.addEventListener('shown.bs.modal', () => {
+    makeModalDraggable(modalElement);
+});
+
+const modalElement1 = document.getElementById('viewGestEl');
+modalElement1.addEventListener('shown.bs.modal', () => {
+    makeModalDraggable(modalElement1);
+});
+
+const modalElement2 = document.getElementById('viewListEl');
+modalElement2.addEventListener('shown.bs.modal', () => {
+    makeModalDraggable(modalElement2);
+});
+
+const modalElement3 = document.getElementById('viewListKm');
+modalElement3.addEventListener('shown.bs.modal', () => {
+    makeModalDraggable(modalElement3);
+});
 
 $(document).ready(function () {
     openCarica();

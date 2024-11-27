@@ -127,7 +127,7 @@
 <div class="modal fade" id="viewVeicle" tabindex="-1" aria-labelledby="viewVeicleLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="dragModal modal-header">
                 <h1 class="modal-title fs-5" id="viewVeicleLabel">Visualizza dati veicolo</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -274,7 +274,7 @@
 <div class="modal fade" id="viewGestEl" tabindex="-1" aria-labelledby="viewGestElLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="dragModal modal-header">
                 <h1 class="modal-title fs-5" id="viewGestElLabel">
                     Interventi e documenti veicolo targato <u><b id="int-targa"></b></u> assegnato a <u id="int-assegnatoa"></u></h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -558,7 +558,7 @@
 <div class="modal fade" id="viewListEl" tabindex="-1" aria-labelledby="viewListElLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="dragModal modal-header">
                 <h1 class="modal-title fs-5" id="viewListElLabel">
                     <span id="titolo-bene">Assegnatari Veicoli targato <u><b id="story-targa"></b></u></span>
                 </h1>
@@ -631,7 +631,7 @@
 <div class="modal fade" id="viewListKm" tabindex="-1" aria-labelledby="viewListKmLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="dragModal modal-header">
                 <h1 class="modal-title fs-5" id="viewListKmLabel">
                     <span id="titolo-bene">Storico Km Veicoli <b id="title-km-story"></b> del veicolo targato <u><b id="km-story-targa"></b></u></span>
                 </h1>
